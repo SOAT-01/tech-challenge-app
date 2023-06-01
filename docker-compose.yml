@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  server:
+    container_name: NODEJS_SERVER
+    build: "."
+    volumes:
+      - ./:/node-app
+      - ./node_modules:/node-app/node_modules
+    environment:
+      NODE_ENV: development
+      MONGODB_CONN_STRING: mongodb://db:27017
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    networks:
+      - fastFoodNetwork
+
+  db:
+    image: mongo:latest
+    container_name: MONGODB
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/data/db
+    networks:
+      - fastFoodNetwork
+
+networks:
+  fastFoodNetwork:
+    driver: bridge
