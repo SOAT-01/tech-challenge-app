@@ -1,7 +1,6 @@
 FROM node:18.16.0
-WORKDIR /usr/src
-COPY . .
+WORKDIR /usr
+COPY . . 
+RUN npm install
 EXPOSE 3000
-RUN yarn install
-RUN yarn build
-CMD ["yarn", "dev"]
+CMD ["npm", "run", "dev"]
