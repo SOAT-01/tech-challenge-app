@@ -10,3 +10,13 @@ export function postProdutoRouter(): Router {
 
     return produtoRouter;
 }
+
+export function getProdutoRouter(): Router {
+    const produtoRouter = Router();
+
+    produtoRouter.get("/:categoria", async (req, res) => {
+        produtoController.get(req, res);
+    });
+
+    return produtoRouter;
+}

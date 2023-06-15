@@ -1,6 +1,6 @@
 import { ProdutoUseCase } from "./types";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository";
-import { Produto } from "@domain/entities/produto";
+import { CategoriaEnum, Produto } from "@domain/entities/produto";
 
 export class SystemProdutoUseCase implements ProdutoUseCase {
     private readonly produtoRepository: ProdutoRepository;
@@ -11,5 +11,11 @@ export class SystemProdutoUseCase implements ProdutoUseCase {
 
     public async createProduto(produto: Produto): Promise<Produto> {
         return this.produtoRepository.createProduto(produto);
+    }
+
+    public async getProdutoByCategoria(
+        categoria: CategoriaEnum,
+    ): Promise<Produto[]> {
+        return this.produtoRepository.getProdutoByCategoria(categoria);
     }
 }
