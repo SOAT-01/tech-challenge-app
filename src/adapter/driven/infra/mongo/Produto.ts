@@ -1,7 +1,5 @@
-import { Produto, CategoriaEnum } from "@domain/interfaces/produto.interface";
+import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import mongoose from "mongoose";
-
-export interface ProdutoModel extends mongoose.Document, Omit<Produto, "id"> {}
 
 const ProdutoSchema = new mongoose.Schema(
     {
@@ -30,4 +28,4 @@ const ProdutoSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-export default mongoose.model<ProdutoModel>("Produtos", ProdutoSchema);
+export default mongoose.model<Produto>("Produtos", ProdutoSchema);
