@@ -1,6 +1,10 @@
 export class AssertionConcern {
     public static assertArgumentNotEmpty<T>(arg: T, message: string): void {
-        if (arg === null || arg === undefined) {
+        if (
+            arg === null ||
+            arg === undefined ||
+            (typeof arg === "object" && Object.keys(arg).length === 0)
+        ) {
             throw new Error(message);
         }
     }
