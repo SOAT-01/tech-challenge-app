@@ -11,6 +11,10 @@ const ProdutoSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        deleted: {
+            type: Boolean,
+            required: false,
+        },
         categoria: {
             type: String,
             enum: Object.values(CategoriaEnum),
@@ -24,6 +28,7 @@ const ProdutoSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        deletedAt: { type: Date, required: false },
     },
     { timestamps: true },
 );
