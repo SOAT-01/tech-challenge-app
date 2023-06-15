@@ -1,4 +1,4 @@
-import ProdutoModel from "../mongo/Produto";
+import ProdutoModel from "../mongo/models/Produto";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 
@@ -28,5 +28,29 @@ export class SystemProdutoRepository implements ProdutoRepository {
         });
 
         return produtosByCategoriaResult;
+    }
+
+    async getProdutoById(id: string): Promise<Produto> {
+        const produtoByIdResult = await this.productModel.findOne({
+            _id: id,
+            deleted: { $ne: true },
+        });
+
+        return produtoByIdResult;
+    }
+
+    async updateProduto(
+        id: string,
+        produto: Partial<Produto>,
+    ): Promise<Produto> {
+        const updatedProduto = await this.productModel.findOneAndUpdate(
+            { _id: id },
+            produto,
+            {
+                new: true,
+            },
+        );
+
+        return updatedProduto;
     }
 }

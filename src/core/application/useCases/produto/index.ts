@@ -1,6 +1,7 @@
 import { ProdutoUseCase } from "./types";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { AssertionConcern } from "@domain/base/assertionConcern";
 
 export class SystemProdutoUseCase implements ProdutoUseCase {
     private readonly produtoRepository: ProdutoRepository;
@@ -17,5 +18,20 @@ export class SystemProdutoUseCase implements ProdutoUseCase {
         categoria: CategoriaEnum,
     ): Promise<Produto[]> {
         return this.produtoRepository.getProdutoByCategoria(categoria);
+    }
+
+    async updateProduto(
+        id: string,
+        produto: Omit<Partial<Produto>, "id">,
+    ): Promise<Produto> {
+        AssertionConcern.assertArgumentNotEmpty(produto, "Produto is required");
+        const doesProdutoExists = await this.produtoRepository.getProdutoById(
+            id,
+        );
+
+        if (!doesProdutoExists) {
+            throw new Error("Produto não encontrado");
+        }
+        return this.produtoRepository.updateProduto(id, produto);
     }
 }

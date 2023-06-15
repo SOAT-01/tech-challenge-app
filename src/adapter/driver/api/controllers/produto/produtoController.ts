@@ -24,4 +24,11 @@ export class ProdutoController {
         );
         return res.status(200).json(result);
     }
+
+    public async patch(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        const result = await this.produtoUseCase.updateProduto(id, req.body);
+        return res.status(200).json(result);
+    }
 }

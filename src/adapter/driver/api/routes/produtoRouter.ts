@@ -20,3 +20,13 @@ export function getProdutoRouter(): Router {
 
     return produtoRouter;
 }
+
+export function patchProdutoRouter(): Router {
+    const produtoRouter = Router();
+
+    produtoRouter.patch("/:id", async (req, res) => {
+        produtoController.patch(req, res);
+    });
+
+    return produtoRouter;
+}
