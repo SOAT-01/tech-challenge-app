@@ -9,7 +9,7 @@ export class SystemProdutoUseCase implements ProdutoUseCase {
         this.produtoRepository = produtoRepository;
     }
 
-    public async createProduto(): Promise<Produto> {
-        return this.produtoRepository.createProduto();
+    public async createProduto(produto: Produto): Promise<Produto> {
+        return this.produtoRepository.createProduto(produto);
     }
 }
