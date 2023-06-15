@@ -1,5 +1,10 @@
 import express from "express";
-import { getServerRouter, patchServerRouter, postServerRouter } from "./routes";
+import {
+    deleteServerRouter,
+    getServerRouter,
+    patchServerRouter,
+    postServerRouter,
+} from "./routes";
 import createConnection from "../../driven/infra/mongo/helpers/createConnection";
 
 function buildServer() {
@@ -12,6 +17,7 @@ function buildServer() {
     server.use("/api", getServerRouter());
     server.use("/api", postServerRouter());
     server.use("/api", patchServerRouter());
+    server.use("/api", deleteServerRouter());
 
     return server;
 }

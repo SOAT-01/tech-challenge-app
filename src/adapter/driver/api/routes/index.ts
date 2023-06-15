@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getUserRouter } from "./userRouter";
 import {
+    deleteProdutoRouter,
     getProdutoRouter,
     patchProdutoRouter,
     postProdutoRouter,
@@ -26,6 +27,14 @@ export function patchServerRouter(): Router {
     const serverRouter = Router();
 
     serverRouter.use("/produtos", patchProdutoRouter());
+
+    return serverRouter;
+}
+
+export function deleteServerRouter(): Router {
+    const serverRouter = Router();
+
+    serverRouter.use("/produtos", deleteProdutoRouter());
 
     return serverRouter;
 }

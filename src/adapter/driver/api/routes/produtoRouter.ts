@@ -30,3 +30,13 @@ export function patchProdutoRouter(): Router {
 
     return produtoRouter;
 }
+
+export function deleteProdutoRouter(): Router {
+    const produtoRouter = Router();
+
+    produtoRouter.delete("/:id", async (req, res) => {
+        produtoController.delete(req, res);
+    });
+
+    return produtoRouter;
+}

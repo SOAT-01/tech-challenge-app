@@ -53,4 +53,11 @@ export class SystemProdutoRepository implements ProdutoRepository {
 
         return updatedProduto;
     }
+
+    async deleteProduto(id: string): Promise<void> {
+        await this.productModel.findOneAndUpdate(
+            { _id: id },
+            { deleted: true, deletedAt: new Date() },
+        );
+    }
 }

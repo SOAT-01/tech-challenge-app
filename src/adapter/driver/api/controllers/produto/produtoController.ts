@@ -31,4 +31,11 @@ export class ProdutoController {
         const result = await this.produtoUseCase.updateProduto(id, req.body);
         return res.status(200).json(result);
     }
+
+    public async delete(req: Request, res: Response): Promise<Response> {
+        const { id } = req.params;
+
+        await this.produtoUseCase.deleteProduto(id);
+        return res.status(200).json();
+    }
 }

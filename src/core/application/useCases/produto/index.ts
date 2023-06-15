@@ -20,7 +20,7 @@ export class SystemProdutoUseCase implements ProdutoUseCase {
         return this.produtoRepository.getProdutoByCategoria(categoria);
     }
 
-    async updateProduto(
+    public async updateProduto(
         id: string,
         produto: Omit<Partial<Produto>, "id">,
     ): Promise<Produto> {
@@ -33,5 +33,17 @@ export class SystemProdutoUseCase implements ProdutoUseCase {
             throw new Error("Produto não encontrado");
         }
         return this.produtoRepository.updateProduto(id, produto);
+    }
+
+    public async deleteProduto(id: string): Promise<void> {
+        const doesProdutoExists = await this.produtoRepository.getProdutoById(
+            id,
+        );
+
+        if (!doesProdutoExists) {
+            throw new Error("Produto não encontrado");
+        }
+
+        this.produtoRepository.deleteProduto(id);
     }
 }
