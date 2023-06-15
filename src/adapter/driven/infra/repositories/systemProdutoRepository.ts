@@ -10,13 +10,7 @@ export class SystemProdutoRepository implements ProdutoRepository {
     }
 
     async createProduto(produto: Produto): Promise<Produto> {
-        const createdProduto = await this.productModel.create({
-            nome: produto.nome,
-            preco: produto.preco,
-            categoria: produto.categoria,
-            descricao: produto.descricao,
-            imagem: produto.imagem,
-        });
+        const createdProduto = await this.productModel.create(produto);
 
         return createdProduto;
     }
