@@ -1,6 +1,14 @@
-import { Categoria } from "@domain/interfaces/produto.interface";
 import { AssertionConcern } from "../base/assertionConcern";
 import { Entity } from "../base/entity.interface";
+
+export enum CategoriaEnum {
+    Lanche = "lanche",
+    Bebida = "bebida",
+    Acompanhamento = "acompanhamento",
+    Sobremesa = "sobremesa",
+}
+
+export type Categoria = `${CategoriaEnum}`;
 
 export class Produto implements Entity {
     id: string;
@@ -10,14 +18,21 @@ export class Produto implements Entity {
     descricao: string;
     imagem: string;
 
-    constructor(
-        id: string,
-        nome: string,
-        preco: number,
-        categoria: Categoria,
-        descricao: string,
-        imagem: string,
-    ) {
+    constructor({
+        id,
+        nome,
+        preco,
+        categoria,
+        descricao,
+        imagem,
+    }: {
+        id?: string;
+        nome: string;
+        preco: number;
+        categoria: Categoria;
+        descricao: string;
+        imagem: string;
+    }) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
