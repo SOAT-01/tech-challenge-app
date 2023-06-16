@@ -1,12 +1,12 @@
 import mongoose, { ConnectOptions } from "mongoose";
 
-const mongodbConnString = "mongodb://localhost";
+const mongodbConnString =
+    process.env.MONGODB_CONN_STRING || "mongodb://localhost:27017";
 
 export default function createConnection(): void {
-    console.log("rodando");
     mongoose
         .connect(mongodbConnString, {
-            dbName: "marketplace_dev",
+            dbName: "fast_food",
         } as ConnectOptions)
         .then(
             () => console.log("Successfully connected to MongoDB"),

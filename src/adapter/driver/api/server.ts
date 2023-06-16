@@ -7,6 +7,8 @@ import {
 } from "./routes";
 import createConnection from "../../driven/infra/mongo/helpers/createConnection";
 
+require("dotenv").config();
+
 function buildServer() {
     createConnection();
     const server = express();
