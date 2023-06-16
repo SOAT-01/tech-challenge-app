@@ -1,8 +1,12 @@
 import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository";
+import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
+
 import { SystemProdutoUseCase } from "@useCases/produto";
 
 describe("Given ProdutoUseCases", () => {
+    let repositoryStub: ProdutoRepository;
+    let sut: SystemProdutoUseCase;
+
     const mockProduto = new Produto({
         nome: "Sobremesa",
         preco: 20.25,
@@ -28,14 +32,22 @@ describe("Given ProdutoUseCases", () => {
         }
     }
 
+    beforeAll(() => {
+        repositoryStub = new ProdutoRepositoryStub();
+        sut = new SystemProdutoUseCase(repositoryStub);
+    });
+
+    afterAll(() => {
+        jest.clearAllMocks();
+    });
+
     describe("When createProduto is called", () => {
         it("should call createProduto on the repository and return the created produto", async () => {
-            const repositoryStub = new ProdutoRepositoryStub();
             const createProdutoSpy = jest.spyOn(
                 repositoryStub,
                 "createProduto",
             );
-            const sut = new SystemProdutoUseCase(repositoryStub);
+
             const produto = await sut.createProduto(mockProduto);
             expect(produto.nome).toEqual(mockProduto.nome);
             expect(createProdutoSpy).toHaveBeenCalledWith(mockProduto);
@@ -43,12 +55,11 @@ describe("Given ProdutoUseCases", () => {
     });
     describe("When getProdutoByCategoria is called", () => {
         it("should call getProdutoByCategoria on the repository and return the produtos", async () => {
-            const repositoryStub = new ProdutoRepositoryStub();
             const getProdutoByCategoriaSpy = jest.spyOn(
                 repositoryStub,
                 "getProdutoByCategoria",
             );
-            const sut = new SystemProdutoUseCase(repositoryStub);
+
             const produto = await sut.getProdutoByCategoria(
                 CategoriaEnum.Sobremesa,
             );
@@ -61,12 +72,10 @@ describe("Given ProdutoUseCases", () => {
 
     describe("When updateProduto is called", () => {
         it("should call updateProduto on the repository and return the updated produto", async () => {
-            const repositoryStub = new ProdutoRepositoryStub();
             const updateProdutoSpy = jest.spyOn(
                 repositoryStub,
                 "updateProduto",
             );
-            const sut = new SystemProdutoUseCase(repositoryStub);
             const produto = await sut.updateProduto("any-id", {
                 nome: "Sobremesa surpresa",
             });
@@ -77,8 +86,6 @@ describe("Given ProdutoUseCases", () => {
         });
 
         it("should throw an error if the produto does not exist", async () => {
-            const repositoryStub = new ProdutoRepositoryStub();
-            const sut = new SystemProdutoUseCase(repositoryStub);
             const getProdutoByIdSpy = jest
                 .spyOn(repositoryStub, "getProdutoById")
                 .mockResolvedValueOnce(null);
@@ -94,12 +101,11 @@ describe("Given ProdutoUseCases", () => {
 
     describe("When deleteProduto is called", () => {
         it("should call deleteProduto to delete the produto", async () => {
-            const repositoryStub = new ProdutoRepositoryStub();
             const deleteProdutoSpy = jest.spyOn(
                 repositoryStub,
                 "deleteProduto",
             );
-            const sut = new SystemProdutoUseCase(repositoryStub);
+
             await sut.deleteProduto("any-id");
             expect(deleteProdutoSpy).toHaveBeenCalledWith("any-id");
         });
