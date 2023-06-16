@@ -9,6 +9,7 @@
         "browser": true,
         "mocha": true
     },
+    "ignorePatterns": ["tests/**/*"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "tsconfig.json",
