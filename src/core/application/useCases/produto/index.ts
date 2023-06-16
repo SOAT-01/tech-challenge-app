@@ -1,7 +1,7 @@
-import { ProdutoUseCase } from "./types";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository";
+import { ProdutoUseCase } from "./produto.interface";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import { AssertionConcern } from "@domain/base/assertionConcern";
+import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 
 export class SystemProdutoUseCase implements ProdutoUseCase {
     private readonly produtoRepository: ProdutoRepository;

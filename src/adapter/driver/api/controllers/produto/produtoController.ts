@@ -1,5 +1,5 @@
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
-import { ProdutoUseCase } from "@useCases/produto/types";
+import { ProdutoUseCase } from "@useCases/produto/produto.interface";
 
 import { Request, Response } from "express";
 
