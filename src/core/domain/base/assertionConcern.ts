@@ -28,4 +28,14 @@ export class AssertionConcern {
             throw new Error(message);
         }
     }
+
+    public static assertArgumentIsValid(
+        arg: string,
+        acceptedTypes: string[],
+        message: string,
+    ): void {
+        if (!acceptedTypes.includes(arg)) {
+            throw new Error(message);
+        }
+    }
 }

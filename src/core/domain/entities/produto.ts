@@ -53,6 +53,11 @@ export class Produto implements Entity {
             this.categoria,
             "Categoria is required",
         );
+        AssertionConcern.assertArgumentIsValid(
+            this.categoria,
+            Object.values(CategoriaEnum),
+            "Categoria should have a valid value",
+        );
         AssertionConcern.assertArgumentNotEmpty(
             this.descricao,
             "Descrição is required",
