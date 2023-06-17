@@ -7,7 +7,7 @@ Projeto do curso da pós tech Fiap Arquitetura de Software
 Subir os contâineres do MongoDB e do Node usando o arquivo docker-compose.yml:
 
 ```shell
-  docker compose -f docker-compose.yml up
+  docker compose -f docker-compose.yml up -d
 ```
 
 Verificar se subiram os containeres MONGODB e NODEJS_SERVER:
