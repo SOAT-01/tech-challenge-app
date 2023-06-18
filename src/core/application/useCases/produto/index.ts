@@ -1,12 +1,12 @@
-import { ProdutoUseCase } from "./produto.interface";
+import { IProdutoUseCase } from "./produto.interface";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import { AssertionConcern } from "@domain/base/assertionConcern";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
+import { IProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 
-export class SystemProdutoUseCase implements ProdutoUseCase {
-    private readonly produtoRepository: ProdutoRepository;
+export class ProdutoUseCase implements IProdutoUseCase {
+    private readonly produtoRepository: IProdutoRepository;
 
-    constructor(produtoRepository: ProdutoRepository) {
+    constructor(produtoRepository: IProdutoRepository) {
         this.produtoRepository = produtoRepository;
     }
 

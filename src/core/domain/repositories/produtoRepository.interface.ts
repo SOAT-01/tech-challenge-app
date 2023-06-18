@@ -1,6 +1,6 @@
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 
-export interface ProdutoRepository {
+export interface IProdutoRepository {
     createProduto(produto: Produto): Promise<Produto>;
     getProdutoByCategoria(categoria: CategoriaEnum): Promise<Produto[]>;
     getProdutoById(id: string): Promise<Produto>;

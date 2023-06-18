@@ -1,11 +1,11 @@
 import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
+import { IProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 
-import { SystemProdutoUseCase } from "@useCases/produto";
+import { ProdutoUseCase } from "@useCases/produto";
 
 describe("Given ProdutoUseCases", () => {
-    let repositoryStub: ProdutoRepository;
-    let sut: SystemProdutoUseCase;
+    let repositoryStub: IProdutoRepository;
+    let sut: ProdutoUseCase;
 
     const mockProduto = new Produto({
         nome: "Sobremesa",
@@ -14,7 +14,7 @@ describe("Given ProdutoUseCases", () => {
         descricao: "Sobremesa de chocolate com morango'",
         imagem: "www.any-image.com",
     });
-    class ProdutoRepositoryStub implements ProdutoRepository {
+    class ProdutoRepositoryStub implements IProdutoRepository {
         createProduto(produto: Produto): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
@@ -34,7 +34,7 @@ describe("Given ProdutoUseCases", () => {
 
     beforeAll(() => {
         repositoryStub = new ProdutoRepositoryStub();
-        sut = new SystemProdutoUseCase(repositoryStub);
+        sut = new ProdutoUseCase(repositoryStub);
     });
 
     afterAll(() => {
@@ -112,7 +112,7 @@ describe("Given ProdutoUseCases", () => {
 
         it("should throw an error if the produto does not exist", async () => {
             const repositoryStub = new ProdutoRepositoryStub();
-            const sut = new SystemProdutoUseCase(repositoryStub);
+            const sut = new ProdutoUseCase(repositoryStub);
             const getProdutoByIdSpy = jest
                 .spyOn(repositoryStub, "getProdutoById")
                 .mockResolvedValueOnce(null);

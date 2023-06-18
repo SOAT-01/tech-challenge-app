@@ -1,8 +1,8 @@
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
+import { IProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import ProdutoModel from "../models/Produto";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 
-export class SystemProdutoMongoRepository implements ProdutoRepository {
+export class ProdutoMongoRepository implements IProdutoRepository {
     private readonly productModel: typeof ProdutoModel;
 
     constructor(productModel: typeof ProdutoModel) {
