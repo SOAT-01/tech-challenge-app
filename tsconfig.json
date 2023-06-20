@@ -26,6 +26,6 @@
             "@routes/*": ["adapter/driver/api/routes/*"]
         }
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "tests/**/*"],
     "exclude": ["node_modules/**/*"]
 }
