@@ -26,9 +26,13 @@ export class ClienteController {
 
     public async getByEmail(req: Request, res: Response): Promise<Response> {
         try {
-            const email = req.query.email as string;
+            const email = req.params.email;
 
-            if (!email) return res.status(401).json();
+            if (!email) {
+                return res
+                    .status(401)
+                    .json({ message: "Missing identifier email" });
+            }
 
             const result = await this.clienteUseCase.getByEmail(email);
             return res.status(200).json(result);
@@ -39,9 +43,13 @@ export class ClienteController {
 
     public async getByCpf(req: Request, res: Response): Promise<Response> {
         try {
-            const cpf = req.query.cpf as string;
+            const cpf = req.params.cpf;
 
-            if (!cpf) return res.status(401).json();
+            if (!cpf) {
+                return res
+                    .status(401)
+                    .json({ message: "Missing identifier cpf" });
+            }
 
             const result = await this.clienteUseCase.getByCpf(cpf);
             return res.status(200).json(result);
