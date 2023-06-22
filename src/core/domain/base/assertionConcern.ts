@@ -87,4 +87,12 @@ export class AssertionConcern {
 
         return true;
     }
+    public static assertArgumentIsBiggerThanZero(
+        arg: number,
+        message: string,
+    ): void {
+        if (arg <= 0) {
+            throw new Error(message);
+        }
+    }
 }
