@@ -1,7 +1,6 @@
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
-import { ProdutoUseCase } from "@useCases/produto/produto.interface";
-
 import { Request, Response } from "express";
+import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { ProdutoUseCase } from "@useCases/produto";
 
 export class ProdutoController {
     private readonly produtoUseCase: ProdutoUseCase;
