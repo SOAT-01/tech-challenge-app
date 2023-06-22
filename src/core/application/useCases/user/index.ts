@@ -1,11 +1,18 @@
-import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
-import { IClienteUseCase } from "./cliente.useCase";
 import { Cliente } from "@domain/entities/cliente";
+import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
+import { IClienteUseCase } from "./cliente.interface";
 
 export class ClienteUseCase implements IClienteUseCase {
     constructor(private readonly clienteRepository: ClienteRepository) {}
 
-    public create(cliente: Cliente): Promise<Cliente> {
+    public async create(cliente: Cliente): Promise<Cliente> {
+        const jaExiste = await this.clienteRepository.verificarDuplicado({
+            cpf: cliente.cpf.value,
+            email: cliente.email.value,
+        });
+
+        if (jaExiste) throw new Error("Cliente already exists.");
+
         return this.clienteRepository.create(cliente);
     }
 
