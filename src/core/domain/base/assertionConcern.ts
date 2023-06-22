@@ -44,9 +44,6 @@ export class AssertionConcern {
         message: string,
     ): void {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        console.log(email);
-        console.log(emailRegex.test(email));
-
         if (!emailRegex.test(email)) {
             throw new Error(message);
         }
