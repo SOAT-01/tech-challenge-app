@@ -1,16 +1,19 @@
-import { UserRepository } from "@domain/repositories/userRepository";
-import { UserUseCase } from "./types";
-import { User } from "@domain/entities/user";
+import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
+import { IClienteUseCase } from "./cliente.useCase";
+import { Cliente } from "@domain/entities/cliente";
 
+export class ClienteUseCase implements IClienteUseCase {
+    constructor(private readonly clienteRepository: ClienteRepository) {}
 
-export class SystemUserUseCase implements UserUseCase {
-    private readonly userRepository: UserRepository;
-
-    constructor(userRepository: UserRepository) {
-        this.userRepository = userRepository;
+    public create(cliente: Cliente): Promise<Cliente> {
+        return this.clienteRepository.create(cliente);
     }
 
-    public async getUsers(): Promise<User[]> {
-        return this.userRepository.getUsers();
+    public getByCpf(cpf: string): Promise<Cliente> {
+        return this.clienteRepository.getByCpf(cpf);
+    }
+
+    public getByEmail(email: string): Promise<Cliente> {
+        return this.clienteRepository.getByEmail(email);
     }
 }
