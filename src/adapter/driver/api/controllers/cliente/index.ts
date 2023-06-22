@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ClienteUseCase } from "@useCases/user";
 import { Cliente } from "@domain/entities/cliente";
 import { Cpf, Email } from "@domain/valueObjects";
-import { CreateClienteRequestBody } from "../../types/cliente-request";
+import { CreateClienteRequestBody } from "../../types/clienteRequest";
 
 export class ClienteController {
     constructor(private readonly clienteUseCase: ClienteUseCase) {}
