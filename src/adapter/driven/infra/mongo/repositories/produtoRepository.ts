@@ -1,5 +1,5 @@
 import { IProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-import ProdutoModel from "../models/Produto";
+import { ProdutoModel } from "../models";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 
 export class ProdutoMongoRepository implements IProdutoRepository {
