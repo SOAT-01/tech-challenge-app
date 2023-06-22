@@ -1,6 +1,6 @@
 import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
-import PedidoModel from "../models/Pedido";
-import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
+import { Pedido } from "@domain/entities/pedido";
+import { PedidoModel } from "../models/Pedido";
 
 export class PedidoMongoRepository implements IPedidoRepository {
     private readonly pedidoModel: typeof PedidoModel;

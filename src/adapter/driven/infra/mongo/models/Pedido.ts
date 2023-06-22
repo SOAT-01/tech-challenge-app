@@ -37,4 +37,4 @@ const PedidoSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-export default mongoose.model<Pedido>("Pedidos", PedidoSchema);
+export const PedidoModel = mongoose.model<Pedido>("Pedidos", PedidoSchema);
