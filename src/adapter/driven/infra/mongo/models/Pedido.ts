@@ -20,7 +20,7 @@ const PedidoSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        // cliente: { type: mongoose.Schema.Types.ObjectId, ref: "Cliente" },
+        // cliente: { type: mongoose.Schema.Types.ObjectId, ref: "Cliente", required: true },
         cliente: {
             type: String,
             required: true,
