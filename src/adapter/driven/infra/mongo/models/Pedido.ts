@@ -1,4 +1,4 @@
-import { Pedido, Item } from "@domain/entities/pedido";
+import { Pedido, Item, StatusPedidoEnum } from "@domain/entities/pedido";
 import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema<Item>({
@@ -14,9 +14,10 @@ const PedidoSchema = new mongoose.Schema(
     {
         status: {
             type: String,
+            enum: Object.values(StatusPedidoEnum),
             required: true,
         },
-        preco: {
+        valorTotal: {
             type: Number,
             required: true,
         },

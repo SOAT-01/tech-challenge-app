@@ -2,6 +2,15 @@ import { AssertionConcern } from "../base/assertionConcern";
 import { Entity } from "../base/entity.interface";
 import { Produto } from "./produto";
 
+export enum StatusPedidoEnum {
+    Recebido = "recebido",
+    Em_preparacao = "em_preparacao",
+    Pronto = "pronto",
+    Finalizado = "finalizado",
+}
+
+export type StatusPedido = `${StatusPedidoEnum}`;
+
 export interface Item {
     produto: Produto;
     quantidade: number;
@@ -9,8 +18,8 @@ export interface Item {
 
 export class Pedido implements Entity {
     id: string;
-    status: "recebido" | "em_preparacao" | "pronto" | "finalizado";
-    preco: number; // float
+    status: StatusPedido;
+    valorTotal: number; // float
     // cliente?: Cliente; // user
     cliente?: string;
     itens: Item[];
@@ -18,20 +27,20 @@ export class Pedido implements Entity {
     constructor({
         id,
         status,
-        preco,
+        valorTotal,
         cliente,
         itens,
     }: {
         id: string;
-        status: "recebido" | "em_preparacao" | "pronto" | "finalizado";
-        preco: number;
+        status: StatusPedido;
+        valorTotal: number;
         // cliente: Cliente;
         cliente: string;
         itens: Item[];
     }) {
         this.id = id;
         this.status = status;
-        this.preco = preco;
+        this.valorTotal = valorTotal;
         this.cliente = cliente;
         this.itens = itens;
 
@@ -45,8 +54,8 @@ export class Pedido implements Entity {
             "Status is required",
         );
         AssertionConcern.assertArgumentNotEmpty(
-            this.preco,
-            "Preco is required",
+            this.valorTotal,
+            "Valor total is required",
         );
         AssertionConcern.assertArgumentNotEmpty(
             this.cliente,
