@@ -1,7 +1,7 @@
 import { pedidoController } from "../controllers";
 import { Router } from "express";
 
-export function testPedidoRouter(): Router {
+export function makePedidoRouter(): Router {
     const pedidoRouter = Router();
     pedidoRouter.get("/:id", async (req, res) => {
         pedidoController.get(req, res);
