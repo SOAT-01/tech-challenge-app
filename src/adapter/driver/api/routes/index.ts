@@ -6,7 +6,7 @@ export function makeServerRouter(): Router {
     const serverRouter = Router();
 
     serverRouter.use("/cliente", makeClienteRouter());
-    serverRouter.use("/produtos", makeProdutoRouter());
+    serverRouter.use("/produto", makeProdutoRouter());
 
     return serverRouter;
 }
