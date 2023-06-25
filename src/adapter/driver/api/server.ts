@@ -1,12 +1,13 @@
 import express from "express";
+import { createMongoConnection } from "@infra/mongo/helpers/createMongoConnection";
 import { requestLogger } from "@utils/requestLogger";
 import { makeServerRouter } from "./routes";
-import createConnection from "../../driven/infra/mongo/helpers/createConnection";
 
 require("dotenv").config();
 
 function buildServer() {
-    createConnection();
+    createMongoConnection();
+
     const server = express();
 
     server.use(requestLogger);
