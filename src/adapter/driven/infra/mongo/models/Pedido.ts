@@ -27,6 +27,15 @@ const PedidoSchema = new mongoose.Schema(
             required: true,
         },
         itens: [ItemSchema],
+        observacoes: {
+            type: String,
+            required: false,
+        },
+        deleted: {
+            type: Boolean,
+            required: false,
+        },
+        deletedAt: { type: Date, required: false },
     },
     { timestamps: true },
 );
