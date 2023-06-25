@@ -7,7 +7,7 @@ const ItemSchema = new mongoose.Schema<Item>({
         ref: "Produto",
         required: true,
     },
-    quantidade: { type: Number, required: true },
+    quantidade: { type: Number, required: true, min: 1 },
 });
 
 const PedidoSchema = new mongoose.Schema(
