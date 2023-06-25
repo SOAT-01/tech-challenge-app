@@ -42,7 +42,7 @@ export class Pedido implements Entity {
         observacoes?: string;
     }) {
         this.id = id;
-        this.status = status;
+        this.status = status || StatusPedidoEnum.Recebido;
         this.valorTotal = valorTotal;
         this.cliente = cliente;
         this.itens = itens;
