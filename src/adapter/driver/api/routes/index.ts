@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { makeClienteRouter } from "./clienteRouter";
 import { makeProdutoRouter } from "./produtoRouter";
+import { makeHealthRouter } from "./healthRouter";
 
 export function makeServerRouter(): Router {
     const serverRouter = Router();
 
     serverRouter.use("/cliente", makeClienteRouter());
     serverRouter.use("/produtos", makeProdutoRouter());
+    serverRouter.use("/health", makeHealthRouter());
 
     return serverRouter;
 }
