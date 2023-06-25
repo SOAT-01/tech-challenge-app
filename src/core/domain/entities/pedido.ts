@@ -23,6 +23,7 @@ export class Pedido implements Entity {
     // cliente?: Cliente; // user
     cliente?: string;
     itens: Item[];
+    observacoes?: string;
 
     constructor({
         id,
@@ -30,19 +31,22 @@ export class Pedido implements Entity {
         valorTotal,
         cliente,
         itens,
+        observacoes,
     }: {
         id: string;
         status: StatusPedido;
         valorTotal: number;
-        // cliente: Cliente;
-        cliente: string;
+        // cliente?: Cliente;
+        cliente?: string;
         itens: Item[];
+        observacoes?: string;
     }) {
         this.id = id;
         this.status = status;
         this.valorTotal = valorTotal;
         this.cliente = cliente;
         this.itens = itens;
+        this.observacoes = observacoes;
 
         this.validateEntity();
     }
