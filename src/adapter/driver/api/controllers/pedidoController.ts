@@ -1,4 +1,4 @@
-import { Pedido } from "@domain/entities/pedido";
+import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { IPedidoUseCase } from "@useCases/pedido/pedido.interface";
 
 import { Request, Response } from "express";
@@ -18,8 +18,13 @@ export class PedidoController {
     }
 
     public async post(req: Request, res: Response): Promise<Response> {
+        if (req.body.status) {
+            return res
+                .status(400)
+                .json({ message: "Não é necessário informar 'status'" });
+        }
         const result = await this.pedidoUseCase.createPedido(
-            new Pedido(req.body),
+            new Pedido({ ...req.body, status: StatusPedidoEnum.Recebido }),
         );
         return res.status(200).json(result);
     }
