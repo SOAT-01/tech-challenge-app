@@ -9,8 +9,8 @@ export class PedidoController {
         this.pedidoUseCase = pedidoUseCase;
     }
 
-    public async get(_: Request, res: Response): Promise<Response> {
-        const result = await this.pedidoUseCase.getPedidos();
+    public async get(req: Request, res: Response): Promise<Response> {
+        const result = await this.pedidoUseCase.getPedidos(req.query);
         return res.status(200).json(result);
     }
 
