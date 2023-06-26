@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const mongodbConnString = serverConfig.mongo.connectionString;
 
-export default function createConnection(): void {
+export function createMongoConnection(): void {
     mongoose
         .connect(mongodbConnString, {
             dbName: serverConfig.mongo.dbName,

@@ -1,10 +1,24 @@
+import { AssertionConcern } from "@domain/base/assertionConcern";
 import { ValueObject } from "../base/valueObject";
 
-export class Cpf extends ValueObject {
-    public document: string;
+interface CpfProperties {
+    document: string;
+}
 
-    constructor(document: string) {
-        super();
-        this.document = document;
+export class Cpf extends ValueObject<CpfProperties> {
+    private constructor(props: CpfProperties) {
+        super(props);
+    }
+
+    get value(): string {
+        return this.props.document;
+    }
+
+    public static create(value: string): Cpf {
+        AssertionConcern.assertArgumentIsValidCpf(
+            value,
+            "Incorrect cpf format",
+        );
+        return new Cpf({ document: value });
     }
 }

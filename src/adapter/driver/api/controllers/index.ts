@@ -1,17 +1,18 @@
-import { SystemUserRepository } from "@infra/mongo/repositories/systemUserRepository";
-import { ProdutoMongoRepository } from "@infra/mongo/repositories/produtoRepository";
-import { SystemUserUseCase } from "@useCases/user";
-import { UserController } from "./userController";
+import { ClienteModel, ProdutoModel } from "@infra/mongo/models";
+import {
+    ClienteMongoRepository,
+    ProdutoMongoRepository,
+} from "@infra/mongo/repositories";
+import { ClienteUseCase } from "@useCases/cliente";
 import { ProdutoUseCase } from "@useCases/produto";
-import { ProdutoController } from "./produto/produtoController";
-import Produto from "@infra/mongo/models/Produto";
+import { ClienteController } from "./cliente";
+import { ProdutoController } from "./produto";
 
-const systemUserRepository = new SystemUserRepository();
-const systemUserUseCase = new SystemUserUseCase(systemUserRepository);
+const clienteRepository = new ClienteMongoRepository(ClienteModel);
+const produtoRepository = new ProdutoMongoRepository(ProdutoModel);
 
-export const userController = new UserController(systemUserUseCase);
-
-const produtoRepository = new ProdutoMongoRepository(Produto);
+const clienteUseCase = new ClienteUseCase(clienteRepository);
 const produtoUseCase = new ProdutoUseCase(produtoRepository);
 
+export const clienteController = new ClienteController(clienteUseCase);
 export const produtoController = new ProdutoController(produtoUseCase);
