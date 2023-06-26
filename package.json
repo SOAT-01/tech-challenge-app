@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/adapter/driver/api/index.ts ",
     "build": "tsc && tsc-alias",
-    "test": "jest --verbose false"
+    "test": "jest --verbose false",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .ts ."
   },
   "repository": {
     "type": "git",
