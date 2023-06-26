@@ -12,27 +12,27 @@ export enum StatusPedidoEnum {
 
 export type StatusPedido = `${StatusPedidoEnum}`;
 
-export type ItemPedido = {
+export interface ItemPedido {
   produto: Produto;
   quantidade: number;
 }
 
 export class Pedido implements Entity {
-  id: string;
-  status: StatusPedido;
-  valorTotal: number; // float
-  cliente: Cliente;
-  itens: ItemPedido[];
-  observacoes: string;
+    id: string;
+    status: StatusPedido;
+    valorTotal: number; // float
+    cliente: Cliente;
+    itens: ItemPedido[];
+    observacoes: string;
 
-  constructor({
-    id,
-    status,
-    valorTotal,
-    cliente,
-    itens,
-    observacoes
-  }: {
+    constructor({
+        id,
+        status,
+        valorTotal,
+        cliente,
+        itens,
+        observacoes
+    }: {
       id?: string;
       status: StatusPedido;
       valorTotal: number;
@@ -40,36 +40,36 @@ export class Pedido implements Entity {
       itens: ItemPedido[];
       observacoes?: string;
   }) {
-    this.id = id;
-    this.status = status;
-    this.valorTotal = valorTotal;
-    this.cliente = cliente || null;
-    this.itens = itens;
-    this.observacoes = observacoes;
+        this.id = id;
+        this.status = status;
+        this.valorTotal = valorTotal;
+        this.cliente = cliente || null;
+        this.itens = itens;
+        this.observacoes = observacoes;
 
-    this.validateEntity();
-  }
+        this.validateEntity();
+    }
 
-  public validateEntity(): void {
-    AssertionConcern.assertArgumentNotEmpty(
-      this.valorTotal,
-      "Valor total is required",
-    );
+    public validateEntity(): void {
+        AssertionConcern.assertArgumentNotEmpty(
+            this.valorTotal,
+            "Valor total is required",
+        );
 
-    AssertionConcern.assertArgumentIsBiggerThanZero(
-      this.valorTotal,
-      "Valor total must be bigger than zero",
-    );
+        AssertionConcern.assertArgumentIsBiggerThanZero(
+            this.valorTotal,
+            "Valor total must be bigger than zero",
+        );
 
-    AssertionConcern.assertArgumentIsValid(
-      this.status, 
-      Object.values(StatusPedidoEnum), 
-      `Status must be one of ${Object.values(StatusPedidoEnum)}`
-    );
+        AssertionConcern.assertArgumentIsValid(
+            this.status,
+            Object.values(StatusPedidoEnum),
+            `Status must be one of ${Object.values(StatusPedidoEnum)}`
+        );
 
-    AssertionConcern.assertArgumentNotEmpty(
-      this.itens,
-      "At least one Item is required",
-    );
-  }
+        AssertionConcern.assertArgumentNotEmpty(
+            this.itens,
+            "At least one Item is required",
+        );
+    }
 }

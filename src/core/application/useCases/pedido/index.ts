@@ -11,20 +11,20 @@ export class PedidoUseCase implements IPedidoUseCase {
     }
 
     getPedidos(filters?: Partial<Pedido>): Promise<Pedido[]> {
-      return this.pedidoRepository.getPedidos(filters);
+        return this.pedidoRepository.getPedidos(filters);
     }
 
     async updatePedido(id: string, pedido: Omit<Partial<Pedido>, "id">): Promise<Pedido> {
-      AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
+        AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
-      const doesPedidoExists = await this.pedidoRepository.getPedidoById(
-        id,
-      );
+        const doesPedidoExists = await this.pedidoRepository.getPedidoById(
+            id,
+        );
 
-      if (!doesPedidoExists) {
-        throw new Error("Pedido não encontrado");
-      }
+        if (!doesPedidoExists) {
+            throw new Error("Pedido não encontrado");
+        }
 
-      return this.pedidoRepository.updatePedido(id, pedido);
+        return this.pedidoRepository.updatePedido(id, pedido);
     }
 }
