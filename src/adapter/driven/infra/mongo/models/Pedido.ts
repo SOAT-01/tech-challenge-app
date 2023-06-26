@@ -8,14 +8,16 @@ const PedidoSchema = new mongoose.Schema(
             ref: "Clientes",
             required: false,
         },
-        itens: [{
-            produto: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Produtos",
-                required: true,
+        itens: [
+            {
+                produto: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Produtos",
+                    required: true,
+                },
+                quantidade: { type: Number, required: true, min: 1 },
             },
-            quantidade: { type: Number, required: true, min: 1 },
-        }],
+        ],
         status: {
             type: String,
             enum: Object.values(StatusPedidoEnum),
@@ -27,7 +29,7 @@ const PedidoSchema = new mongoose.Schema(
         },
         observacoes: {
             type: String,
-            required: false
+            required: false,
         },
         deleted: {
             type: Boolean,

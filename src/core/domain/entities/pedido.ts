@@ -4,17 +4,17 @@ import { AssertionConcern } from "@domain/base/assertionConcern";
 import { Cliente } from "./cliente";
 
 export enum StatusPedidoEnum {
-  Recebido = "recebido",
-  Em_preparacao = "em_preparacao",
-  Pronto = "pronto",
-  Finalizado = "finalizado",
+    Recebido = "recebido",
+    Em_preparacao = "em_preparacao",
+    Pronto = "pronto",
+    Finalizado = "finalizado",
 }
 
 export type StatusPedido = `${StatusPedidoEnum}`;
 
 export interface ItemPedido {
-  produto: Produto;
-  quantidade: number;
+    produto: Produto;
+    quantidade: number;
 }
 
 export class Pedido implements Entity {
@@ -31,15 +31,15 @@ export class Pedido implements Entity {
         valorTotal,
         cliente,
         itens,
-        observacoes
+        observacoes,
     }: {
-      id?: string;
-      status: StatusPedido;
-      valorTotal: number;
-      cliente?: Cliente;
-      itens: ItemPedido[];
-      observacoes?: string;
-  }) {
+        id?: string;
+        status: StatusPedido;
+        valorTotal: number;
+        cliente?: Cliente;
+        itens: ItemPedido[];
+        observacoes?: string;
+    }) {
         this.id = id;
         this.status = status;
         this.valorTotal = valorTotal;
@@ -64,7 +64,7 @@ export class Pedido implements Entity {
         AssertionConcern.assertArgumentIsValid(
             this.status,
             Object.values(StatusPedidoEnum),
-            `Status must be one of ${Object.values(StatusPedidoEnum)}`
+            `Status must be one of ${Object.values(StatusPedidoEnum)}`,
         );
 
         AssertionConcern.assertArgumentNotEmpty(

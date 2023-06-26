@@ -13,7 +13,7 @@ export class PedidoMongoRepository implements IPedidoRepository {
         let filterQuery = { deleted: { $ne: true } };
 
         if (filters) {
-            filterQuery = {...filterQuery, ...filters};
+            filterQuery = { ...filterQuery, ...filters };
         }
 
         const pedidosResult = await this.pedidoModel
@@ -23,19 +23,35 @@ export class PedidoMongoRepository implements IPedidoRepository {
                         statusOrder: {
                             $switch: {
                                 branches: [
-                                    { case: { $eq: ["$status", "recebido"]}, then: 0 },
-                                    { case: { $eq: ["$status", "em_preparacao"]}, then: 1 },
-                                    { case: { $eq: ["$status", "pronto"]}, then: 2 },
-                                    { case: { $eq: ["$status", "finalizado"]}, then: 3 },
+                                    {
+                                        case: { $eq: ["$status", "recebido"] },
+                                        then: 0,
+                                    },
+                                    {
+                                        case: {
+                                            $eq: ["$status", "em_preparacao"],
+                                        },
+                                        then: 1,
+                                    },
+                                    {
+                                        case: { $eq: ["$status", "pronto"] },
+                                        then: 2,
+                                    },
+                                    {
+                                        case: {
+                                            $eq: ["$status", "finalizado"],
+                                        },
+                                        then: 3,
+                                    },
                                 ],
                                 default: 4,
-                            }
-                        }
+                            },
+                        },
                     },
                 },
-                { $match: filterQuery }
+                { $match: filterQuery },
             ])
-            .sort({ statusOrder: 1, createdAt: 1  });
+            .sort({ statusOrder: 1, createdAt: 1 });
 
         return pedidosResult;
     }
@@ -49,10 +65,7 @@ export class PedidoMongoRepository implements IPedidoRepository {
         return pedidoByIdResult;
     }
 
-    async updatePedido(
-        id: string,
-        pedido: Partial<Pedido>,
-    ): Promise<Pedido> {
+    async updatePedido(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
         const updatedPedido = await this.pedidoModel.findOneAndUpdate(
             { _id: id },
             pedido,

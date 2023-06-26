@@ -5,21 +5,20 @@ import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interfa
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
 
-
 const LANCHE = new Produto({
-  nome: "Hamburguer",
-  preco: 10,
-  categoria: CategoriaEnum.Lanche,
-  descricao: "Delicious hamburger",
-  imagem: "hamburguer.jpg",
+    nome: "Hamburguer",
+    preco: 10,
+    categoria: CategoriaEnum.Lanche,
+    descricao: "Delicious hamburger",
+    imagem: "hamburguer.jpg",
 });
 
 const SOBREMESA = new Produto({
-  nome: "Petit Gateau",
-  preco: 19.90,
-  categoria: CategoriaEnum.Sobremesa,
-  descricao: "Delicious petit gateau",
-  imagem: "petit-gateau.jpg",
+    nome: "Petit Gateau",
+    preco: 19.9,
+    categoria: CategoriaEnum.Sobremesa,
+    descricao: "Delicious petit gateau",
+    imagem: "petit-gateau.jpg",
 });
 
 describe("Given PedidoUseCases", () => {
@@ -27,49 +26,49 @@ describe("Given PedidoUseCases", () => {
     let sut: PedidoUseCase;
 
     const mockPedidos = [
-      new Pedido({
-        id: 'any_id',
-        valorTotal: 10,
-        cliente: new Cliente({
-          id: '000',
-          nome: 'John Doe',
-          email: Email.create('john_doe@user.com.br'),
-          cpf: Cpf.create('111.111.111-11')
+        new Pedido({
+            id: "any_id",
+            valorTotal: 10,
+            cliente: new Cliente({
+                id: "000",
+                nome: "John Doe",
+                email: Email.create("john_doe@user.com.br"),
+                cpf: Cpf.create("111.111.111-11"),
+            }),
+            status: StatusPedidoEnum.Recebido,
+            itens: [
+                {
+                    produto: LANCHE,
+                    quantidade: 1,
+                },
+            ],
         }),
-        status: StatusPedidoEnum.Recebido,
-        itens: [
-          {
-            produto: LANCHE,
-            quantidade: 1
-          }
-        ],
-      }),
-      new Pedido({
-        id: 'any_another_id',
-        valorTotal: 29.90,
-        status: StatusPedidoEnum.Em_preparacao,
-        itens: [
-          {
-            produto: LANCHE,
-            quantidade: 1
-          },
-          {
-            produto: SOBREMESA,
-            quantidade: 1
-          },
-        ],
-      }),
+        new Pedido({
+            id: "any_another_id",
+            valorTotal: 29.9,
+            status: StatusPedidoEnum.Em_preparacao,
+            itens: [
+                {
+                    produto: LANCHE,
+                    quantidade: 1,
+                },
+                {
+                    produto: SOBREMESA,
+                    quantidade: 1,
+                },
+            ],
+        }),
     ];
 
     class PedidoRepositoryStub implements IPedidoRepository {
         getPedidoById(id: string): Promise<Pedido> {
-          return new Promise((resolve) => resolve(mockPedidos[0]));
+            return new Promise((resolve) => resolve(mockPedidos[0]));
         }
         getPedidos(): Promise<Pedido[]> {
             return new Promise((resolve) => resolve(mockPedidos));
         }
         updatePedido(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
-          return new Promise((resolve) => resolve(mockPedidos[1]));
+            return new Promise((resolve) => resolve(mockPedidos[1]));
         }
     }
 
@@ -84,10 +83,7 @@ describe("Given PedidoUseCases", () => {
 
     describe("When getPedidos is called", () => {
         it("should call getPedidos on the repository and return the pedidos", async () => {
-            const getPedidos = jest.spyOn(
-                repositoryStub,
-                "getPedidos",
-            );
+            const getPedidos = jest.spyOn(repositoryStub, "getPedidos");
 
             const pedidos = await sut.getPedidos();
             expect(getPedidos).toHaveBeenCalled();
@@ -97,15 +93,12 @@ describe("Given PedidoUseCases", () => {
 
     describe("When updatePedido is called", () => {
         it("should call updatePedido on the repository and return the updated pedido", async () => {
-            const updatePedidoSpy = jest.spyOn(
-                repositoryStub,
-                "updatePedido",
-            );
+            const updatePedidoSpy = jest.spyOn(repositoryStub, "updatePedido");
             const pedido = await sut.updatePedido("any-another-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
             expect(updatePedidoSpy).toHaveBeenCalledWith("any-another-id", {
-              status: StatusPedidoEnum.Em_preparacao,
+                status: StatusPedidoEnum.Em_preparacao,
             });
             expect(pedido).toEqual(mockPedidos[1]);
         });
@@ -116,7 +109,7 @@ describe("Given PedidoUseCases", () => {
                 .mockResolvedValueOnce(null);
 
             const pedido = sut.updatePedido("nonexistent-id", {
-                status: StatusPedidoEnum.Em_preparacao
+                status: StatusPedidoEnum.Em_preparacao,
             });
 
             await expect(pedido).rejects.toThrowError(
