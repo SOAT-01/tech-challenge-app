@@ -1,6 +1,7 @@
 import { Entity } from "@domain/base/entity.interface";
 import { Produto } from "./produto";
 import { AssertionConcern } from "@domain/base/assertionConcern";
+import { Cliente } from "./cliente";
 
 export enum StatusPedidoEnum {
   Recebido = "recebido",
@@ -11,13 +12,6 @@ export enum StatusPedidoEnum {
 
 export type StatusPedido = `${StatusPedidoEnum}`;
 
-// TODO: trocar para a entidade cliente depois
-export type Cliente = {
-  id: string;
-  nome: string;
-  email: string;
-  cpf?: string;
-}
 export type ItemPedido = {
   produto: Produto;
   quantidade: number;
@@ -27,8 +21,7 @@ export class Pedido implements Entity {
   id: string;
   status: StatusPedido;
   valorTotal: number; // float
-  // TODO: trocar para a entidade cliente depois
-  cliente?: Cliente;
+  cliente: Cliente;
   itens: ItemPedido[];
   observacoes: string;
 
@@ -68,7 +61,6 @@ export class Pedido implements Entity {
       "Valor total must be bigger than zero",
     );
 
-    // TODO: não consegui incluir um teste para validar essa mensagem porque não deixa nem compilar
     AssertionConcern.assertArgumentIsValid(
       this.status, 
       Object.values(StatusPedidoEnum), 

@@ -1,6 +1,8 @@
+import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { Produto, CategoriaEnum } from "@domain/entities/produto";
 import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
 
 
@@ -28,12 +30,12 @@ describe("Given PedidoUseCases", () => {
       new Pedido({
         id: 'any_id',
         valorTotal: 10,
-        cliente: {
+        cliente: new Cliente({
           id: '000',
           nome: 'John Doe',
-          email: 'john_doe@user.com.br',
-          cpf: '12345678900'
-        },
+          email: Email.create('john_doe@user.com.br'),
+          cpf: Cpf.create('111.111.111-11')
+        }),
         status: StatusPedidoEnum.Recebido,
         itens: [
           {

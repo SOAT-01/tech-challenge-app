@@ -1,5 +1,7 @@
+import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { Cpf, Email } from "@domain/valueObjects";
 
 const PRODUTO = new Produto({
   nome: "Hamburguer",
@@ -15,12 +17,12 @@ describe("Given PedidoEntity", () => {
             const pedido = new Pedido({
                 valorTotal: 10,
                 status: StatusPedidoEnum.Recebido,
-                cliente: {
+                cliente: new Cliente({
                   id: '000',
                   nome: 'John Doe',
-                  email: 'john_doe@user.com.br',
-                  cpf: '12345678900'
-                },
+                  email: Email.create('john_doe@user.com.br'),
+                  cpf: Cpf.create('111.111.111-11')
+                }),
                 itens: [
                   {
                     produto: PRODUTO,
