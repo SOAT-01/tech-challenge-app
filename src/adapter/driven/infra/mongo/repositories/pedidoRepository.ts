@@ -5,39 +5,39 @@ import { PedidoModel } from "../models/Pedido";
 export class PedidoMongoRepository implements IPedidoRepository {
     private readonly pedidoModel: typeof PedidoModel;
 
-    constructor(pedidoModel: typeof PedidoModel) { 
+    constructor(pedidoModel: typeof PedidoModel) {
         this.pedidoModel = pedidoModel;
     }
 
     async getPedidos(filters?: Partial<Pedido>): Promise<Pedido[]> {
-      let filterQuery = { deleted: { $ne: true } };
-      
-      if (filters) {
-        filterQuery = {...filterQuery, ...filters};
-      }
-  
-      const pedidosResult = await this.pedidoModel
-        .aggregate([
-          {
-            $addFields: {
-              statusOrder: {
-                $switch: {
-                  branches: [
-                    { case: { $eq: ["$status", "recebido"]}, then: 0 },
-                    { case: { $eq: ["$status", "em_preparacao"]}, then: 1 },
-                    { case: { $eq: ["$status", "pronto"]}, then: 2 },
-                    { case: { $eq: ["$status", "finalizado"]}, then: 3 },
-                  ],
-                  default: 4,
-                }
-              }
-            },
-          },
-          { $match: filterQuery }
-        ])
-        .sort({ statusOrder: 1, createdAt: 1  })
+        let filterQuery = { deleted: { $ne: true } };
 
-      return pedidosResult;
+        if (filters) {
+            filterQuery = {...filterQuery, ...filters};
+        }
+
+        const pedidosResult = await this.pedidoModel
+            .aggregate([
+                {
+                    $addFields: {
+                        statusOrder: {
+                            $switch: {
+                                branches: [
+                                    { case: { $eq: ["$status", "recebido"]}, then: 0 },
+                                    { case: { $eq: ["$status", "em_preparacao"]}, then: 1 },
+                                    { case: { $eq: ["$status", "pronto"]}, then: 2 },
+                                    { case: { $eq: ["$status", "finalizado"]}, then: 3 },
+                                ],
+                                default: 4,
+                            }
+                        }
+                    },
+                },
+                { $match: filterQuery }
+            ])
+            .sort({ statusOrder: 1, createdAt: 1  });
+
+        return pedidosResult;
     }
 
     async getPedidoById(id: string): Promise<Pedido> {
