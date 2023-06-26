@@ -4,13 +4,14 @@ import mongoose from "mongoose";
 const PedidoSchema = new mongoose.Schema(
     {
       cliente: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Clientes",
         required: false,
       },
       itens: [{
         produto: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Produto",
+          ref: "Produtos",
           required: true,
         },
         quantidade: { type: Number, required: true, min: 1 },
