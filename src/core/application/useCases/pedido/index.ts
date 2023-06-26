@@ -14,12 +14,13 @@ export class PedidoUseCase implements IPedidoUseCase {
         return this.pedidoRepository.getPedidos(filters);
     }
 
-    async updatePedido(id: string, pedido: Omit<Partial<Pedido>, "id">): Promise<Pedido> {
+    async updatePedido(
+        id: string,
+        pedido: Omit<Partial<Pedido>, "id">,
+    ): Promise<Pedido> {
         AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
-        const doesPedidoExists = await this.pedidoRepository.getPedidoById(
-            id,
-        );
+        const doesPedidoExists = await this.pedidoRepository.getPedidoById(id);
 
         if (!doesPedidoExists) {
             throw new Error("Pedido não encontrado");
