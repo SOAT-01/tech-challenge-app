@@ -61,13 +61,13 @@ describe("Given PedidoUseCases", () => {
     ];
 
     class PedidoRepositoryStub implements IPedidoRepository {
-        getPedidoById(id: string): Promise<Pedido> {
+        getById(id: string): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[0]));
         }
-        getPedidos(): Promise<Pedido[]> {
+        getAll(): Promise<Pedido[]> {
             return new Promise((resolve) => resolve(mockPedidos));
         }
-        updatePedido(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
+        update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[1]));
         }
     }
@@ -81,41 +81,41 @@ describe("Given PedidoUseCases", () => {
         jest.clearAllMocks();
     });
 
-    describe("When getPedidos is called", () => {
-        it("should call getPedidos on the repository and return the pedidos", async () => {
-            const getPedidos = jest.spyOn(repositoryStub, "getPedidos");
+    describe("When getAll is called", () => {
+        it("should call getAll on the repository and return the pedidos", async () => {
+            const getAll = jest.spyOn(repositoryStub, "getAll");
 
-            const pedidos = await sut.getPedidos();
-            expect(getPedidos).toHaveBeenCalled();
+            const pedidos = await sut.getAll();
+            expect(getAll).toHaveBeenCalled();
             expect(pedidos).toEqual(mockPedidos);
         });
     });
 
-    describe("When updatePedido is called", () => {
-        it("should call updatePedido on the repository and return the updated pedido", async () => {
-            const updatePedidoSpy = jest.spyOn(repositoryStub, "updatePedido");
-            const pedido = await sut.updatePedido("any-another-id", {
+    describe("When update is called", () => {
+        it("should call update on the repository and return the updated pedido", async () => {
+            const updateSpy = jest.spyOn(repositoryStub, "update");
+            const pedido = await sut.update("any-another-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
-            expect(updatePedidoSpy).toHaveBeenCalledWith("any-another-id", {
+            expect(updateSpy).toHaveBeenCalledWith("any-another-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
             expect(pedido).toEqual(mockPedidos[1]);
         });
 
         it("should throw an error if the pedido does not exist", async () => {
-            const getProdutoByIdSpy = jest
-                .spyOn(repositoryStub, "getPedidoById")
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
                 .mockResolvedValueOnce(null);
 
-            const pedido = sut.updatePedido("nonexistent-id", {
+            const pedido = sut.update("nonexistent-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
 
             await expect(pedido).rejects.toThrowError(
                 new Error("Pedido não encontrado"),
             );
-            expect(getProdutoByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+            expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
         });
     });
 });
