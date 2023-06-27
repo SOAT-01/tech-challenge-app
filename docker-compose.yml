@@ -1,27 +1,30 @@
 version: "3"
 
 services:
-    server:
-        container_name: NODEJS_SERVER
+    api:
+        container_name: fastFood-api
         build: "."
+        working_dir: /fastFood
         volumes:
             - ./:/node-app
             - ./node_modules:/node-app/node_modules
         environment:
             NODE_ENV: development
             MONGODB_CONN_STRING: mongodb://db:27017
+        restart: always
+        command: sh -c "npm run start"
         depends_on:
             - db
         links:
             - db
         ports:
-            - "3000:3000"
+            - "6001:6001"
         networks:
             - fastFoodNetwork
 
     db:
+        container_name: fastFood-mongodb
         image: mongo:latest
-        container_name: MONGODB
         ports:
             - "27017:27017"
         volumes:
