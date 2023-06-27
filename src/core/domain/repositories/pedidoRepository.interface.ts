@@ -1,7 +1,7 @@
 import { Pedido } from "@domain/entities/pedido";
 
 export interface IPedidoRepository {
-    getPedidos(filters?: Partial<Pedido>): Promise<Pedido[]>;
-    getPedidoById(id: string): Promise<Pedido>;
-    updatePedido(id: string, pedido: Partial<Pedido>): Promise<Pedido>;
+    getAll(filters?: Partial<Pedido>): Promise<Pedido[]>;
+    getById(id: string): Promise<Pedido>;
+    update(id: string, pedido: Partial<Pedido>): Promise<Pedido>;
 }

@@ -1,17 +1,17 @@
-import { ClienteModel, ProdutoModel } from "@infra/mongo/models";
+import { ClienteModel, ProdutoModel, PedidoModel } from "@infra/mongo/models";
 import {
     ClienteMongoRepository,
     ProdutoMongoRepository,
+    PedidoMongoRepository,
 } from "@infra/mongo/repositories";
+
 import { ClienteUseCase } from "@useCases/cliente";
 import { ProdutoUseCase } from "@useCases/produto";
+import { PedidoUseCase } from "@useCases/pedido";
+
 import { ClienteController } from "./cliente";
 import { ProdutoController } from "./produto";
-
-import { PedidoModel } from "@infra/mongo/models/Pedido";
-import { PedidoMongoRepository } from "@infra/mongo/repositories/pedidoRepository";
-import { PedidoUseCase } from "@useCases/pedido";
-import { PedidoController } from "./pedido/pedidoController";
+import { PedidoController } from "./pedido";
 
 const clienteRepository = new ClienteMongoRepository(ClienteModel);
 const produtoRepository = new ProdutoMongoRepository(ProdutoModel);

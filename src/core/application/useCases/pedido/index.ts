@@ -4,28 +4,24 @@ import { AssertionConcern } from "@domain/base/assertionConcern";
 import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 
 export class PedidoUseCase implements IPedidoUseCase {
-    private readonly pedidoRepository: IPedidoRepository;
+    constructor(private readonly pedidoRepository: IPedidoRepository) {}
 
-    constructor(produtoRepository: IPedidoRepository) {
-        this.pedidoRepository = produtoRepository;
+    getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
+        return this.pedidoRepository.getAll(filters);
     }
 
-    getPedidos(filters?: Partial<Pedido>): Promise<Pedido[]> {
-        return this.pedidoRepository.getPedidos(filters);
-    }
-
-    async updatePedido(
+    async update(
         id: string,
         pedido: Omit<Partial<Pedido>, "id">,
     ): Promise<Pedido> {
         AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
-        const doesPedidoExists = await this.pedidoRepository.getPedidoById(id);
+        const doesPedidoExists = await this.pedidoRepository.getById(id);
 
         if (!doesPedidoExists) {
             throw new Error("Pedido não encontrado");
         }
 
-        return this.pedidoRepository.updatePedido(id, pedido);
+        return this.pedidoRepository.update(id, pedido);
     }
 }

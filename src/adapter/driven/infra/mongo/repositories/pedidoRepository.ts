@@ -9,7 +9,7 @@ export class PedidoMongoRepository implements IPedidoRepository {
         this.pedidoModel = pedidoModel;
     }
 
-    async getPedidos(filters?: Partial<Pedido>): Promise<Pedido[]> {
+    async getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
         let filterQuery = { deleted: { $ne: true } };
 
         if (filters) {
@@ -56,7 +56,7 @@ export class PedidoMongoRepository implements IPedidoRepository {
         return pedidosResult;
     }
 
-    async getPedidoById(id: string): Promise<Pedido> {
+    async getById(id: string): Promise<Pedido> {
         const pedidoByIdResult = await this.pedidoModel.findOne({
             _id: id,
             deleted: { $ne: true },
@@ -65,7 +65,7 @@ export class PedidoMongoRepository implements IPedidoRepository {
         return pedidoByIdResult;
     }
 
-    async updatePedido(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
+    async update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
         const updatedPedido = await this.pedidoModel.findOneAndUpdate(
             { _id: id },
             pedido,
