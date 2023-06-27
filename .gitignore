@@ -132,3 +132,6 @@ dist
 # mongo-db
 data/
 
+# build folder
+build/
+

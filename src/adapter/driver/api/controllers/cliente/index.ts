@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
-import { ClienteUseCase } from "@useCases/user";
 import { Cliente } from "@domain/entities/cliente";
 import { Cpf, Email } from "@domain/valueObjects";
-import { CreateClienteRequestBody } from "../../types/clienteRequest";
+import { ClienteUseCase } from "@useCases/cliente";
+import { ClienteMapper } from "@mappers/clienteMapper";
+import { CreateClienteRequestBody } from "@apiTypes/cliente";
+import { StatusCode } from "@utils/statusCode";
 
 export class ClienteController {
     constructor(private readonly clienteUseCase: ClienteUseCase) {}
@@ -10,17 +12,22 @@ export class ClienteController {
     public async post(req: Request, res: Response): Promise<Response> {
         try {
             const data = req.body as CreateClienteRequestBody;
-            const cpf = data?.cpf ? Cpf.create(data.cpf) : null;
+
             const newCliente = new Cliente({
                 nome: data.nome,
                 email: Email.create(data.email),
-                cpf: cpf,
+                cpf: Cpf.create(data.cpf),
             });
 
             const result = await this.clienteUseCase.create(newCliente);
-            return res.status(200).json(result);
+
+            return res
+                .status(StatusCode.created)
+                .json(ClienteMapper.toResponse(result));
         } catch (error) {
-            return res.status(400).json({ message: error?.message });
+            return res
+                .status(StatusCode.badRequest)
+                .json({ message: error?.message });
         }
     }
 
@@ -30,14 +37,21 @@ export class ClienteController {
 
             if (!email) {
                 return res
-                    .status(401)
+                    .status(StatusCode.unprocessableEntity)
                     .json({ message: "Missing identifier email" });
             }
 
-            const result = await this.clienteUseCase.getByEmail(email);
-            return res.status(200).json(result);
+            const result = await this.clienteUseCase.getByEmail(
+                Email.create(email),
+            );
+
+            return res
+                .status(StatusCode.ok)
+                .json(ClienteMapper.toResponse(result));
         } catch (error) {
-            return res.status(400).json({ message: error?.message });
+            return res
+                .status(StatusCode.badRequest)
+                .json({ message: error?.message });
         }
     }
 
@@ -47,14 +61,19 @@ export class ClienteController {
 
             if (!cpf) {
                 return res
-                    .status(401)
+                    .status(StatusCode.unprocessableEntity)
                     .json({ message: "Missing identifier cpf" });
             }
 
-            const result = await this.clienteUseCase.getByCpf(cpf);
-            return res.status(200).json(result);
+            const result = await this.clienteUseCase.getByCpf(Cpf.create(cpf));
+
+            return res
+                .status(StatusCode.ok)
+                .json(ClienteMapper.toResponse(result));
         } catch (error) {
-            return res.status(400).json({ message: error?.message });
+            return res
+                .status(StatusCode.badRequest)
+                .json({ message: error?.message });
         }
     }
 }

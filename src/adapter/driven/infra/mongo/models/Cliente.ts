@@ -1,4 +1,3 @@
-import { Cliente } from "@domain/entities/cliente";
 import mongoose from "mongoose";
 
 const ClienteSchema = new mongoose.Schema(
@@ -10,10 +9,14 @@ const ClienteSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+            unique: true,
+            dropDups: true,
         },
         cpf: {
             type: String,
-            required: false,
+            required: true,
+            unique: true,
+            dropDups: true,
         },
         deleted: {
             type: Boolean,
@@ -24,4 +27,4 @@ const ClienteSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-export const ClienteModel = mongoose.model<Cliente>("Clientes", ClienteSchema);
+export const ClienteModel = mongoose.model("Clientes", ClienteSchema);

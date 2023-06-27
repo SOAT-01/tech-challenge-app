@@ -1,10 +1,10 @@
 import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
-import { IProdutoRepository } from "@domain/repositories/produtoRepository.interface";
+import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 
 import { ProdutoUseCase } from "@useCases/produto";
 
 describe("Given ProdutoUseCases", () => {
-    let repositoryStub: IProdutoRepository;
+    let repositoryStub: ProdutoRepository;
     let sut: ProdutoUseCase;
 
     const mockProduto = new Produto({
@@ -14,7 +14,7 @@ describe("Given ProdutoUseCases", () => {
         descricao: "Sobremesa de chocolate com morango'",
         imagem: "www.any-image.com",
     });
-    class ProdutoRepositoryStub implements IProdutoRepository {
+    class ProdutoRepositoryStub implements ProdutoRepository {
         createProduto(produto: Produto): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
