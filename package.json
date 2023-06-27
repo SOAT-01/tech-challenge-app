@@ -8,6 +8,7 @@
         "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/adapter/driver/api/index.ts ",
         "build": "tsc --project ./tsconfig.build.json && tsc-alias -p ./tsconfig.build.json",
         "start": "node build/adapter/driver/api/index.js",
+        "start:docker": "docker compose -p fastfood up --build",
         "lint": "eslint .",
         "lint:fix": "eslint --fix --ext .ts ."
     },
