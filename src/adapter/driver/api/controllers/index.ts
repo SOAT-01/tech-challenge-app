@@ -5,7 +5,7 @@ import { ProdutoController } from "./produto/produtoController";
 import { ClienteMongoRepository } from "@infra/mongo/repositories";
 import { ClienteUseCase } from "@useCases/user";
 import { ClienteController } from "./cliente";
-import { HealthController } from "./health/healthController";
+import { HealthController } from "./health";
 
 const produtoRepository = new ProdutoMongoRepository(ProdutoModel);
 const produtoUseCase = new ProdutoUseCase(produtoRepository);

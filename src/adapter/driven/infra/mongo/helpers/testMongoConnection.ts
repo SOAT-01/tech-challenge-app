@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const mongodbConnString = serverConfig.mongo.connectionString;
 
-export default async function testConnection(): Promise<boolean> {
+export async function testConnection(): Promise<boolean> {
     try {
         await mongoose
             .connect(mongodbConnString, {

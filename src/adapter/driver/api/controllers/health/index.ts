@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import testConnection from "@infra/mongo/helpers/testConnection";
+import { testConnection } from "@infra/mongo/helpers/testMongoConnection";
 
 export class HealthController {
     constructor() {}
