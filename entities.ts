@@ -31,7 +31,7 @@ interface Item {
 interface Pedido {
     id: string;
     status: "recebido" | "em_preparacao" | "pronto" | "finalizado";
-    preco: number; // float
+    valorTotal: number;
     cliente?: Cliente;
     itens: Item[];
 }

@@ -33,5 +33,5 @@ services:
             - fastFoodNetwork
 
 networks:
-  fastFoodNetwork:
-    driver: bridge
+    fastFoodNetwork:
+        driver: bridge
