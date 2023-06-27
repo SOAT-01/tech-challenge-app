@@ -1,6 +1,7 @@
-import { AssertionConcern } from "../base/assertionConcern";
-import { Entity } from "../base/entity.interface";
+import { Entity } from "@domain/base/entity.interface";
 import { Produto } from "./produto";
+import { AssertionConcern } from "@domain/base/assertionConcern";
+import { Cliente } from "./cliente";
 
 export enum StatusPedidoEnum {
     Recebido = "recebido",
@@ -20,8 +21,7 @@ export class Pedido implements Entity {
     id: string;
     status: StatusPedido;
     valorTotal: number; // float
-    // cliente?: Cliente; // user
-    cliente?: string;
+    cliente?: Cliente;
     itens: Item[];
     observacoes?: string;
 
@@ -36,8 +36,7 @@ export class Pedido implements Entity {
         id: string;
         status: StatusPedido;
         valorTotal: number;
-        // cliente?: Cliente;
-        cliente?: string;
+        cliente?: Cliente;
         itens: Item[];
         observacoes?: string;
     }) {
@@ -52,22 +51,25 @@ export class Pedido implements Entity {
     }
 
     public validateEntity(): void {
-        // AssertionConcern.assertArgumentNotEmpty(this.id, "Id is required");
-        AssertionConcern.assertArgumentNotEmpty(
-            this.status,
-            "Status is required",
-        );
         AssertionConcern.assertArgumentNotEmpty(
             this.valorTotal,
             "Valor total is required",
         );
-        AssertionConcern.assertArgumentNotEmpty(
-            this.cliente,
-            "Cliente is required",
+
+        AssertionConcern.assertArgumentIsBiggerThanZero(
+            this.valorTotal,
+            "Valor total must be bigger than zero",
         );
+
+        AssertionConcern.assertArgumentIsValid(
+            this.status,
+            Object.values(StatusPedidoEnum),
+            `Status must be one of ${Object.values(StatusPedidoEnum)}`,
+        );
+
         AssertionConcern.assertArgumentNotEmpty(
             this.itens,
-            "Itens is required",
+            "At least one Item is required",
         );
     }
 }

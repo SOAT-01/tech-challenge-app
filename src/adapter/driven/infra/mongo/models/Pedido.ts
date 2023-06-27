@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const ItemSchema = new mongoose.Schema<Item>({
     produto: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Produto",
+        ref: "Produtos",
         required: true,
     },
     quantidade: { type: Number, required: true, min: 1 },
@@ -21,10 +21,10 @@ const PedidoSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        // cliente: { type: mongoose.Schema.Types.ObjectId, ref: "Cliente", required: true },
+        // cliente: { type: mongoose.Schema.Types.ObjectId, ref: "Clientes", required: false },
         cliente: {
             type: String,
-            required: true,
+            required: false,
         },
         itens: [ItemSchema],
         observacoes: {
@@ -40,4 +40,4 @@ const PedidoSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-export default mongoose.model<Pedido>("Pedidos", PedidoSchema);
+export const PedidoModel = mongoose.model<Pedido>("Pedidos", PedidoSchema);

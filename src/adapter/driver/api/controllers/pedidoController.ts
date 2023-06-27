@@ -13,13 +13,13 @@ export class PedidoController {
     public async get(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const result = await this.pedidoUseCase.getPedidoById(id);
+        const result = await this.pedidoUseCase.getById(id);
         return res.status(200).json(result);
     }
 
     public async post(req: Request, res: Response): Promise<Response> {
         try {
-            const result = await this.pedidoUseCase.createPedido(
+            const result = await this.pedidoUseCase.create(
                 new Pedido(req.body),
             );
             return res.status(200).json(result);
@@ -31,7 +31,7 @@ export class PedidoController {
     public async delete(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        await this.pedidoUseCase.deletePedido(id);
+        await this.pedidoUseCase.delete(id);
         return res.status(200).json();
     }
 }
