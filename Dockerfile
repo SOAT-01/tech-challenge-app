@@ -1,6 +1,11 @@
-FROM node:18.16.0
-WORKDIR /usr
-COPY . . 
-RUN npm install
-EXPOSE 3000
-CMD ["npm", "run", "dev"]
+FROM node:18-slim
+
+RUN ["apt-get", "update"]
+
+WORKDIR /fastFood
+
+COPY . ./
+
+RUN ["npm", "install"]
+RUN ["npm", "run", "build"]
+
