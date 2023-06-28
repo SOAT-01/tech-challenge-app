@@ -13,14 +13,15 @@ export enum StatusPedidoEnum {
 export type StatusPedido = `${StatusPedidoEnum}`;
 
 export interface Item {
-    produto: Produto;
+    produtoId: Pick<Produto, "id">;
     quantidade: number;
+    preco?: number;
 }
 
 export class Pedido implements Entity {
     id: string;
     status: StatusPedido;
-    valorTotal: number; // float
+    valorTotal?: number; // float
     cliente?: Cliente;
     itens: Item[];
     observacoes?: string;
@@ -35,7 +36,7 @@ export class Pedido implements Entity {
     }: {
         id: string;
         status: StatusPedido;
-        valorTotal: number;
+        valorTotal?: number;
         cliente?: Cliente;
         itens: Item[];
         observacoes?: string;

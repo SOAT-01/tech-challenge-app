@@ -20,7 +20,7 @@ const pedidoRepository = new PedidoMongoRepository(PedidoModel);
 
 const clienteUseCase = new ClienteUseCase(clienteRepository);
 const produtoUseCase = new ProdutoUseCase(produtoRepository);
-const pedidoUseCase = new PedidoUseCase(pedidoRepository);
+const pedidoUseCase = new PedidoUseCase(pedidoRepository, produtoRepository);
 
 export const clienteController = new ClienteController(clienteUseCase);
 export const produtoController = new ProdutoController(produtoUseCase);

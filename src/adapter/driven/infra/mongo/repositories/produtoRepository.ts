@@ -33,6 +33,18 @@ export class ProdutoMongoRepository implements ProdutoRepository {
         return produtoByIdResult;
     }
 
+    async getProdutoPreco(ids: Pick<Produto, "id">[]): Promise<any[]> {
+        const produtosPrecos = await this.productModel.find(
+            {
+                _id: { $in: ids },
+                deleted: { $ne: true },
+            },
+            { preco: 1 },
+        );
+
+        return produtosPrecos;
+    }
+
     async updateProduto(
         id: string,
         produto: Partial<Produto>,

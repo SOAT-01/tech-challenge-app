@@ -1,6 +1,5 @@
 import { PedidoUseCase } from "@useCases/pedido";
 import { StatusCode } from "@utils/statusCode";
-import { Pedido } from "@domain/entities/pedido";
 
 import { Request, Response } from "express";
 
@@ -24,9 +23,10 @@ export class PedidoController {
 
     public async post(req: Request, res: Response): Promise<Response> {
         try {
-            const result = await this.pedidoUseCase.create(
-                new Pedido(req.body),
-            );
+            // const result = await this.pedidoUseCase.create(
+            //     new Pedido(req.body),
+            // );
+            const result = await this.pedidoUseCase.create(req.body);
             return res.status(200).json(result);
         } catch (error) {
             return res.status(500).json({ message: error.message });

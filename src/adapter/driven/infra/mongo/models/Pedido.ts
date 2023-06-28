@@ -2,7 +2,7 @@ import { Pedido, Item, StatusPedidoEnum } from "@domain/entities/pedido";
 import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema<Item>({
-    produto: {
+    produtoId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Produtos",
         required: true,
@@ -19,13 +19,17 @@ const PedidoSchema = new mongoose.Schema(
         },
         valorTotal: {
             type: Number,
-            required: true,
-        },
-        // cliente: { type: mongoose.Schema.Types.ObjectId, ref: "Clientes", required: false },
-        cliente: {
-            type: String,
             required: false,
         },
+        cliente: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Clientes",
+            required: false,
+        },
+        // cliente: {
+        //     type: String,
+        //     required: false,
+        // },
         itens: [ItemSchema],
         observacoes: {
             type: String,

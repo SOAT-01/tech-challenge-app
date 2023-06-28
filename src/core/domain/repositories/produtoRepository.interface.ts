@@ -6,4 +6,5 @@ export interface ProdutoRepository {
     getProdutoById(id: string): Promise<Produto>;
     updateProduto(id: string, produto: Partial<Produto>): Promise<Produto>;
     deleteProduto(id: string): Promise<void>;
+    getProdutoPreco(ids: Pick<Produto, "id">[]): Promise<any[]>;
 }
