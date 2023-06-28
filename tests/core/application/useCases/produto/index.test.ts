@@ -2,6 +2,7 @@ import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 
 import { ProdutoUseCase } from "@useCases/produto";
+import { Types } from "mongoose";
 
 describe("Given ProdutoUseCases", () => {
     let repositoryStub: ProdutoRepository;
@@ -23,6 +24,11 @@ describe("Given ProdutoUseCases", () => {
         }
         getProdutoById(id: string): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
+        }
+        getProdutoPreco(ids: Types.ObjectId[]): Promise<any[]> {
+            return new Promise((resolve) =>
+                resolve([{ preco: mockProduto.preco }]),
+            );
         }
         updateProduto(id: string, produto: Partial<Produto>): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));

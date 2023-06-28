@@ -2,6 +2,7 @@ import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import { Cpf, Email } from "@domain/valueObjects";
+import mongoose from "mongoose";
 
 const PRODUTO = new Produto({
     nome: "Hamburguer",
@@ -25,7 +26,7 @@ describe("Given PedidoEntity", () => {
                 }),
                 itens: [
                     {
-                        produto: PRODUTO,
+                        produtoId: new mongoose.Types.ObjectId(),
                         quantidade: 1,
                     },
                 ],
@@ -42,7 +43,7 @@ describe("Given PedidoEntity", () => {
                 status: StatusPedidoEnum.Recebido,
                 itens: [
                     {
-                        produto: PRODUTO,
+                        produtoId: new mongoose.Types.ObjectId(),
                         quantidade: 1,
                     },
                 ],
@@ -62,7 +63,7 @@ describe("Given PedidoEntity", () => {
                     status: StatusPedidoEnum.Recebido,
                     itens: [
                         {
-                            produto: PRODUTO,
+                            produtoId: new mongoose.Types.ObjectId(),
                             quantidade: 1,
                         },
                     ],
@@ -75,7 +76,7 @@ describe("Given PedidoEntity", () => {
                     status: StatusPedidoEnum.Recebido,
                     itens: [
                         {
-                            produto: PRODUTO,
+                            produtoId: new mongoose.Types.ObjectId(),
                             quantidade: 1,
                         },
                     ],

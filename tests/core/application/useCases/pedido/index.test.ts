@@ -4,6 +4,7 @@ import { Produto, CategoriaEnum } from "@domain/entities/produto";
 import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
+import mongoose from "mongoose";
 
 const LANCHE = new Produto({
     nome: "Hamburguer",
@@ -19,6 +20,7 @@ const SOBREMESA = new Produto({
     categoria: CategoriaEnum.Sobremesa,
     descricao: "Delicious petit gateau",
     imagem: "petit-gateau.jpg",
+    id: "321",
 });
 
 describe("Given PedidoUseCases", () => {
@@ -38,7 +40,7 @@ describe("Given PedidoUseCases", () => {
             status: StatusPedidoEnum.Recebido,
             itens: [
                 {
-                    produto: LANCHE,
+                    produtoId: new mongoose.Types.ObjectId(),
                     quantidade: 1,
                 },
             ],
@@ -49,11 +51,11 @@ describe("Given PedidoUseCases", () => {
             status: StatusPedidoEnum.Em_preparacao,
             itens: [
                 {
-                    produto: LANCHE,
+                    produtoId: new mongoose.Types.ObjectId(),
                     quantidade: 1,
                 },
                 {
-                    produto: SOBREMESA,
+                    produtoId: new mongoose.Types.ObjectId(),
                     quantidade: 1,
                 },
             ],
@@ -67,14 +69,20 @@ describe("Given PedidoUseCases", () => {
         getAll(): Promise<Pedido[]> {
             return new Promise((resolve) => resolve(mockPedidos));
         }
+        create(pedido: Pedido): Promise<Pedido> {
+            return new Promise((resolve) => resolve(mockPedidos[0]));
+        }
         update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[1]));
+        }
+        delete(id: string): Promise<void> {
+            return new Promise((resolve) => resolve);
         }
     }
 
     beforeAll(() => {
         repositoryStub = new PedidoRepositoryStub();
-        sut = new PedidoUseCase(repositoryStub);
+        sut = new PedidoUseCase(repositoryStub, undefined);
     });
 
     afterAll(() => {

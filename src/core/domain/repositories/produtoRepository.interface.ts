@@ -1,4 +1,5 @@
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import mongoose from "mongoose";
 
 export interface ProdutoRepository {
     createProduto(produto: Produto): Promise<Produto>;
@@ -6,5 +7,5 @@ export interface ProdutoRepository {
     getProdutoById(id: string): Promise<Produto>;
     updateProduto(id: string, produto: Partial<Produto>): Promise<Produto>;
     deleteProduto(id: string): Promise<void>;
-    getProdutoPreco(ids: Pick<Produto, "id">[]): Promise<any[]>;
+    getProdutoPreco(ids: mongoose.Types.ObjectId[]): Promise<any[]>;
 }
