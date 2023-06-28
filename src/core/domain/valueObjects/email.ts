@@ -15,6 +15,7 @@ export class Email extends ValueObject<EmailProperties> {
     }
 
     public static create(value: string): Email {
+        AssertionConcern.assertArgumentNotEmpty(value, "Email is required");
         AssertionConcern.assertArgumentIsValidEmail(
             value,
             "Incorrect email format",
