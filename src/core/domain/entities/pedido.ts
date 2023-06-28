@@ -21,7 +21,7 @@ export interface Item {
 export class Pedido implements Entity {
     id: string;
     status: StatusPedido;
-    valorTotal?: number; // float
+    valorTotal?: number;
     cliente?: Cliente;
     itens: Item[];
     observacoes?: string;

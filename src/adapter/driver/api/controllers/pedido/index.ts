@@ -23,9 +23,6 @@ export class PedidoController {
 
     public async post(req: Request, res: Response): Promise<Response> {
         try {
-            // const result = await this.pedidoUseCase.create(
-            //     new Pedido(req.body),
-            // );
             const result = await this.pedidoUseCase.create(req.body);
             return res.status(200).json(result);
         } catch (error) {

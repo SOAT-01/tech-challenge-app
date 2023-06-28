@@ -26,10 +26,6 @@ const PedidoSchema = new mongoose.Schema(
             ref: "Clientes",
             required: false,
         },
-        // cliente: {
-        //     type: String,
-        //     required: false,
-        // },
         itens: [ItemSchema],
         observacoes: {
             type: String,
