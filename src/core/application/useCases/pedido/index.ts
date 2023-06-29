@@ -28,7 +28,7 @@ export class PedidoUseCase implements IPedidoUseCase {
     public async create(pedido: Pedido): Promise<Pedido> {
         const ids = pedido.itens.map((item) => item.produtoId);
 
-        const itensPedido = await this.produtoRepository.getProdutoPreco(ids);
+        const itensPedido = await this.produtoRepository.getByIds(ids);
 
         const itensComPreco = pedido.itens.map((item) => ({
             ...item,

@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema<Item>({
     produtoId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Produtos",
+        type: String,
         required: true,
     },
     quantidade: { type: Number, required: true, min: 1 },

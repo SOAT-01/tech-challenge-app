@@ -1,7 +1,6 @@
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { ProdutoModel } from "../models";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
-import mongoose from "mongoose";
 
 export class ProdutoMongoRepository implements ProdutoRepository {
     private readonly productModel: typeof ProdutoModel;
@@ -34,16 +33,13 @@ export class ProdutoMongoRepository implements ProdutoRepository {
         return produtoByIdResult;
     }
 
-    async getProdutoPreco(ids: mongoose.Types.ObjectId[]): Promise<any[]> {
-        const produtosPrecos = await this.productModel.find(
-            {
-                _id: { $in: ids },
-                deleted: { $ne: true },
-            },
-            { preco: 1 },
-        );
+    async getByIds(ids: string[]): Promise<Produto[]> {
+        const produtosById = await this.productModel.find({
+            _id: { $in: ids },
+            deleted: { $ne: true },
+        });
 
-        return produtosPrecos;
+        return produtosById;
     }
 
     async updateProduto(

@@ -1,7 +1,6 @@
 import { Entity } from "@domain/base/entity.interface";
 import { AssertionConcern } from "@domain/base/assertionConcern";
 import { Cliente } from "./cliente";
-import mongoose from "mongoose";
 
 export enum StatusPedidoEnum {
     Recebido = "recebido",
@@ -13,7 +12,7 @@ export enum StatusPedidoEnum {
 export type StatusPedido = `${StatusPedidoEnum}`;
 
 export interface Item {
-    produtoId: mongoose.Types.ObjectId;
+    produtoId: string;
     quantidade: number;
     preco?: number;
 }

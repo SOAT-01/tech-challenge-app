@@ -25,10 +25,8 @@ describe("Given ProdutoUseCases", () => {
         getProdutoById(id: string): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
-        getProdutoPreco(ids: Types.ObjectId[]): Promise<any[]> {
-            return new Promise((resolve) =>
-                resolve([{ preco: mockProduto.preco }]),
-            );
+        getByIds(ids: string[]): Promise<Produto[]> {
+            return new Promise((resolve) => resolve([mockProduto]));
         }
         updateProduto(id: string, produto: Partial<Produto>): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));

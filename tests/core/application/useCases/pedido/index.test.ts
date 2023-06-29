@@ -5,24 +5,24 @@ import { PedidoRepository } from "@domain/repositories/pedidoRepository.interfac
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
-import mongoose from "mongoose";
 
-// const LANCHE = new Produto({
-//     nome: "Hamburguer",
-//     preco: 10,
-//     categoria: CategoriaEnum.Lanche,
-//     descricao: "Delicious hamburger",
-//     imagem: "hamburguer.jpg",
-// });
+const LANCHE = new Produto({
+    nome: "Hamburguer",
+    preco: 10,
+    categoria: CategoriaEnum.Lanche,
+    descricao: "Delicious hamburger",
+    imagem: "hamburguer.jpg",
+    id: "123",
+});
 
-// const SOBREMESA = new Produto({
-//     nome: "Petit Gateau",
-//     preco: 19.9,
-//     categoria: CategoriaEnum.Sobremesa,
-//     descricao: "Delicious petit gateau",
-//     imagem: "petit-gateau.jpg",
-//     id: "321",
-// });
+const SOBREMESA = new Produto({
+    nome: "Petit Gateau",
+    preco: 19.9,
+    categoria: CategoriaEnum.Sobremesa,
+    descricao: "Delicious petit gateau",
+    imagem: "petit-gateau.jpg",
+    id: "321",
+});
 
 describe("Given PedidoUseCases", () => {
     let repositoryStub: PedidoRepository;
@@ -42,7 +42,7 @@ describe("Given PedidoUseCases", () => {
             status: StatusPedidoEnum.Recebido,
             itens: [
                 {
-                    produtoId: new mongoose.Types.ObjectId(),
+                    produtoId: LANCHE.id,
                     quantidade: 1,
                 },
             ],
@@ -53,11 +53,11 @@ describe("Given PedidoUseCases", () => {
             status: StatusPedidoEnum.Em_preparacao,
             itens: [
                 {
-                    produtoId: new mongoose.Types.ObjectId(),
+                    produtoId: LANCHE.id,
                     quantidade: 1,
                 },
                 {
-                    produtoId: new mongoose.Types.ObjectId(),
+                    produtoId: SOBREMESA.id,
                     quantidade: 1,
                 },
             ],
@@ -83,8 +83,8 @@ describe("Given PedidoUseCases", () => {
     }
 
     class ProdutoRepositoryStub implements Partial<ProdutoRepository> {
-        getProdutoPreco(ids: mongoose.Types.ObjectId[]): Promise<any[]> {
-            return new Promise((resolve) => resolve([{ preco: 50 }]));
+        getByIds(ids: string[]): Promise<Produto[]> {
+            return new Promise((resolve) => resolve([]));
         }
     }
 
@@ -120,11 +120,11 @@ describe("Given PedidoUseCases", () => {
                     valorTotal: 29.9,
                     itens: [
                         {
-                            produtoId: new mongoose.Types.ObjectId(),
+                            produtoId: LANCHE.id,
                             quantidade: 1,
                         },
                         {
-                            produtoId: new mongoose.Types.ObjectId(),
+                            produtoId: SOBREMESA.id,
                             quantidade: 1,
                         },
                     ],

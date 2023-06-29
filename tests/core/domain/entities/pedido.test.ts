@@ -2,15 +2,15 @@ import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import { Cpf, Email } from "@domain/valueObjects";
-import mongoose from "mongoose";
 
-// const PRODUTO = new Produto({
-//     nome: "Hamburguer",
-//     preco: 10,
-//     categoria: CategoriaEnum.Lanche,
-//     descricao: "Delicious hamburger",
-//     imagem: "hamburguer.jpg",
-// });
+const PRODUTO = new Produto({
+    nome: "Hamburguer",
+    preco: 10,
+    categoria: CategoriaEnum.Lanche,
+    descricao: "Delicious hamburger",
+    imagem: "hamburguer.jpg",
+    id: "123",
+});
 
 describe("Given PedidoEntity", () => {
     describe("when received all params correctly", () => {
@@ -26,7 +26,7 @@ describe("Given PedidoEntity", () => {
                 }),
                 itens: [
                     {
-                        produtoId: new mongoose.Types.ObjectId(),
+                        produtoId: PRODUTO.id,
                         quantidade: 1,
                     },
                 ],
@@ -43,7 +43,7 @@ describe("Given PedidoEntity", () => {
                 status: StatusPedidoEnum.Recebido,
                 itens: [
                     {
-                        produtoId: new mongoose.Types.ObjectId(),
+                        produtoId: PRODUTO.id,
                         quantidade: 1,
                     },
                 ],
@@ -63,7 +63,7 @@ describe("Given PedidoEntity", () => {
                     status: StatusPedidoEnum.Recebido,
                     itens: [
                         {
-                            produtoId: new mongoose.Types.ObjectId(),
+                            produtoId: PRODUTO.id,
                             quantidade: 1,
                         },
                     ],
@@ -76,7 +76,7 @@ describe("Given PedidoEntity", () => {
                     status: StatusPedidoEnum.Recebido,
                     itens: [
                         {
-                            produtoId: new mongoose.Types.ObjectId(),
+                            produtoId: PRODUTO.id,
                             quantidade: 1,
                         },
                     ],
