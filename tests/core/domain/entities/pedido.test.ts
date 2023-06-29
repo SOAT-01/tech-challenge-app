@@ -4,13 +4,13 @@ import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import { Cpf, Email } from "@domain/valueObjects";
 import mongoose from "mongoose";
 
-const PRODUTO = new Produto({
-    nome: "Hamburguer",
-    preco: 10,
-    categoria: CategoriaEnum.Lanche,
-    descricao: "Delicious hamburger",
-    imagem: "hamburguer.jpg",
-});
+// const PRODUTO = new Produto({
+//     nome: "Hamburguer",
+//     preco: 10,
+//     categoria: CategoriaEnum.Lanche,
+//     descricao: "Delicious hamburger",
+//     imagem: "hamburguer.jpg",
+// });
 
 describe("Given PedidoEntity", () => {
     describe("when received all params correctly", () => {

@@ -2,29 +2,31 @@ import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { Produto, CategoriaEnum } from "@domain/entities/produto";
 import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
 import mongoose from "mongoose";
 
-const LANCHE = new Produto({
-    nome: "Hamburguer",
-    preco: 10,
-    categoria: CategoriaEnum.Lanche,
-    descricao: "Delicious hamburger",
-    imagem: "hamburguer.jpg",
-});
+// const LANCHE = new Produto({
+//     nome: "Hamburguer",
+//     preco: 10,
+//     categoria: CategoriaEnum.Lanche,
+//     descricao: "Delicious hamburger",
+//     imagem: "hamburguer.jpg",
+// });
 
-const SOBREMESA = new Produto({
-    nome: "Petit Gateau",
-    preco: 19.9,
-    categoria: CategoriaEnum.Sobremesa,
-    descricao: "Delicious petit gateau",
-    imagem: "petit-gateau.jpg",
-    id: "321",
-});
+// const SOBREMESA = new Produto({
+//     nome: "Petit Gateau",
+//     preco: 19.9,
+//     categoria: CategoriaEnum.Sobremesa,
+//     descricao: "Delicious petit gateau",
+//     imagem: "petit-gateau.jpg",
+//     id: "321",
+// });
 
 describe("Given PedidoUseCases", () => {
     let repositoryStub: PedidoRepository;
+    let produtoRepositoryStub: Partial<ProdutoRepository>;
     let sut: PedidoUseCase;
 
     const mockPedidos = [
@@ -70,7 +72,7 @@ describe("Given PedidoUseCases", () => {
             return new Promise((resolve) => resolve(mockPedidos));
         }
         create(pedido: Pedido): Promise<Pedido> {
-            return new Promise((resolve) => resolve(mockPedidos[0]));
+            return new Promise((resolve) => resolve(mockPedidos[1]));
         }
         update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[1]));
@@ -80,9 +82,19 @@ describe("Given PedidoUseCases", () => {
         }
     }
 
+    class ProdutoRepositoryStub implements Partial<ProdutoRepository> {
+        getProdutoPreco(ids: mongoose.Types.ObjectId[]): Promise<any[]> {
+            return new Promise((resolve) => resolve([{ preco: 50 }]));
+        }
+    }
+
     beforeAll(() => {
         repositoryStub = new PedidoRepositoryStub();
-        sut = new PedidoUseCase(repositoryStub, undefined);
+        produtoRepositoryStub = new ProdutoRepositoryStub();
+        sut = new PedidoUseCase(
+            repositoryStub,
+            produtoRepositoryStub as ProdutoRepository,
+        );
     });
 
     afterAll(() => {
@@ -96,6 +108,30 @@ describe("Given PedidoUseCases", () => {
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
             expect(pedidos).toEqual(mockPedidos);
+        });
+    });
+
+    describe("When create is called", () => {
+        it.skip("should call create on the repository and return the created pedido", async () => {
+            const create = jest.spyOn(repositoryStub, "create");
+
+            const pedido = await sut.create(
+                new Pedido({
+                    valorTotal: 29.9,
+                    itens: [
+                        {
+                            produtoId: new mongoose.Types.ObjectId(),
+                            quantidade: 1,
+                        },
+                        {
+                            produtoId: new mongoose.Types.ObjectId(),
+                            quantidade: 1,
+                        },
+                    ],
+                }),
+            );
+            expect(create).toHaveBeenCalled();
+            expect(pedido).toEqual(mockPedidos[1]);
         });
     });
 
