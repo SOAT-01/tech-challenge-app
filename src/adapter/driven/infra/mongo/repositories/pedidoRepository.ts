@@ -1,8 +1,8 @@
-import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { Pedido } from "@domain/entities/pedido";
 import { PedidoModel } from "../models/Pedido";
 
-export class PedidoMongoRepository implements IPedidoRepository {
+export class PedidoMongoRepository implements PedidoRepository {
     private readonly pedidoModel: typeof PedidoModel;
 
     constructor(pedidoModel: typeof PedidoModel) {

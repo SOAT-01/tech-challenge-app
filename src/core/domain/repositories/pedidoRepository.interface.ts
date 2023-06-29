@@ -1,6 +1,6 @@
 import { Pedido } from "@domain/entities/pedido";
 
-export interface IPedidoRepository {
+export interface PedidoRepository {
     getAll(filters?: Partial<Pedido>): Promise<Pedido[]>;
     getById(id: string): Promise<Pedido>;
     create(pedido: Pedido): Promise<Pedido>;

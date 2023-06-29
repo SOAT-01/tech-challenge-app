@@ -1,7 +1,7 @@
 import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { Produto, CategoriaEnum } from "@domain/entities/produto";
-import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
 import mongoose from "mongoose";
@@ -24,7 +24,7 @@ const SOBREMESA = new Produto({
 });
 
 describe("Given PedidoUseCases", () => {
-    let repositoryStub: IPedidoRepository;
+    let repositoryStub: PedidoRepository;
     let sut: PedidoUseCase;
 
     const mockPedidos = [
@@ -62,7 +62,7 @@ describe("Given PedidoUseCases", () => {
         }),
     ];
 
-    class PedidoRepositoryStub implements IPedidoRepository {
+    class PedidoRepositoryStub implements PedidoRepository {
         getById(id: string): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[0]));
         }

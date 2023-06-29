@@ -1,16 +1,16 @@
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { IPedidoUseCase } from "./pedido.interface";
 import { AssertionConcern } from "@domain/base/assertionConcern";
-import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { ValorTotal } from "@domain/valueObjects/valorTotal";
 
 export class PedidoUseCase implements IPedidoUseCase {
-    private readonly pedidoRepository: IPedidoRepository;
+    private readonly pedidoRepository: PedidoRepository;
     private readonly produtoRepository: ProdutoRepository;
 
     constructor(
-        pedidoRepository: IPedidoRepository,
+        pedidoRepository: PedidoRepository,
         produtoRepository: ProdutoRepository,
     ) {
         this.pedidoRepository = pedidoRepository;
