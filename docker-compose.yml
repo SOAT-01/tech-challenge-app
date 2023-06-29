@@ -1,27 +1,6 @@
 version: "3"
 
 services:
-    api:
-        container_name: fastFood-api
-        build: "."
-        working_dir: /fastFood
-        volumes:
-            - ./:/node-app
-            - ./node_modules:/node-app/node_modules
-        environment:
-            NODE_ENV: development
-            MONGODB_CONN_STRING: mongodb://db:27017
-        restart: always
-        command: sh -c "npm run start"
-        depends_on:
-            - db
-        links:
-            - db
-        ports:
-            - "6001:6001"
-        networks:
-            - fastFoodNetwork
-
     db:
         container_name: fastFood-mongodb
         image: mongo:latest
@@ -31,6 +10,32 @@ services:
             - ./data/db:/data/db
         networks:
             - fastFoodNetwork
+    api:
+        container_name: fastFood-api
+        build: "."
+        working_dir: /fastFood
+        volumes:
+            - ./:/fastFood
+            - ./node_modules:/fastFood/node_modules
+        environment:
+            NODE_ENV: development
+            MONGODB_CONN_STRING: mongodb://db:27017
+        command: sh -c "npm run start"
+        depends_on:
+            - db
+        links:
+            - db
+        ports:
+            - "6001:6001"
+        networks:
+            - fastFoodNetwork
+    db-import:
+        container_name: fastFood-import-data
+        build: "/data-import/."
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+
 
 networks:
     fastFoodNetwork:
