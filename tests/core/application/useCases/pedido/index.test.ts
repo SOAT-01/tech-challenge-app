@@ -162,4 +162,26 @@ describe("Given PedidoUseCases", () => {
             expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
         });
     });
+
+    describe("When delete is called", () => {
+        it("should call delete to delete the pedido", async () => {
+            const deleteProdutoSpy = jest.spyOn(repositoryStub, "delete");
+
+            await sut.delete("any-id");
+            expect(deleteProdutoSpy).toHaveBeenCalledWith("any-id");
+        });
+
+        it("should throw an error if the pedido does not exist", async () => {
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
+                .mockResolvedValueOnce(null);
+
+            const pedido = sut.delete("nonexistent-id");
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Pedido não encontrado"),
+            );
+            expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+        });
+    });
 });

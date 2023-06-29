@@ -84,6 +84,9 @@ export class PedidoMongoRepository implements PedidoRepository {
     }
 
     async delete(id: string): Promise<void> {
-        await this.pedidoModel.findOneAndDelete({ _id: id });
+        await this.pedidoModel.findOneAndUpdate(
+            { _id: id },
+            { deleted: true, deletedAt: new Date() },
+        );
     }
 }
