@@ -13,7 +13,7 @@ export class PedidoController {
     public async get(req: Request, res: Response): Promise<Response> {
         try {
             const result = await this.pedidoUseCase.getAll(req.query);
-            return res.status(200).json(result);
+            return res.status(StatusCode.ok).json(result);
         } catch (error) {
             return res
                 .status(StatusCode.badRequest)
@@ -24,9 +24,11 @@ export class PedidoController {
     public async post(req: Request, res: Response): Promise<Response> {
         try {
             const result = await this.pedidoUseCase.create(req.body);
-            return res.status(200).json(result);
+            return res.status(StatusCode.created).json(result);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return res
+                .status(StatusCode.serverError)
+                .json({ message: error?.message });
         }
     }
 
@@ -35,7 +37,7 @@ export class PedidoController {
 
         try {
             const result = await this.pedidoUseCase.update(id, req.body);
-            return res.status(200).json(result);
+            return res.status(StatusCode.ok).json(result);
         } catch (error) {
             return res
                 .status(StatusCode.badRequest)
@@ -49,9 +51,11 @@ export class PedidoController {
 
             await this.pedidoUseCase.delete(id);
 
-            return res.status(200).json();
+            return res.status(StatusCode.noContent).json();
         } catch (error) {
-            return res.status(500).json({ message: error?.message });
+            return res
+                .status(StatusCode.serverError)
+                .json({ message: error?.message });
         }
     }
 }
