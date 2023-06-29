@@ -15,6 +15,7 @@ export class Cpf extends ValueObject<CpfProperties> {
     }
 
     public static create(value: string): Cpf {
+        AssertionConcern.assertArgumentNotEmpty(value, "Cpf is required");
         AssertionConcern.assertArgumentIsValidCpf(
             value,
             "Incorrect cpf format",
