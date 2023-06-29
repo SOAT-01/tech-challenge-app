@@ -84,7 +84,7 @@ describe("Given PedidoUseCases", () => {
 
     class ProdutoRepositoryStub implements Partial<ProdutoRepository> {
         getByIds(ids: string[]): Promise<Produto[]> {
-            return new Promise((resolve) => resolve([]));
+            return new Promise((resolve) => resolve([LANCHE, SOBREMESA]));
         }
     }
 
@@ -112,7 +112,7 @@ describe("Given PedidoUseCases", () => {
     });
 
     describe("When create is called", () => {
-        it.skip("should call create on the repository and return the created pedido", async () => {
+        it("should call create on the repository and return the created pedido", async () => {
             const create = jest.spyOn(repositoryStub, "create");
 
             const pedido = await sut.create(
