@@ -30,12 +30,20 @@ services:
         networks:
             - fastFoodNetwork
     db-import:
-        container_name: fastFood-import-data
-        build: "/data-import/."
+        container_name: fastFood-data-import
         image: mongo:latest
-        ports:
-            - "27017:27017"
-
+        depends_on:
+            - db
+        links:
+            - db
+        volumes:
+            - ./data-import:/data-import
+        networks:
+            - fastFoodNetwork
+        restart: "no"
+        command: >
+            sh -c "mongoimport --host=db --db=fast_food --collection clientes --type json --file /data-import/clientes.json --jsonArray 
+            && mongoimport --host=db --db=fast_food --collection produtos --type json --file /data-import/produtos.json --jsonArray"
 
 networks:
     fastFoodNetwork:
