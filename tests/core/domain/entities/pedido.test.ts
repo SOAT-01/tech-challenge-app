@@ -36,7 +36,7 @@ describe("Given PedidoEntity", () => {
         });
     });
 
-    describe("when receive just valorTotal and itens", () => {
+    describe("when received just valorTotal and itens", () => {
         it("should create a new instance of Pedido with default values", () => {
             const pedido = new Pedido({
                 valorTotal: 10,
@@ -50,8 +50,25 @@ describe("Given PedidoEntity", () => {
             });
 
             expect(pedido).toBeInstanceOf(Pedido);
-            expect(pedido.cliente).toBeNull();
             expect(pedido.status).toBe(StatusPedidoEnum.Recebido);
+        });
+    });
+
+    describe("when not receiving cliente", () => {
+        it("should create a new instance of Pedido with cliente as null", () => {
+            const pedido = new Pedido({
+                valorTotal: 10,
+                status: StatusPedidoEnum.Recebido,
+                itens: [
+                    {
+                        produtoId: PRODUTO.id,
+                        quantidade: 1,
+                    },
+                ],
+            });
+
+            expect(pedido).toBeInstanceOf(Pedido);
+            expect(pedido.cliente).toBeNull();
         });
     });
 
@@ -92,6 +109,25 @@ describe("Given PedidoEntity", () => {
                     itens: [],
                 });
             }).toThrow("At least one Item is required");
+        });
+    });
+
+    describe("when receiving observações", () => {
+        it("should create a new instance of Pedido with observações", () => {
+            const pedido = new Pedido({
+                valorTotal: 10,
+                status: StatusPedidoEnum.Recebido,
+                itens: [
+                    {
+                        produtoId: PRODUTO.id,
+                        quantidade: 1,
+                    },
+                ],
+                observacoes: "some notes",
+            });
+
+            expect(pedido).toBeInstanceOf(Pedido);
+            expect(pedido.observacoes).toBe("some notes");
         });
     });
 });
