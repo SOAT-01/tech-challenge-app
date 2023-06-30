@@ -17,7 +17,7 @@ export class PedidoUseCase implements IPedidoUseCase {
         this.produtoRepository = produtoRepository;
     }
 
-    getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
+    public async getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
         return this.pedidoRepository.getAll(filters);
     }
 
@@ -50,7 +50,7 @@ export class PedidoUseCase implements IPedidoUseCase {
         );
     }
 
-    async update(
+    public async update(
         id: string,
         pedido: Omit<Partial<Pedido>, "id">,
     ): Promise<Pedido> {
