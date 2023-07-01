@@ -27,5 +27,10 @@ export class Cliente implements Entity {
 
     public validateEntity(): void {
         AssertionConcern.assertArgumentNotEmpty(this.nome, "Nome is required");
+        AssertionConcern.assertArgumentNotEmpty(
+            this.email,
+            "Email is required",
+        );
+        AssertionConcern.assertArgumentNotEmpty(this.cpf, "Cpf is required");
     }
 }
