@@ -4,16 +4,16 @@ import { clienteController } from "@controllers/index";
 export function makeClienteRouter(): Router {
     const clienteRouter = Router();
 
-    clienteRouter.post("/", async (req, res) =>
-        clienteController.post(req, res),
+    clienteRouter.post("/", async (req, res, next) =>
+        clienteController.post(req, res, next),
     );
 
-    clienteRouter.get("/by-email/:email", async (req, res) =>
-        clienteController.getByEmail(req, res),
+    clienteRouter.get("/by-email/:email", async (req, res, next) =>
+        clienteController.getByEmail(req, res, next),
     );
 
-    clienteRouter.get("/by-cpf/:cpf", async (req, res) =>
-        clienteController.getByCpf(req, res),
+    clienteRouter.get("/by-cpf/:cpf", async (req, res, next) =>
+        clienteController.getByCpf(req, res, next),
     );
 
     return clienteRouter;

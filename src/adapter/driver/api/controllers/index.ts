@@ -1,28 +1,16 @@
-import { ClienteModel, ProdutoModel, PedidoModel } from "@infra/mongo/models";
-import {
-    ClienteMongoRepository,
-    ProdutoMongoRepository,
-    PedidoMongoRepository,
-} from "@infra/mongo/repositories";
-
-import { ClienteUseCase } from "@useCases/cliente";
-import { ProdutoUseCase } from "@useCases/produto";
+import { PedidoModel } from "@infra/mongo/models";
+import { PedidoMongoRepository } from "@infra/mongo/repositories";
 import { PedidoUseCase } from "@useCases/pedido";
-
-import { ClienteController } from "./cliente";
-import { ProdutoController } from "./produto";
 import { PedidoController } from "./pedido";
-import { HealthController } from "./health";
 
-const clienteRepository = new ClienteMongoRepository(ClienteModel);
-const produtoRepository = new ProdutoMongoRepository(ProdutoModel);
+import { ProdutoControllerFactory } from "./produto";
+import { ClienteControllerFactory } from "./cliente";
+import { HealthControllerFactory } from "./health";
+
 const pedidoRepository = new PedidoMongoRepository(PedidoModel);
-
-const clienteUseCase = new ClienteUseCase(clienteRepository);
-const produtoUseCase = new ProdutoUseCase(produtoRepository);
 const pedidoUseCase = new PedidoUseCase(pedidoRepository);
 
-export const clienteController = new ClienteController(clienteUseCase);
-export const produtoController = new ProdutoController(produtoUseCase);
+export const produtoController = ProdutoControllerFactory.create();
+export const clienteController = ClienteControllerFactory.create();
 export const pedidoController = new PedidoController(pedidoUseCase);
-export const healthController = new HealthController();
+export const healthController = HealthControllerFactory.create();
