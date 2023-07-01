@@ -1,7 +1,7 @@
 import { Cliente } from "@domain/entities/cliente";
+import { Cpf, Email } from "@domain/valueObjects";
 import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
 import { ClienteModel } from "../models";
-import { Cpf, Email } from "@domain/valueObjects";
 
 export class ClienteMongoRepository implements ClienteRepository {
     constructor(private readonly clienteModel: typeof ClienteModel) {}
@@ -21,11 +21,13 @@ export class ClienteMongoRepository implements ClienteRepository {
         });
     }
 
-    public async getByCpf(cpf: string): Promise<Cliente> {
+    public async getByCpf(cpf: string): Promise<Cliente | undefined> {
         const result = await this.clienteModel.findOne({
             cpf: cpf,
             deleted: { $ne: true },
         });
+
+        if (!result) return undefined;
 
         return new Cliente({
             id: result.id,
@@ -35,11 +37,13 @@ export class ClienteMongoRepository implements ClienteRepository {
         });
     }
 
-    public async getByEmail(email: string): Promise<Cliente> {
+    public async getByEmail(email: string): Promise<Cliente | undefined> {
         const result = await this.clienteModel.findOne({
             email: email,
             deleted: { $ne: true },
         });
+
+        if (!result) return undefined;
 
         return new Cliente({
             id: result.id,
