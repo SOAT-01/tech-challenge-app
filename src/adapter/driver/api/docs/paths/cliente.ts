@@ -62,11 +62,13 @@ export const ClientePaths = {
                 {
                     in: "path",
                     name: "cpf",
-                    description: "cpf do cliente a ser encontrado",
+                    description:
+                        "cpf do cliente a ser encontrado, para testes utilizar: https://www.geradorcpf.com/",
                     required: true,
                     schema: {
                         type: "string",
                     },
+                    example: "000.000.000-00",
                 },
             ],
             responses: {
@@ -126,7 +128,14 @@ export const ClientePaths = {
                                 },
                                 cpf: {
                                     type: "string",
+                                    description:
+                                        "cpf para cadastro, para testes utilizar: https://www.geradorcpf.com/",
                                 },
+                            },
+                            example: {
+                                nome: "John Doe",
+                                email: "doe@email.com",
+                                cpf: "371.259.377-56",
                             },
                             required: ["nome", "email"],
                         },
