@@ -28,6 +28,4 @@ export const SwaggerConfig = {
         },
     ],
     paths: ApiPaths,
-    // schemas,
-    // components,
 };
