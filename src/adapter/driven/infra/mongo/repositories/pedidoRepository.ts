@@ -3,11 +3,7 @@ import { Pedido } from "@domain/entities/pedido";
 import { PedidoModel } from "../models/Pedido";
 
 export class PedidoMongoRepository implements IPedidoRepository {
-    private readonly pedidoModel: typeof PedidoModel;
-
-    constructor(pedidoModel: typeof PedidoModel) {
-        this.pedidoModel = pedidoModel;
-    }
+    constructor(private readonly pedidoModel: typeof PedidoModel) {}
 
     async getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
         let filterQuery = { deleted: { $ne: true } };

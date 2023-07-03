@@ -14,10 +14,16 @@ describe("Given ClienteUseCases", () => {
     const mockEmail2 = "jdoe2@email.com";
     const mockCpf2 = "222.222.222-22";
 
-    const mockCliente = new Cliente({
+    const mockDTO = {
         nome: "John Doe",
-        email: Email.create(mockEmail),
-        cpf: Cpf.create(mockCpf),
+        email: mockEmail,
+        cpf: mockCpf,
+    };
+
+    const mockCliente = new Cliente({
+        nome: mockDTO.nome,
+        email: Email.create(mockDTO.email),
+        cpf: Cpf.create(mockDTO.cpf),
     });
 
     class ClienteRepositoryStub implements ClienteRepository {
@@ -54,22 +60,20 @@ describe("Given ClienteUseCases", () => {
         it("should call create on the repository and return the created cliente", async () => {
             const create = jest.spyOn(repositoryStub, "create");
 
-            const cliente = await sut.create(mockCliente);
+            const cliente = await sut.create(mockDTO);
 
-            expect(cliente.nome).toEqual(mockCliente.nome);
-            expect(cliente.cpf.value).toEqual(mockCliente.cpf.value);
+            expect(cliente.nome).toEqual(mockDTO.nome);
+            expect(cliente.cpf.value).toEqual(mockDTO.cpf);
             expect(create).toHaveBeenCalledWith(mockCliente);
         });
 
         it("should create on the repository and throw an error for duplicate cliente", async () => {
             await expect(
-                sut.create(
-                    new Cliente({
-                        nome: "John Doe",
-                        email: Email.create(mockEmail2),
-                        cpf: Cpf.create(mockCpf2),
-                    }),
-                ),
+                sut.create({
+                    nome: "John Doe",
+                    email: mockEmail2,
+                    cpf: mockCpf2,
+                }),
             ).rejects.toThrow("Cliente already exists.");
         });
     });
@@ -78,7 +82,7 @@ describe("Given ClienteUseCases", () => {
         it("should call getByCpf on the repository and return cliente for a correct cpf", async () => {
             const getByCpf = jest.spyOn(repositoryStub, "getByCpf");
 
-            const cliente = await sut.getByCpf(Cpf.create(mockCpf));
+            const cliente = await sut.getByCpf(mockCpf);
             expect(getByCpf).toHaveBeenCalledWith(mockCpf);
             expect(cliente).toEqual(mockCliente);
         });
@@ -88,7 +92,7 @@ describe("Given ClienteUseCases", () => {
         it("should call getByEmail on the repository and return cliente for a correct email", async () => {
             const getByEmail = jest.spyOn(repositoryStub, "getByEmail");
 
-            const cliente = await sut.getByEmail(Email.create(mockEmail));
+            const cliente = await sut.getByEmail(mockEmail);
             expect(getByEmail).toHaveBeenCalledWith(mockEmail);
             expect(cliente).toEqual(mockCliente);
         });

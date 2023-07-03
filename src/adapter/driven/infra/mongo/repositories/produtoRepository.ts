@@ -1,42 +1,36 @@
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-import { ProdutoModel } from "../models";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { ProdutoModel } from "../models";
 
 export class ProdutoMongoRepository implements ProdutoRepository {
-    private readonly productModel: typeof ProdutoModel;
+    constructor(private readonly productModel: typeof ProdutoModel) {}
 
-    constructor(productModel: typeof ProdutoModel) {
-        this.productModel = productModel;
-    }
-
-    async createProduto(produto: Produto): Promise<Produto> {
+    async create(produto: Produto): Promise<Produto> {
         const createdProduto = await this.productModel.create(produto);
-
-        return createdProduto;
+        return new Produto(createdProduto);
     }
 
-    async getProdutoByCategoria(categoria: CategoriaEnum): Promise<Produto[]> {
+    async getByCategoria(categoria: CategoriaEnum): Promise<Produto[]> {
         const produtosByCategoriaResult = await this.productModel.find({
             categoria: categoria,
             deleted: { $ne: true },
         });
 
-        return produtosByCategoriaResult;
+        return produtosByCategoriaResult.map(
+            (produtosMongo) => new Produto(produtosMongo),
+        );
     }
 
-    async getProdutoById(id: string): Promise<Produto> {
+    async getById(id: string): Promise<Produto | undefined> {
         const produtoByIdResult = await this.productModel.findOne({
             _id: id,
             deleted: { $ne: true },
         });
 
-        return produtoByIdResult;
+        return new Produto(produtoByIdResult);
     }
 
-    async updateProduto(
-        id: string,
-        produto: Partial<Produto>,
-    ): Promise<Produto> {
+    async update(id: string, produto: Partial<Produto>): Promise<Produto> {
         const updatedProduto = await this.productModel.findOneAndUpdate(
             { _id: id },
             produto,
@@ -45,10 +39,12 @@ export class ProdutoMongoRepository implements ProdutoRepository {
             },
         );
 
-        return updatedProduto;
+        if (!updatedProduto) return undefined;
+
+        return new Produto(updatedProduto);
     }
 
-    async deleteProduto(id: string): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.productModel.findOneAndUpdate(
             { _id: id },
             { deleted: true, deletedAt: new Date() },
