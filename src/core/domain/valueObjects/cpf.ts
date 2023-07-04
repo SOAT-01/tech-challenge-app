@@ -18,8 +18,9 @@ export class Cpf extends ValueObject<CpfProperties> {
         AssertionConcern.assertArgumentNotEmpty(value, "Cpf is required");
         AssertionConcern.assertArgumentIsValidCpf(
             value,
-            "Incorrect cpf format",
+            "Incorrect cpf format, ex: 123.456.789-00",
         );
+
         return new Cpf({ document: value });
     }
 }

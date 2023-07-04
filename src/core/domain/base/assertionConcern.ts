@@ -1,4 +1,5 @@
 import { Item } from "@domain/entities/pedido";
+import { ValidationError } from "@domain/errors/validationError";
 
 export class AssertionConcern {
     public static assertArgumentNotEmpty<T>(arg: T, message: string): void {
@@ -7,7 +8,7 @@ export class AssertionConcern {
             arg === undefined ||
             (typeof arg === "object" && Object.keys(arg).length === 0)
         ) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 
@@ -17,7 +18,7 @@ export class AssertionConcern {
         message: string,
     ): void {
         if (arg.length > max) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 
@@ -27,7 +28,7 @@ export class AssertionConcern {
         message: string,
     ): void {
         if (arg.length <= min) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 
@@ -37,7 +38,7 @@ export class AssertionConcern {
         message: string,
     ): void {
         if (!acceptedTypes.includes(arg)) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 
@@ -47,14 +48,14 @@ export class AssertionConcern {
     ): void {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 
     public static assertArgumentIsValidCpf(cpf: string, message: string): void {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
         if (!cpfRegex.test(cpf)) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 
@@ -95,7 +96,7 @@ export class AssertionConcern {
         message: string,
     ): void {
         if (arg <= 0) {
-            throw new Error(message);
+            throw new ValidationError(message);
         }
     }
 

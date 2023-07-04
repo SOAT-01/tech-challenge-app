@@ -1,8 +1,6 @@
 import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-
 import { ProdutoUseCase } from "@useCases/produto";
-import { Types } from "mongoose";
 
 describe("Given ProdutoUseCases", () => {
     let repositoryStub: ProdutoRepository;
@@ -16,22 +14,22 @@ describe("Given ProdutoUseCases", () => {
         imagem: "www.any-image.com",
     });
     class ProdutoRepositoryStub implements ProdutoRepository {
-        createProduto(produto: Produto): Promise<Produto> {
+        create(produto: Produto): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
-        getProdutoByCategoria(categoria: Categoria): Promise<Produto[]> {
+        getByCategoria(categoria: Categoria): Promise<Produto[]> {
             return new Promise((resolve) => resolve([mockProduto]));
         }
-        getProdutoById(id: string): Promise<Produto> {
+        getById(id: string): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
         getByIds(ids: string[]): Promise<Produto[]> {
             return new Promise((resolve) => resolve([mockProduto]));
         }
-        updateProduto(id: string, produto: Partial<Produto>): Promise<Produto> {
+        update(id: string, produto: Partial<Produto>): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
-        deleteProduto(id: string): Promise<void> {
+        delete(id: string): Promise<void> {
             return new Promise((resolve) => resolve());
         }
     }
@@ -47,27 +45,22 @@ describe("Given ProdutoUseCases", () => {
 
     describe("When createProduto is called", () => {
         it("should call createProduto on the repository and return the created produto", async () => {
-            const createProdutoSpy = jest.spyOn(
-                repositoryStub,
-                "createProduto",
-            );
+            const createSpy = jest.spyOn(repositoryStub, "create");
 
-            const produto = await sut.createProduto(mockProduto);
+            const produto = await sut.create(mockProduto);
             expect(produto.nome).toEqual(mockProduto.nome);
-            expect(createProdutoSpy).toHaveBeenCalledWith(mockProduto);
+            expect(createSpy).toHaveBeenCalledWith(mockProduto);
         });
     });
     describe("When getProdutoByCategoria is called", () => {
         it("should call getProdutoByCategoria on the repository and return the produtos", async () => {
-            const getProdutoByCategoriaSpy = jest.spyOn(
+            const getByCategoriaSpy = jest.spyOn(
                 repositoryStub,
-                "getProdutoByCategoria",
+                "getByCategoria",
             );
 
-            const produto = await sut.getProdutoByCategoria(
-                CategoriaEnum.Sobremesa,
-            );
-            expect(getProdutoByCategoriaSpy).toHaveBeenCalledWith(
+            const produto = await sut.getByCategoria(CategoriaEnum.Sobremesa);
+            expect(getByCategoriaSpy).toHaveBeenCalledWith(
                 CategoriaEnum.Sobremesa,
             );
             expect(produto).toEqual([mockProduto]);
@@ -76,55 +69,49 @@ describe("Given ProdutoUseCases", () => {
 
     describe("When updateProduto is called", () => {
         it("should call updateProduto on the repository and return the updated produto", async () => {
-            const updateProdutoSpy = jest.spyOn(
-                repositoryStub,
-                "updateProduto",
-            );
-            const produto = await sut.updateProduto("any-id", {
+            const updateSpy = jest.spyOn(repositoryStub, "update");
+            const produto = await sut.update("any-id", {
                 nome: "Sobremesa surpresa",
             });
-            expect(updateProdutoSpy).toHaveBeenCalledWith("any-id", {
+            expect(updateSpy).toHaveBeenCalledWith("any-id", {
                 nome: "Sobremesa surpresa",
             });
             expect(produto).toEqual(mockProduto);
         });
 
         it("should throw an error if the produto does not exist", async () => {
-            const getProdutoByIdSpy = jest
-                .spyOn(repositoryStub, "getProdutoById")
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
                 .mockResolvedValueOnce(null);
-            const produto = sut.updateProduto("nonexistent-id", {
+            const produto = sut.update("nonexistent-id", {
                 nome: "Sobremesa surpresa",
             });
             await expect(produto).rejects.toThrowError(
                 new Error("Produto não encontrado"),
             );
-            expect(getProdutoByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+            expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
         });
     });
 
     describe("When deleteProduto is called", () => {
         it("should call deleteProduto to delete the produto", async () => {
-            const deleteProdutoSpy = jest.spyOn(
-                repositoryStub,
-                "deleteProduto",
-            );
+            const deleteSpy = jest.spyOn(repositoryStub, "delete");
 
-            await sut.deleteProduto("any-id");
-            expect(deleteProdutoSpy).toHaveBeenCalledWith("any-id");
+            await sut.delete("any-id");
+            expect(deleteSpy).toHaveBeenCalledWith("any-id");
         });
 
         it("should throw an error if the produto does not exist", async () => {
             const repositoryStub = new ProdutoRepositoryStub();
             const sut = new ProdutoUseCase(repositoryStub);
-            const getProdutoByIdSpy = jest
-                .spyOn(repositoryStub, "getProdutoById")
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
                 .mockResolvedValueOnce(null);
-            const produto = sut.deleteProduto("nonexistent-id");
+            const produto = sut.delete("nonexistent-id");
             await expect(produto).rejects.toThrowError(
                 new Error("Produto não encontrado"),
             );
-            expect(getProdutoByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+            expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
         });
     });
 });

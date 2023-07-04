@@ -1,8 +1,8 @@
 import { Cliente } from "@domain/entities/cliente";
-import { Cpf, Email } from "@domain/valueObjects";
+import { ClienteDTO } from "./dto";
 
 export interface IClienteUseCase {
-    create(produto: Cliente): Promise<Cliente>;
-    getByEmail(email: Email): Promise<Cliente>;
-    getByCpf(cpf: Cpf): Promise<Cliente>;
+    create(data: ClienteDTO): Promise<Cliente>;
+    getByEmail(email: string): Promise<Cliente | undefined>;
+    getByCpf(cpf: string): Promise<Cliente | undefined>;
 }
