@@ -1,5 +1,4 @@
 import { Entity } from "@domain/base/entity.interface";
-import { Produto } from "./produto";
 import { AssertionConcern } from "@domain/base/assertionConcern";
 import { Cliente } from "./cliente";
 
@@ -12,18 +11,19 @@ export enum StatusPedidoEnum {
 
 export type StatusPedido = `${StatusPedidoEnum}`;
 
-export interface ItemPedido {
-    produto: Produto;
+export interface Item {
+    produtoId: string;
     quantidade: number;
+    preco?: number;
 }
 
 export class Pedido implements Entity {
     id: string;
     status: StatusPedido;
-    valorTotal: number; // float
-    cliente: Cliente;
-    itens: ItemPedido[];
-    observacoes: string;
+    valorTotal: number;
+    cliente?: Cliente;
+    itens: Item[];
+    observacoes?: string;
 
     constructor({
         id,
@@ -34,14 +34,14 @@ export class Pedido implements Entity {
         observacoes,
     }: {
         id?: string;
-        status: StatusPedido;
+        status?: StatusPedido;
         valorTotal: number;
         cliente?: Cliente;
-        itens: ItemPedido[];
+        itens: Item[];
         observacoes?: string;
     }) {
         this.id = id;
-        this.status = status;
+        this.status = status || StatusPedidoEnum.Recebido;
         this.valorTotal = valorTotal;
         this.cliente = cliente || null;
         this.itens = itens;

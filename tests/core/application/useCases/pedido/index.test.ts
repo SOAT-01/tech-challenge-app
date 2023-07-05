@@ -1,7 +1,8 @@
 import { Cliente } from "@domain/entities/cliente";
 import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
 import { Produto, CategoriaEnum } from "@domain/entities/produto";
-import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
 
@@ -11,6 +12,7 @@ const LANCHE = new Produto({
     categoria: CategoriaEnum.Lanche,
     descricao: "Delicious hamburger",
     imagem: "hamburguer.jpg",
+    id: "123",
 });
 
 const SOBREMESA = new Produto({
@@ -19,10 +21,12 @@ const SOBREMESA = new Produto({
     categoria: CategoriaEnum.Sobremesa,
     descricao: "Delicious petit gateau",
     imagem: "petit-gateau.jpg",
+    id: "321",
 });
 
 describe("Given PedidoUseCases", () => {
-    let repositoryStub: IPedidoRepository;
+    let repositoryStub: PedidoRepository;
+    let produtoRepositoryStub: Partial<ProdutoRepository>;
     let sut: PedidoUseCase;
 
     const mockPedidos = [
@@ -38,7 +42,7 @@ describe("Given PedidoUseCases", () => {
             status: StatusPedidoEnum.Recebido,
             itens: [
                 {
-                    produto: LANCHE,
+                    produtoId: LANCHE.id,
                     quantidade: 1,
                 },
             ],
@@ -49,32 +53,48 @@ describe("Given PedidoUseCases", () => {
             status: StatusPedidoEnum.Em_preparacao,
             itens: [
                 {
-                    produto: LANCHE,
+                    produtoId: LANCHE.id,
                     quantidade: 1,
                 },
                 {
-                    produto: SOBREMESA,
+                    produtoId: SOBREMESA.id,
                     quantidade: 1,
                 },
             ],
         }),
     ];
 
-    class PedidoRepositoryStub implements IPedidoRepository {
+    class PedidoRepositoryStub implements PedidoRepository {
         getById(id: string): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[0]));
         }
         getAll(): Promise<Pedido[]> {
             return new Promise((resolve) => resolve(mockPedidos));
         }
+        create(pedido: Pedido): Promise<Pedido> {
+            return new Promise((resolve) => resolve(mockPedidos[1]));
+        }
         update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[1]));
+        }
+        delete(id: string): Promise<void> {
+            return new Promise((resolve) => resolve);
+        }
+    }
+
+    class ProdutoRepositoryStub implements Partial<ProdutoRepository> {
+        getByIds(ids: string[]): Promise<Produto[]> {
+            return new Promise((resolve) => resolve([LANCHE, SOBREMESA]));
         }
     }
 
     beforeAll(() => {
         repositoryStub = new PedidoRepositoryStub();
-        sut = new PedidoUseCase(repositoryStub);
+        produtoRepositoryStub = new ProdutoRepositoryStub();
+        sut = new PedidoUseCase(
+            repositoryStub,
+            produtoRepositoryStub as ProdutoRepository,
+        );
     });
 
     afterAll(() => {
@@ -88,6 +108,30 @@ describe("Given PedidoUseCases", () => {
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
             expect(pedidos).toEqual(mockPedidos);
+        });
+    });
+
+    describe("When create is called", () => {
+        it("should call create on the repository and return the created pedido", async () => {
+            const create = jest.spyOn(repositoryStub, "create");
+
+            const pedido = await sut.create(
+                new Pedido({
+                    valorTotal: 29.9,
+                    itens: [
+                        {
+                            produtoId: LANCHE.id,
+                            quantidade: 1,
+                        },
+                        {
+                            produtoId: SOBREMESA.id,
+                            quantidade: 1,
+                        },
+                    ],
+                }),
+            );
+            expect(create).toHaveBeenCalled();
+            expect(pedido).toEqual(mockPedidos[1]);
         });
     });
 
@@ -111,6 +155,28 @@ describe("Given PedidoUseCases", () => {
             const pedido = sut.update("nonexistent-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Pedido não encontrado"),
+            );
+            expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+        });
+    });
+
+    describe("When delete is called", () => {
+        it("should call delete to delete the pedido", async () => {
+            const deleteProdutoSpy = jest.spyOn(repositoryStub, "delete");
+
+            await sut.delete("any-id");
+            expect(deleteProdutoSpy).toHaveBeenCalledWith("any-id");
+        });
+
+        it("should throw an error if the pedido does not exist", async () => {
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
+                .mockResolvedValueOnce(null);
+
+            const pedido = sut.delete("nonexistent-id");
 
             await expect(pedido).rejects.toThrowError(
                 new Error("Pedido não encontrado"),

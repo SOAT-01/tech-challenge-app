@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { makeClienteRouter } from "./clienteRouter";
-import { makePedidoRouter } from "./pedidoRouter";
 import { makeProdutoRouter } from "./produtoRouter";
+import { makePedidoRouter } from "./pedidoRouter";
 import { makeHealthRouter } from "./healthRouter";
 
 export function makeServerRouter(): Router {

@@ -1,8 +1,8 @@
-import { IPedidoRepository } from "@domain/repositories/pedidoRepository.interface";
+import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { Pedido } from "@domain/entities/pedido";
 import { PedidoModel } from "../models/Pedido";
 
-export class PedidoMongoRepository implements IPedidoRepository {
+export class PedidoMongoRepository implements PedidoRepository {
     constructor(private readonly pedidoModel: typeof PedidoModel) {}
 
     async getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
@@ -61,6 +61,12 @@ export class PedidoMongoRepository implements IPedidoRepository {
         return pedidoByIdResult;
     }
 
+    async create(pedido: Pedido): Promise<Pedido> {
+        const createdPedido = await this.pedidoModel.create(pedido);
+
+        return createdPedido;
+    }
+
     async update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
         const updatedPedido = await this.pedidoModel.findOneAndUpdate(
             { _id: id },
@@ -71,5 +77,12 @@ export class PedidoMongoRepository implements IPedidoRepository {
         );
 
         return updatedPedido;
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.pedidoModel.findOneAndUpdate(
+            { _id: id },
+            { deleted: true, deletedAt: new Date() },
+        );
     }
 }

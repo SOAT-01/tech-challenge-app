@@ -1,5 +1,8 @@
-import { PedidoModel } from "@infra/mongo/models";
-import { PedidoMongoRepository } from "@infra/mongo/repositories";
+import { PedidoModel, ProdutoModel } from "@infra/mongo/models";
+import {
+    PedidoMongoRepository,
+    ProdutoMongoRepository,
+} from "@infra/mongo/repositories";
 import { PedidoUseCase } from "@useCases/pedido";
 import { PedidoController } from "./pedido";
 
@@ -8,7 +11,9 @@ import { ClienteControllerFactory } from "./cliente";
 import { HealthControllerFactory } from "./health";
 
 const pedidoRepository = new PedidoMongoRepository(PedidoModel);
-const pedidoUseCase = new PedidoUseCase(pedidoRepository);
+const produtoRepository = new ProdutoMongoRepository(ProdutoModel);
+
+const pedidoUseCase = new PedidoUseCase(pedidoRepository, produtoRepository);
 
 export const produtoController = ProdutoControllerFactory.create();
 export const clienteController = ClienteControllerFactory.create();

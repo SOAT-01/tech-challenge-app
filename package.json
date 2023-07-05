@@ -10,7 +10,8 @@
         "start": "node build/adapter/driver/api/index.js",
         "start:docker": "docker compose -p fastfood up --build",
         "lint": "eslint .",
-        "lint:fix": "eslint --fix --ext .ts ."
+        "lint:fix": "eslint --fix --ext .ts .",
+        "typecheck": "tsc --project tsconfig.json --noEmit --pretty"
     },
     "repository": {
         "type": "git",

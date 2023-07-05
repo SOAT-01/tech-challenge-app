@@ -1,6 +1,5 @@
 import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-
 import { ProdutoUseCase } from "@useCases/produto";
 
 describe("Given ProdutoUseCases", () => {
@@ -23,6 +22,9 @@ describe("Given ProdutoUseCases", () => {
         }
         getById(id: string): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
+        }
+        getByIds(ids: string[]): Promise<Produto[]> {
+            return new Promise((resolve) => resolve([mockProduto]));
         }
         update(id: string, produto: Partial<Produto>): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
