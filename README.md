@@ -2,6 +2,12 @@
 
 Projeto do curso da pós tech Fiap Arquitetura de Software
 
+## Documentação DDD
+
+Pode acessar a wiki deste projeto:
+
+https://github.com/karineriquena/fiap-soat1-tech-challenge/wiki/Fase-1
+
 ## Como rodar o projeto
 
 Subir os contâineres do MongoDB e do Node usando o arquivo docker-compose.yml:
@@ -10,27 +16,23 @@ Subir os contâineres do MongoDB e do Node usando o arquivo docker-compose.yml:
   docker compose -f docker-compose.yml up -d
 ```
 
-Verificar se subiram os containeres MONGODB e NODEJS_SERVER:
+Verificar se subiram os containeres fastFood-mongodb e fastFood-api:
 
 ```shell
   docker ps
 ```
 
-Instalar as dependências do projeto:
+## Documentação das API's
+
+Em qualquer navegador acessar a url:
 
 ```shell
-  npm install
-```
-
-Rodar o projeto em modo de desenvolvimento:
-
-```shell
-  npm run dev
+  http://localhost:6001/api-docs
 ```
 
 ## Chamando as API's
 
-Em uma ferramenta como POSTMAN ou INSOMNIA executar por exemplo:
+Em uma ferramenta como POSTMAN ou INSOMNIA executar por exemplo (também é possível testar no swagger):
 
 ```shell
   http://localhost:6001/api/produtos/lanche
