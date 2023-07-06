@@ -1,4 +1,4 @@
-import { serverError, notFound, unprocessableEntity } from "../defaults";
+import { serverError, unprocessableEntity } from "../defaults";
 
 const PedidoFields = {
     status: {
@@ -11,9 +11,15 @@ const PedidoFields = {
         type: "string",
     },
     itens: {
-        produtoId: { type: "string" },
-        quantidade: { type: "number" },
-        preco: { type: "number" },
+        type: "array",
+        items: {
+            type: "object",
+            properties: {
+                produtoId: { type: "string" },
+                quantidade: { type: "number" },
+                preco: { type: "number" },
+            },
+        },
     },
     observacoes: {
         type: "string",
