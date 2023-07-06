@@ -158,31 +158,5 @@ export const PedidoPaths = {
                 },
             },
         },
-        delete: {
-            tags: ["pedido"],
-            summary: "Rota para deletar um pedido",
-            parameters: [
-                {
-                    in: "path",
-                    name: "id",
-                    description: "id do pedido a ser deletado",
-                    required: true,
-                    schema: {
-                        type: "string",
-                    },
-                },
-            ],
-            responses: {
-                200: {
-                    description: "pedido deletado",
-                },
-                422: {
-                    ...unprocessableEntity,
-                },
-                500: {
-                    ...serverError,
-                },
-            },
-        },
     },
 };
