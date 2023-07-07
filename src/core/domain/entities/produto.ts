@@ -49,6 +49,10 @@ export class Produto implements Entity {
             this.preco,
             "Preço is required",
         );
+        AssertionConcern.assertArgumentIsBiggerThanZero(
+            this.preco,
+            "Preço should have a value bigger than zero",
+        );
         AssertionConcern.assertArgumentNotEmpty(
             this.categoria,
             "Categoria is required",
