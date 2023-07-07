@@ -1,12 +1,12 @@
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { CategoriaEnum } from "@domain/entities/produto";
 import { ProdutoDTO } from "./dto";
 
 export interface IProdutoUseCase {
-    getByCategoria(categoria: CategoriaEnum): Promise<Produto[]>;
-    create(data: ProdutoDTO): Promise<Produto>;
+    getByCategoria(categoria: CategoriaEnum): Promise<ProdutoDTO[]>;
+    create(data: ProdutoDTO): Promise<ProdutoDTO>;
     update(
         id: string,
         produto: Omit<Partial<ProdutoDTO>, "id">,
-    ): Promise<Produto>;
+    ): Promise<ProdutoDTO>;
     delete(id: string): Promise<void>;
 }
