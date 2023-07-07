@@ -4,7 +4,7 @@ RUN ["apt-get", "update"]
 
 WORKDIR /fastFood
 
-COPY . ./
+COPY . .
 
 RUN ["npm", "install"]
 RUN ["npm", "run", "build"]
