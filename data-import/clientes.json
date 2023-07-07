@@ -1,0 +1,31 @@
+[{
+	"_id": {
+		"$oid": "649cdaa7a6f75c45046d797d"
+	},
+	"nome": "John Doe",
+	"email": "john@soat.com.br",
+	"cpf": "392.145.980-02",
+	"createdAt": {
+		"$date": "2023-06-29T01:13:11.168Z"
+	},
+	"updatedAt": {
+		"$date": "2023-06-29T01:13:11.168Z"
+	},
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "649cdcb4a6f75c45046d798b"
+	},
+	"nome": "Jane Doe",
+	"email": "jane@soat.com.br",
+	"cpf": "293.909.060-24",
+	"createdAt": {
+		"$date": "2023-06-29T01:21:56.76Z"
+	},
+	"updatedAt": {
+		"$date": "2023-06-29T01:21:56.76Z"
+	},
+	"__v": 0
+}]
+

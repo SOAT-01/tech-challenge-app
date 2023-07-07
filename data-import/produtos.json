@@ -1,0 +1,69 @@
+[{
+	"_id": {
+		"$oid": "649cdb99a6f75c45046d7982"
+	},
+	"nome": "Bolo",
+	"preco": 20.25,
+	"categoria": "sobremesa",
+	"descricao": "Sobremesa de chocolate com morango'",
+	"imagem": "www.any-image.com/fake1.jpg",
+	"createdAt": {
+		"$date": "2023-06-29T01:17:13.703Z"
+	},
+	"updatedAt": {
+		"$date": "2023-06-29T01:17:13.703Z"
+	},
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "649cdc20a6f75c45046d7984"
+	},
+	"nome": "Suco laranja",
+	"preco": 5,
+	"categoria": "bebida",
+	"descricao": "Suco de laranja natural'",
+	"imagem": "www.any-image.com/fake2.jpg",
+	"createdAt": {
+		"$date": "2023-06-29T01:19:28.416Z"
+	},
+	"updatedAt": {
+		"$date": "2023-06-29T01:19:28.416Z"
+	},
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "649cdc4ba6f75c45046d7986"
+	},
+	"nome": "Batatas fritas",
+	"preco": 10,
+	"categoria": "acompanhamento",
+	"descricao": "Batatas fritas'",
+	"imagem": "www.any-image.com/fake3.jpg",
+	"createdAt": {
+		"$date": "2023-06-29T01:20:11.257Z"
+	},
+	"updatedAt": {
+		"$date": "2023-06-29T01:20:11.257Z"
+	},
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "649cdc65a6f75c45046d7988"
+	},
+	"nome": "Cachorro quente",
+	"preco": 15,
+	"categoria": "lanche",
+	"descricao": "Cachorro quente simples'",
+	"imagem": "www.any-image.com/fake4.jpg",
+	"createdAt": {
+		"$date": "2023-06-29T01:20:37.642Z"
+	},
+	"updatedAt": {
+		"$date": "2023-06-29T01:20:37.642Z"
+	},
+	"__v": 0
+}]
+

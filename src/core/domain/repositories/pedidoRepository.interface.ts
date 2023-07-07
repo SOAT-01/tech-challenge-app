@@ -9,5 +9,4 @@ export interface PedidoRepository {
         id: string,
         pedido: Omit<Partial<Pedido>, "id" | "cliente">,
     ): Promise<Pedido>;
-    delete(id: string): Promise<void>;
 }

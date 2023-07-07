@@ -8,5 +8,4 @@ export interface IPedidoUseCase {
         id: string,
         pedido: Omit<Partial<PedidoDTO>, "id" | "cliente">,
     ): Promise<PedidoDTO>;
-    delete(id: string): Promise<void>;
 }
