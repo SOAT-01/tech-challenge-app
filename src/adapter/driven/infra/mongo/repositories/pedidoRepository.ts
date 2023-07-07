@@ -123,7 +123,10 @@ export class PedidoMongoRepository implements PedidoRepository {
         });
     }
 
-    async update(id: string, pedido: Partial<Pedido>): Promise<Pedido> {
+    async update(
+        id: string,
+        pedido: Omit<Partial<Pedido>, "id" | "cliente">,
+    ): Promise<Pedido> {
         const result = await this.pedidoModel
             .findOneAndUpdate({ _id: id }, pedido, {
                 new: true,
