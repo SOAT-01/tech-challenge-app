@@ -48,7 +48,6 @@ export const PedidoPaths = {
                                         },
                                         ...PedidoFields,
                                     },
-                                    required: RequiredFields,
                                 },
                             },
                         },
@@ -71,7 +70,21 @@ export const PedidoPaths = {
                             properties: {
                                 ...PedidoFields,
                             },
-                            required: RequiredFields,
+                            example: {
+                                itens: [
+                                    {
+                                        produtoId: "649716cbec9c6294c2d9108b",
+                                        quantidade: 1,
+                                    },
+                                    {
+                                        produtoId: "649716eeec9c6294c2d9108d",
+                                        quantidade: 1,
+                                    },
+                                ],
+                                observacoes: "Sem cebola",
+                                clienteId: "649a48cd38d69caae01750b2",
+                            },
+                            required: ["itens"],
                         },
                     },
                 },
