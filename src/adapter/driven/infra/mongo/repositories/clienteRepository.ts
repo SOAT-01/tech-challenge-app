@@ -1,6 +1,6 @@
 import { Cliente } from "@domain/entities/cliente";
-import { Cpf, Email } from "@domain/valueObjects";
 import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
+import { ClienteMapper } from "@mappers/clienteMapper";
 import { ClienteModel } from "../models";
 
 export class ClienteMongoRepository implements ClienteRepository {
@@ -13,12 +13,7 @@ export class ClienteMongoRepository implements ClienteRepository {
             cpf: cliente.cpf.value,
         });
 
-        return new Cliente({
-            id: result.id,
-            nome: result.nome,
-            cpf: Cpf.create(result.cpf),
-            email: Email.create(result.email),
-        });
+        return ClienteMapper.toDomain(result);
     }
 
     public async getByCpf(cpf: string): Promise<Cliente | undefined> {
@@ -29,12 +24,7 @@ export class ClienteMongoRepository implements ClienteRepository {
 
         if (!result) return undefined;
 
-        return new Cliente({
-            id: result.id,
-            nome: result.nome,
-            cpf: Cpf.create(result.cpf),
-            email: Email.create(result.email),
-        });
+        return ClienteMapper.toDomain(result);
     }
 
     public async getByEmail(email: string): Promise<Cliente | undefined> {
@@ -45,12 +35,7 @@ export class ClienteMongoRepository implements ClienteRepository {
 
         if (!result) return undefined;
 
-        return new Cliente({
-            id: result.id,
-            nome: result.nome,
-            cpf: Cpf.create(result.cpf),
-            email: Email.create(result.email),
-        });
+        return ClienteMapper.toDomain(result);
     }
 
     public async checkDuplicate(args: {
