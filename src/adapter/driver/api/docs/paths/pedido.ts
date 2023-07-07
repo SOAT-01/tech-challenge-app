@@ -7,7 +7,7 @@ const PedidoFields = {
     valorTotal: {
         type: "number",
     },
-    cliente: {
+    clienteId: {
         type: "string",
     },
     itens: {
