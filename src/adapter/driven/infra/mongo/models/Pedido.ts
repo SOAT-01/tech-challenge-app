@@ -7,6 +7,7 @@ const ItemSchema = new mongoose.Schema<Item>({
         required: true,
     },
     quantidade: { type: Number, required: true, min: 1 },
+    preco: { type: Number },
 });
 
 const PedidoSchema = new mongoose.Schema(
