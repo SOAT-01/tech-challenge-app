@@ -19,12 +19,11 @@
         "paths": {
             "@domain/*": ["core/domain/*"],
             "@useCases/*": ["core/application/useCases/*"],
+            "@mappers/*": ["core/application/mappers/*"],
             "@config/*": ["config/*"],
             "@infra/*": ["adapter/driven/infra/*"],
-
             "@controllers/*": ["adapter/driver/api/controllers/*"],
             "@routes/*": ["adapter/driver/api/routes/*"],
-            "@mappers/*": ["adapter/driver/api/mappers/*"],
             "@utils/*": ["adapter/driver/api/utils/*"],
             "@apiTypes/*": ["adapter/driver/api/types/*"]
         }

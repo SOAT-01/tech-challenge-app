@@ -1,4 +1,4 @@
-import { Pedido, Item, StatusPedidoEnum } from "@domain/entities/pedido";
+import { Item, StatusPedidoEnum } from "@domain/entities/pedido";
 import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema<Item>({
@@ -7,6 +7,7 @@ const ItemSchema = new mongoose.Schema<Item>({
         required: true,
     },
     quantidade: { type: Number, required: true, min: 1 },
+    preco: { type: Number },
 });
 
 const PedidoSchema = new mongoose.Schema(
@@ -14,6 +15,7 @@ const PedidoSchema = new mongoose.Schema(
         status: {
             type: String,
             enum: Object.values(StatusPedidoEnum),
+            default: StatusPedidoEnum.Recebido,
             required: true,
         },
         valorTotal: {
@@ -21,9 +23,8 @@ const PedidoSchema = new mongoose.Schema(
             required: false,
         },
         cliente: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Types.ObjectId,
             ref: "Clientes",
-            required: false,
         },
         itens: [ItemSchema],
         observacoes: {
@@ -39,4 +40,4 @@ const PedidoSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-export const PedidoModel = mongoose.model<Pedido>("Pedidos", PedidoSchema);
+export const PedidoModel = mongoose.model("Pedidos", PedidoSchema);

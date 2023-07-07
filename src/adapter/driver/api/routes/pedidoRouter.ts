@@ -4,14 +4,16 @@ import { Router } from "express";
 export function makePedidoRouter(): Router {
     const pedidoRouter = Router();
 
-    pedidoRouter.get("/", async (req, res) => {
-        pedidoController.get(req, res);
+    pedidoRouter.get("/", async (req, res, next) => {
+        pedidoController.get(req, res, next);
     });
 
-    pedidoRouter.post("/", async (req, res) => pedidoController.post(req, res));
+    pedidoRouter.post("/", async (req, res, next) =>
+        pedidoController.post(req, res, next),
+    );
 
-    pedidoRouter.patch("/:id", async (req, res) => {
-        pedidoController.patch(req, res);
+    pedidoRouter.patch("/:id", async (req, res, next) => {
+        pedidoController.patch(req, res, next);
     });
 
     return pedidoRouter;

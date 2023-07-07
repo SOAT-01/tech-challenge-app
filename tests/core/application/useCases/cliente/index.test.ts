@@ -63,7 +63,7 @@ describe("Given ClienteUseCases", () => {
             const cliente = await sut.create(mockDTO);
 
             expect(cliente.nome).toEqual(mockDTO.nome);
-            expect(cliente.cpf.value).toEqual(mockDTO.cpf);
+            expect(cliente.cpf).toEqual(mockDTO.cpf);
             expect(create).toHaveBeenCalledWith(mockCliente);
         });
 
@@ -84,7 +84,7 @@ describe("Given ClienteUseCases", () => {
 
             const cliente = await sut.getByCpf(mockCpf);
             expect(getByCpf).toHaveBeenCalledWith(mockCpf);
-            expect(cliente).toEqual(mockCliente);
+            expect(cliente).toEqual(mockDTO);
         });
     });
 
@@ -94,7 +94,7 @@ describe("Given ClienteUseCases", () => {
 
             const cliente = await sut.getByEmail(mockEmail);
             expect(getByEmail).toHaveBeenCalledWith(mockEmail);
-            expect(cliente).toEqual(mockCliente);
+            expect(cliente).toEqual(mockDTO);
         });
     });
 });

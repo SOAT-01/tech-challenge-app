@@ -1,8 +1,11 @@
-import { Pedido } from "@domain/entities/pedido";
+import { PedidoDTO } from "./dto";
 
 export interface IPedidoUseCase {
-    getAll(): Promise<Pedido[]>;
-    getById(id: string): Promise<Pedido>;
-    create(pedido: Pedido): Promise<Pedido>;
-    update(id: string, pedido: Omit<Partial<Pedido>, "id">): Promise<Pedido>;
+    getAll(): Promise<PedidoDTO[]>;
+    getById(id: string): Promise<PedidoDTO>;
+    create(pedido: PedidoDTO): Promise<PedidoDTO>;
+    update(
+        id: string,
+        pedido: Omit<Partial<PedidoDTO>, "id" | "cliente">,
+    ): Promise<PedidoDTO>;
 }

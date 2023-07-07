@@ -1,13 +1,14 @@
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { ProdutoMapper } from "@mappers/produtoMapper";
 import { ProdutoModel } from "../models";
 
 export class ProdutoMongoRepository implements ProdutoRepository {
     constructor(private readonly productModel: typeof ProdutoModel) {}
 
     async create(produto: Produto): Promise<Produto> {
-        const createdProduto = await this.productModel.create(produto);
-        return new Produto(createdProduto);
+        const result = await this.productModel.create(produto);
+        return ProdutoMapper.toDomain(result);
     }
 
     async getByCategoria(categoria: CategoriaEnum): Promise<Produto[]> {
@@ -16,18 +17,18 @@ export class ProdutoMongoRepository implements ProdutoRepository {
             deleted: { $ne: true },
         });
 
-        return produtosByCategoriaResult.map(
-            (produtosMongo) => new Produto(produtosMongo),
+        return produtosByCategoriaResult.map((result) =>
+            ProdutoMapper.toDomain(result),
         );
     }
 
     async getById(id: string): Promise<Produto | undefined> {
-        const produtoByIdResult = await this.productModel.findOne({
+        const result = await this.productModel.findOne({
             _id: id,
             deleted: { $ne: true },
         });
 
-        return new Produto(produtoByIdResult);
+        return ProdutoMapper.toDomain(result);
     }
 
     async getByIds(ids: string[]): Promise<Produto[]> {
@@ -40,7 +41,7 @@ export class ProdutoMongoRepository implements ProdutoRepository {
     }
 
     async update(id: string, produto: Partial<Produto>): Promise<Produto> {
-        const updatedProduto = await this.productModel.findOneAndUpdate(
+        const result = await this.productModel.findOneAndUpdate(
             { _id: id },
             produto,
             {
@@ -48,9 +49,9 @@ export class ProdutoMongoRepository implements ProdutoRepository {
             },
         );
 
-        if (!updatedProduto) return undefined;
+        if (!result) return undefined;
 
-        return new Produto(updatedProduto);
+        return ProdutoMapper.toDomain(result);
     }
 
     async delete(id: string): Promise<void> {

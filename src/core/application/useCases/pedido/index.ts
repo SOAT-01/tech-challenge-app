@@ -1,31 +1,34 @@
-import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
-import { IPedidoUseCase } from "./pedido.interface";
+import { StatusPedidoEnum } from "@domain/entities/pedido";
 import { AssertionConcern } from "@domain/base/assertionConcern";
 import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { ValorTotal } from "@domain/valueObjects/valorTotal";
+import { PedidoMapper } from "@mappers/pedidoMapper";
+import { IPedidoUseCase } from "./pedido.interface";
+import { PedidoDTO } from "./dto";
 
 export class PedidoUseCase implements IPedidoUseCase {
-    private readonly pedidoRepository: PedidoRepository;
-    private readonly produtoRepository: ProdutoRepository;
-
     constructor(
-        pedidoRepository: PedidoRepository,
-        produtoRepository: ProdutoRepository,
-    ) {
-        this.pedidoRepository = pedidoRepository;
-        this.produtoRepository = produtoRepository;
+        private readonly pedidoRepository: PedidoRepository,
+        private readonly produtoRepository: ProdutoRepository,
+    ) {}
+
+    public async getAll(): Promise<PedidoDTO[]> {
+        const results = await this.pedidoRepository.getAll();
+
+        return results.map((result) => PedidoMapper.toDTO(result));
     }
 
-    public async getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {
-        return this.pedidoRepository.getAll(filters);
+    public async getById(id: string): Promise<PedidoDTO> {
+        const result = await this.pedidoRepository.getById(id);
+        return PedidoMapper.toDTO(result);
     }
 
-    public async getById(id: string): Promise<Pedido> {
-        return this.pedidoRepository.getById(id);
-    }
+    public async create(pedido: PedidoDTO): Promise<PedidoDTO> {
+        if (pedido.status && pedido.status !== StatusPedidoEnum.Recebido) {
+            throw new Error("Não é necessário informar o status");
+        }
 
-    public async create(pedido: Pedido): Promise<Pedido> {
         const ids = pedido.itens.map((item) => item.produtoId);
 
         const itensPedido = await this.produtoRepository.getByIds(ids);
@@ -38,22 +41,20 @@ export class PedidoUseCase implements IPedidoUseCase {
 
         const valorTotal = ValorTotal.create(itensComPreco);
 
-        if (pedido.status && pedido.status !== StatusPedidoEnum.Recebido) {
-            throw new Error("Não é necessário informar o status");
-        }
+        const newPedido = {
+            ...pedido,
+            valorTotal: valorTotal.value,
+            itens: itensComPreco,
+        };
 
-        return this.pedidoRepository.create(
-            new Pedido({
-                ...pedido,
-                valorTotal: valorTotal.value,
-            }),
-        );
+        const result = await this.pedidoRepository.create(newPedido);
+        return PedidoMapper.toDTO(result);
     }
 
     public async update(
         id: string,
-        pedido: Omit<Partial<Pedido>, "id">,
-    ): Promise<Pedido> {
+        pedido: Omit<Partial<PedidoDTO>, "id" | "cliente">,
+    ): Promise<PedidoDTO> {
         AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
         const doesPedidoExists = await this.pedidoRepository.getById(id);
@@ -62,6 +63,7 @@ export class PedidoUseCase implements IPedidoUseCase {
             throw new Error("Pedido não encontrado");
         }
 
-        return this.pedidoRepository.update(id, pedido);
+        const result = await this.pedidoRepository.update(id, pedido);
+        return PedidoMapper.toDTO(result);
     }
 }
