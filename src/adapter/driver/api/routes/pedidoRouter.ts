@@ -14,9 +14,5 @@ export function makePedidoRouter(): Router {
         pedidoController.patch(req, res);
     });
 
-    pedidoRouter.delete("/:id", async (req, res) => {
-        pedidoController.delete(req, res);
-    });
-
     return pedidoRouter;
 }
