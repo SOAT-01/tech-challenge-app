@@ -1,20 +1,25 @@
-import { serverError, notFound, unprocessableEntity } from "../defaults";
+import { serverError, unprocessableEntity } from "../defaults";
 
 const ProdutoFields = {
     nome: {
         type: "string",
+        default: "X-Bacon",
     },
     preco: {
         type: "number",
+        default: 10,
     },
     categoria: {
         type: "string",
+        default: "Lanche",
     },
     descricao: {
         type: "string",
+        default: "Pão, hambúrguer, queijo, bacon, alface e tomate",
     },
     imagem: {
         type: "string",
+        default: "https://example.com/image.png",
     },
 };
 
