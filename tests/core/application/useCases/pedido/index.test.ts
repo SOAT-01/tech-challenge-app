@@ -6,23 +6,66 @@ import { ProdutoRepository } from "@domain/repositories/produtoRepository.interf
 import { Cpf, Email } from "@domain/valueObjects";
 import { PedidoUseCase } from "@useCases/pedido";
 
+const mockClienteDTO = {
+    id: "000",
+    nome: "John Doe",
+    email: "john_doe@user.com.br",
+    cpf: "111.111.111-11",
+};
+
+const mockCliente = new Cliente({
+    id: mockClienteDTO.id,
+    nome: mockClienteDTO.nome,
+    email: Email.create(mockClienteDTO.email),
+    cpf: Cpf.create(mockClienteDTO.cpf),
+});
+
 const LANCHE = new Produto({
+    id: "123",
     nome: "Hamburguer",
     preco: 10,
     categoria: CategoriaEnum.Lanche,
     descricao: "Delicious hamburger",
     imagem: "hamburguer.jpg",
-    id: "123",
 });
 
 const SOBREMESA = new Produto({
+    id: "321",
     nome: "Petit Gateau",
     preco: 19.9,
     categoria: CategoriaEnum.Sobremesa,
     descricao: "Delicious petit gateau",
     imagem: "petit-gateau.jpg",
-    id: "321",
 });
+
+const mockPedidoDTO1 = {
+    id: "any_id",
+    valorTotal: 10,
+    cliente: mockClienteDTO,
+    status: StatusPedidoEnum.Recebido,
+    itens: [
+        {
+            produtoId: LANCHE.id,
+            quantidade: 1,
+        },
+    ],
+};
+
+const mockPedidoDTO2 = {
+    id: "any_another_id",
+    valorTotal: 29.9,
+    status: StatusPedidoEnum.Em_preparacao,
+    itens: [
+        {
+            produtoId: LANCHE.id,
+            quantidade: 1,
+        },
+        {
+            produtoId: SOBREMESA.id,
+            quantidade: 1,
+        },
+    ],
+};
 
 describe("Given PedidoUseCases", () => {
     let repositoryStub: PedidoRepository;
@@ -31,36 +74,17 @@ describe("Given PedidoUseCases", () => {
 
     const mockPedidos = [
         new Pedido({
-            id: "any_id",
-            valorTotal: 10,
-            cliente: new Cliente({
-                id: "000",
-                nome: "John Doe",
-                email: Email.create("john_doe@user.com.br"),
-                cpf: Cpf.create("111.111.111-11"),
-            }),
-            status: StatusPedidoEnum.Recebido,
-            itens: [
-                {
-                    produtoId: LANCHE.id,
-                    quantidade: 1,
-                },
-            ],
+            id: mockPedidoDTO1.id,
+            valorTotal: mockPedidoDTO1.valorTotal,
+            cliente: mockCliente,
+            status: mockPedidoDTO1.status,
+            itens: mockPedidoDTO1.itens,
         }),
         new Pedido({
-            id: "any_another_id",
-            valorTotal: 29.9,
-            status: StatusPedidoEnum.Em_preparacao,
-            itens: [
-                {
-                    produtoId: LANCHE.id,
-                    quantidade: 1,
-                },
-                {
-                    produtoId: SOBREMESA.id,
-                    quantidade: 1,
-                },
-            ],
+            id: mockPedidoDTO2.id,
+            valorTotal: mockPedidoDTO2.valorTotal,
+            status: mockPedidoDTO2.status,
+            itens: mockPedidoDTO2.itens,
         }),
     ];
 
@@ -107,7 +131,7 @@ describe("Given PedidoUseCases", () => {
 
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
-            expect(pedidos).toEqual(mockPedidos);
+            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2]);
         });
     });
 
@@ -115,23 +139,21 @@ describe("Given PedidoUseCases", () => {
         it("should call create on the repository and return the created pedido", async () => {
             const create = jest.spyOn(repositoryStub, "create");
 
-            const pedido = await sut.create(
-                new Pedido({
-                    valorTotal: 29.9,
-                    itens: [
-                        {
-                            produtoId: LANCHE.id,
-                            quantidade: 1,
-                        },
-                        {
-                            produtoId: SOBREMESA.id,
-                            quantidade: 1,
-                        },
-                    ],
-                }),
-            );
+            const pedido = await sut.create({
+                // valorTotal: 29.9,
+                itens: [
+                    {
+                        produtoId: LANCHE.id,
+                        quantidade: 1,
+                    },
+                    {
+                        produtoId: SOBREMESA.id,
+                        quantidade: 1,
+                    },
+                ],
+            });
             expect(create).toHaveBeenCalled();
-            expect(pedido).toEqual(mockPedidos[1]);
+            expect(pedido).toEqual(mockPedidoDTO2);
         });
     });
 
@@ -144,7 +166,7 @@ describe("Given PedidoUseCases", () => {
             expect(updateSpy).toHaveBeenCalledWith("any-another-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
-            expect(pedido).toEqual(mockPedidos[1]);
+            expect(pedido).toEqual(mockPedidoDTO2);
         });
 
         it("should throw an error if the pedido does not exist", async () => {
