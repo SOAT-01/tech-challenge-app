@@ -42,7 +42,7 @@ const mockPedidoDTO1 = {
     id: "any_id",
     valorTotal: 10,
     cliente: mockClienteDTO,
-    status: StatusPedidoEnum.Recebido,
+    status: StatusPedidoEnum.Pagamento_pendente,
     itens: [
         {
             produtoId: LANCHE.id,
@@ -55,6 +55,21 @@ const mockPedidoDTO2 = {
     id: "any_another_id",
     valorTotal: 29.9,
     status: StatusPedidoEnum.Em_preparacao,
+    itens: [
+        {
+            produtoId: LANCHE.id,
+            quantidade: 1,
+        },
+        {
+            produtoId: SOBREMESA.id,
+            quantidade: 1,
+        },
+    ],
+};
+const mockPedidoDTO3 = {
+    id: "any_another_id",
+    valorTotal: 29.9,
+    status: StatusPedidoEnum.Recebido,
     itens: [
         {
             produtoId: LANCHE.id,
@@ -179,6 +194,44 @@ describe("Given PedidoUseCases", () => {
                 new Error("Pedido não encontrado"),
             );
             expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+        });
+    });
+    describe("When updatePaymentStatus is called", () => {
+        it("should call update on the repository and return the pedido with the updated status to Recebido", async () => {
+            const updateSpy = jest
+                .spyOn(repositoryStub, "update")
+                .mockResolvedValueOnce(new Pedido(mockPedidoDTO3));
+            const pedido = await sut.updatePaymentStatus("any-another-id");
+            expect(updateSpy).toHaveBeenCalledWith("any-another-id", {
+                status: StatusPedidoEnum.Recebido,
+            });
+            expect(pedido).toEqual(mockPedidoDTO3);
+        });
+
+        it("should throw an error if the pedido does not exist", async () => {
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
+                .mockResolvedValueOnce(null);
+
+            const pedido = sut.updatePaymentStatus("nonexistent-id");
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Pedido não encontrado"),
+            );
+            expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+        });
+
+        it("should throw an error if the pedido is already paid", async () => {
+            const getByIdSpy = jest
+                .spyOn(repositoryStub, "getById")
+                .mockResolvedValueOnce(new Pedido(mockPedidoDTO2));
+
+            const pedido = sut.updatePaymentStatus("already-paid-id");
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Pedido já foi pago"),
+            );
+            expect(getByIdSpy).toHaveBeenCalledWith("already-paid-id");
         });
     });
 });
