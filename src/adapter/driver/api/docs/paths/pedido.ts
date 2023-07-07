@@ -172,4 +172,46 @@ export const PedidoPaths = {
             },
         },
     },
+    "/pedido/{id}/payment-checkout": {
+        patch: {
+            tags: ["pedido"],
+            summary: "Rota para atualizar o status de pagamento de um pedido",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "id do pedido a ser atualizado",
+                    required: true,
+                    schema: {
+                        type: "string",
+                    },
+                },
+            ],
+            responses: {
+                201: {
+                    description: "Status de pagamento do pedido atualizado",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    id: {
+                                        type: "string",
+                                    },
+                                    ...PedidoFields,
+                                },
+                                required: RequiredFields,
+                            },
+                        },
+                    },
+                },
+                422: {
+                    ...unprocessableEntity,
+                },
+                500: {
+                    ...serverError,
+                },
+            },
+        },
+    },
 };

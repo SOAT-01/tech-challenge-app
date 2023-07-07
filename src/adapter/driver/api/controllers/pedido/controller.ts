@@ -45,4 +45,19 @@ export class PedidoController {
             next(error);
         }
     }
+
+    public async patchPaymentStatus(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<Response> {
+        const { id } = req.params;
+
+        try {
+            const result = await this.pedidoUseCase.updatePaymentStatus(id);
+            return res.status(StatusCode.ok).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
