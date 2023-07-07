@@ -3,6 +3,7 @@ import { AssertionConcern } from "@domain/base/assertionConcern";
 import { Cliente } from "./cliente";
 
 export enum StatusPedidoEnum {
+    Pagamento_pendente = "pagamento_pendente",
     Recebido = "recebido",
     Em_preparacao = "em_preparacao",
     Pronto = "pronto",

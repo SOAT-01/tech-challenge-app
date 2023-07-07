@@ -76,4 +76,18 @@ describe("Given ProdutoEntity", () => {
             }).toThrow("Imagem is required");
         });
     });
+
+    describe("When preço has a value less than zero", () => {
+        it("should throw an error", () => {
+            expect(() => {
+                new Produto({
+                    nome: "Lanche",
+                    preco: 0,
+                    categoria: CategoriaEnum.Lanche,
+                    descricao: "Delicious hamburger",
+                    imagem: "hamburguer.jpg",
+                });
+            }).toThrow("Preço should have a value bigger than zero");
+        });
+    });
 });

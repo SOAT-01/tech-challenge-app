@@ -25,7 +25,10 @@ export class PedidoUseCase implements IPedidoUseCase {
     }
 
     public async create(pedido: PedidoDTO): Promise<PedidoDTO> {
-        if (pedido.status && pedido.status !== StatusPedidoEnum.Recebido) {
+        if (
+            pedido.status &&
+            pedido.status !== StatusPedidoEnum.Pagamento_pendente
+        ) {
             throw new Error("Não é necessário informar o status");
         }
 
@@ -64,6 +67,24 @@ export class PedidoUseCase implements IPedidoUseCase {
         }
 
         const result = await this.pedidoRepository.update(id, pedido);
+        return PedidoMapper.toDTO(result);
+    }
+
+    public async updatePaymentStatus(id: string): Promise<PedidoDTO> {
+        const pedidoToUpdateStatus = await this.pedidoRepository.getById(id);
+
+        if (!pedidoToUpdateStatus) {
+            throw new Error("Pedido não encontrado");
+        }
+        if (
+            pedidoToUpdateStatus.status !== StatusPedidoEnum.Pagamento_pendente
+        ) {
+            throw new Error("Pedido já foi pago");
+        }
+
+        const result = await this.pedidoRepository.update(id, {
+            status: StatusPedidoEnum.Recebido,
+        });
         return PedidoMapper.toDTO(result);
     }
 }
