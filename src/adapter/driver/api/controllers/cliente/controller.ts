@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { ClienteUseCase } from "@useCases/cliente";
-import { ClienteMapper } from "@mappers/index";
 import { StatusCode } from "@utils/statusCode";
 import { ClienteDTO } from "@useCases/cliente/dto";
 
@@ -21,9 +20,7 @@ export class ClienteController {
                 cpf: data.cpf,
             });
 
-            return res
-                .status(StatusCode.created)
-                .json(ClienteMapper.toResponse(result));
+            return res.status(StatusCode.created).json(result);
         } catch (error) {
             next(error);
         }
@@ -49,9 +46,7 @@ export class ClienteController {
                 return res.status(StatusCode.notFound).end();
             }
 
-            return res
-                .status(StatusCode.ok)
-                .json(ClienteMapper.toResponse(result));
+            return res.status(StatusCode.ok).json(result);
         } catch (error) {
             next(error);
         }
@@ -77,9 +72,7 @@ export class ClienteController {
                 return res.status(StatusCode.notFound).end();
             }
 
-            return res
-                .status(StatusCode.ok)
-                .json(ClienteMapper.toResponse(result));
+            return res.status(StatusCode.ok).json(result);
         } catch (error) {
             next(error);
         }
