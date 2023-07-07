@@ -64,14 +64,4 @@ export class PedidoUseCase implements IPedidoUseCase {
 
         return this.pedidoRepository.update(id, pedido);
     }
-
-    public async delete(id: string): Promise<void> {
-        const doesPedidoExists = await this.pedidoRepository.getById(id);
-
-        if (!doesPedidoExists) {
-            throw new Error("Pedido não encontrado");
-        }
-
-        this.pedidoRepository.delete(id);
-    }
 }
