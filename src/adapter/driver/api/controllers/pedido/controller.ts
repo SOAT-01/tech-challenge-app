@@ -45,20 +45,4 @@ export class PedidoController {
             next(error);
         }
     }
-
-    public async delete(
-        req: Request,
-        res: Response,
-        next: NextFunction,
-    ): Promise<Response> {
-        try {
-            const { id } = req.params;
-
-            await this.pedidoUseCase.delete(id);
-
-            return res.status(StatusCode.noContent).json();
-        } catch (error) {
-            next(error);
-        }
-    }
 }
