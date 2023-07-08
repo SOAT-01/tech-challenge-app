@@ -3,6 +3,7 @@ import { AssertionConcern } from "@domain/base/assertionConcern";
 import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
 import { ValorTotal } from "@domain/valueObjects/valorTotal";
+import { ResourceNotFoundError } from "@domain/errors/resourceNotFoundError";
 import { PedidoMapper } from "@mappers/pedidoMapper";
 import { IPedidoUseCase } from "./pedido.interface";
 import { PedidoDTO } from "./dto";
@@ -21,6 +22,9 @@ export class PedidoUseCase implements IPedidoUseCase {
 
     public async getById(id: string): Promise<PedidoDTO> {
         const result = await this.pedidoRepository.getById(id);
+
+        if (!result) throw new ResourceNotFoundError("Pedido não encontrado");
+
         return PedidoMapper.toDTO(result);
     }
 
@@ -63,7 +67,7 @@ export class PedidoUseCase implements IPedidoUseCase {
         const doesPedidoExists = await this.pedidoRepository.getById(id);
 
         if (!doesPedidoExists) {
-            throw new Error("Pedido não encontrado");
+            throw new ResourceNotFoundError("Pedido não encontrado");
         }
 
         const result = await this.pedidoRepository.update(id, pedido);
@@ -74,7 +78,7 @@ export class PedidoUseCase implements IPedidoUseCase {
         const pedidoToUpdateStatus = await this.pedidoRepository.getById(id);
 
         if (!pedidoToUpdateStatus) {
-            throw new Error("Pedido não encontrado");
+            throw new ResourceNotFoundError("Pedido não encontrado");
         }
         if (
             pedidoToUpdateStatus.status !== StatusPedidoEnum.Pagamento_pendente
