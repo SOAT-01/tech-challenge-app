@@ -73,16 +73,16 @@ export const PedidoPaths = {
                             example: {
                                 itens: [
                                     {
-                                        produtoId: "649716cbec9c6294c2d9108b",
+                                        produtoId: "649cdc20a6f75c45046d7984",
                                         quantidade: 1,
                                     },
                                     {
-                                        produtoId: "649716eeec9c6294c2d9108d",
+                                        produtoId: "649cdc4ba6f75c45046d7986",
                                         quantidade: 1,
                                     },
                                 ],
                                 observacoes: "Sem cebola",
-                                clienteId: "649a48cd38d69caae01750b2",
+                                clienteId: "649cdaa7a6f75c45046d797d",
                             },
                             required: ["itens"],
                         },

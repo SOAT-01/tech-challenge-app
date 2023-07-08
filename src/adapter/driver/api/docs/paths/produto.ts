@@ -11,7 +11,7 @@ const ProdutoFields = {
     },
     categoria: {
         type: "string",
-        default: "Lanche",
+        default: "lanche",
     },
     descricao: {
         type: "string",
