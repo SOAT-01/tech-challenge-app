@@ -1,5 +1,6 @@
 import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
 import { Cpf, Email } from "@domain/valueObjects";
+import { ResourceNotFoundError } from "@domain/errors/resourceNotFoundError";
 import { ClienteMapper } from "@mappers/clienteMapper";
 import { IClienteUseCase } from "./cliente.interface";
 import { ClienteDTO } from "./dto";
@@ -25,6 +26,9 @@ export class ClienteUseCase implements IClienteUseCase {
         const result = await this.clienteRepository.getByCpf(
             Cpf.create(cpf).value,
         );
+
+        if (!result) throw new ResourceNotFoundError("Cliente não encontrado");
+
         return ClienteMapper.toDTO(result);
     }
 
@@ -32,6 +36,9 @@ export class ClienteUseCase implements IClienteUseCase {
         const result = await this.clienteRepository.getByEmail(
             Email.create(email).value,
         );
+
+        if (!result) throw new ResourceNotFoundError("Cliente não encontrado");
+
         return ClienteMapper.toDTO(result);
     }
 }

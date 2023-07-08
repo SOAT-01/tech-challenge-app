@@ -1,6 +1,7 @@
 import { CategoriaEnum, Produto } from "@domain/entities/produto";
 import { AssertionConcern } from "@domain/base/assertionConcern";
 import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
+import { ResourceNotFoundError } from "@domain/errors/resourceNotFoundError";
 import { IProdutoUseCase } from "./produto.interface";
 import { ProdutoDTO } from "./dto";
 
@@ -26,7 +27,7 @@ export class ProdutoUseCase implements IProdutoUseCase {
         const doesProdutoExists = await this.produtoRepository.getById(id);
 
         if (!doesProdutoExists) {
-            throw new Error("Produto não encontrado");
+            throw new ResourceNotFoundError("Produto não encontrado");
         }
 
         return this.produtoRepository.update(id, produto);
@@ -36,7 +37,7 @@ export class ProdutoUseCase implements IProdutoUseCase {
         const doesProdutoExists = await this.produtoRepository.getById(id);
 
         if (!doesProdutoExists) {
-            throw new Error("Produto não encontrado");
+            throw new ResourceNotFoundError("Produto não encontrado");
         }
 
         await this.produtoRepository.delete(id);

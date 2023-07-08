@@ -1,6 +1,7 @@
 import "express-async-errors";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError } from "@domain/errors/validationError";
+import { ResourceNotFoundError } from "@domain/errors/resourceNotFoundError";
 import { StatusCode } from "../utils/statusCode";
 
 // ? "_next" parameter is not used but is needed for "express-async-errors" package
@@ -17,6 +18,14 @@ export function errorHandler(
     if (error instanceof ValidationError) {
         return res.status(StatusCode.unprocessableEntity).json({
             code: StatusCode.unprocessableEntity,
+            name: error?.name,
+            message: error?.message,
+        });
+    }
+
+    if (error instanceof ResourceNotFoundError) {
+        return res.status(StatusCode.notFound).json({
+            code: StatusCode.notFound,
             name: error?.name,
             message: error?.message,
         });
