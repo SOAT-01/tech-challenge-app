@@ -1,9 +1,9 @@
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
-import { ProdutoMapper } from "@mappers/produtoMapper";
-import { ProdutoModel } from "../models";
+import { ProdutoModel } from "adapter/driven/infra/mongo/models";
+import { ProdutoMapper } from "core/application/mappers";
+import { Produto, CategoriaEnum } from "entities/produto";
+import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
 
-export class ProdutoMongoRepository implements ProdutoRepository {
+export class ProdutoMongoGateway implements ProdutoGateway {
     constructor(private readonly productModel: typeof ProdutoModel) {}
 
     async create(produto: Produto): Promise<Produto> {

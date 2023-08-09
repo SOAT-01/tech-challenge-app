@@ -1,9 +1,10 @@
 import { Cliente } from "entities/cliente";
-import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
-import { ClienteMapper } from "@mappers/clienteMapper";
-import { ClienteModel } from "../models";
 
-export class ClienteMongoRepository implements ClienteRepository {
+import { ClienteModel } from "../adapter/driven/infra/mongo/models";
+import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ClienteMapper } from "core/application/mappers";
+
+export class ClienteMongoGateway implements ClienteGateway {
     constructor(private readonly clienteModel: typeof ClienteModel) {}
 
     public async create(cliente: Cliente): Promise<Cliente> {

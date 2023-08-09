@@ -1,11 +1,12 @@
-import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
-import { Pedido } from "@domain/entities/pedido";
-import { PedidoMapper } from "@mappers/pedidoMapper";
-import { PedidoModel } from "../models/Pedido";
 import { PedidoDTO } from "useCases/pedido/dto";
 import { ClienteDTO } from "useCases/cliente/dto";
+import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
-export class PedidoMongoRepository implements PedidoRepository {
+import { Pedido } from "entities/pedido";
+import { PedidoModel } from "adapter/driven/infra/mongo/models";
+import { PedidoMapper } from "core/application/mappers";
+
+export class PedidoMongoGateway implements PedidoGateway {
     constructor(private readonly pedidoModel: typeof PedidoModel) {}
 
     async getAll(filters?: Partial<Pedido>): Promise<Pedido[]> {

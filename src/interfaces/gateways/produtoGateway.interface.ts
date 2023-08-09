@@ -1,6 +1,6 @@
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { CategoriaEnum, Produto } from "entities/produto";
 
-export interface ProdutoRepository {
+export interface ProdutoGateway {
     create(produto: Produto): Promise<Produto>;
     getByCategoria(categoria: CategoriaEnum): Promise<Produto[]>;
     getById(id: string): Promise<Produto | undefined>;
