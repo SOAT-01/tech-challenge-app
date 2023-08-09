@@ -1,4 +1,4 @@
-import { ProdutoModel } from "adapter/driven/infra/mongo/models";
+import { ProdutoModel } from "@external/mongo/models";
 import { ProdutoMapper } from "core/application/mappers";
 import { Produto, CategoriaEnum } from "entities/produto";
 import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";

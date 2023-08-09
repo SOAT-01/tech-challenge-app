@@ -1,6 +1,6 @@
 import { Cliente } from "entities/cliente";
 
-import { ClienteModel } from "../adapter/driven/infra/mongo/models";
+import { ClienteModel } from "../external/mongo/models";
 import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
 import { ClienteMapper } from "core/application/mappers";
 

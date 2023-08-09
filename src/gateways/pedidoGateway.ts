@@ -3,7 +3,7 @@ import { ClienteDTO } from "useCases/cliente/dto";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
 import { Pedido } from "entities/pedido";
-import { PedidoModel } from "adapter/driven/infra/mongo/models";
+import { PedidoModel } from "@external/mongo/models";
 import { PedidoMapper } from "core/application/mappers";
 
 export class PedidoMongoGateway implements PedidoGateway {

@@ -1,4 +1,4 @@
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { CategoriaEnum, Produto } from "@entities/produto";
 import mongoose from "mongoose";
 
 const ProdutoSchema = new mongoose.Schema(
