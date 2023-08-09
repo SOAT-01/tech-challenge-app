@@ -1,29 +1,30 @@
-import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
-import { Cpf, Email } from "@domain/valueObjects";
-import { ResourceNotFoundError } from "@domain/errors/resourceNotFoundError";
-import { ClienteMapper } from "@mappers/clienteMapper";
+import { Cpf } from "@valueObjects/cpf";
+import { Email } from "@valueObjects/email";
+import { ClienteMapper } from "core/application/mappers";
+import { ResourceNotFoundError } from "core/domain/errors/resourceNotFoundError";
 import { IClienteUseCase } from "./cliente.interface";
 import { ClienteDTO } from "./dto";
+import { ClienteGateway } from "@interfaces/gateways/clienteGateway.interface";
 
 export class ClienteUseCase implements IClienteUseCase {
-    constructor(private readonly clienteRepository: ClienteRepository) {}
+    constructor(private readonly clienteGateway: ClienteGateway) {}
 
     public async create(data: ClienteDTO): Promise<ClienteDTO> {
         const newCliente = ClienteMapper.toDomain(data);
 
-        const alreadyExists = await this.clienteRepository.checkDuplicate({
+        const alreadyExists = await this.clienteGateway.checkDuplicate({
             cpf: newCliente.cpf.value,
             email: newCliente.email.value,
         });
 
         if (alreadyExists) throw new Error("Cliente already exists.");
 
-        const result = await this.clienteRepository.create(newCliente);
+        const result = await this.clienteGateway.create(newCliente);
         return ClienteMapper.toDTO(result);
     }
 
     public async getByCpf(cpf: string): Promise<ClienteDTO | undefined> {
-        const result = await this.clienteRepository.getByCpf(
+        const result = await this.clienteGateway.getByCpf(
             Cpf.create(cpf).value,
         );
 
@@ -33,7 +34,7 @@ export class ClienteUseCase implements IClienteUseCase {
     }
 
     public async getByEmail(email: string): Promise<ClienteDTO | undefined> {
-        const result = await this.clienteRepository.getByEmail(
+        const result = await this.clienteGateway.getByEmail(
             Email.create(email).value,
         );
 

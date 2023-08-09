@@ -1,4 +1,4 @@
-import { CategoriaEnum } from "@domain/entities/produto";
+import { CategoriaEnum } from "@entities/produto";
 import { ProdutoDTO } from "./dto";
 
 export interface IProdutoUseCase {

@@ -1,27 +1,27 @@
-import { StatusPedidoEnum } from "@domain/entities/pedido";
-import { AssertionConcern } from "@domain/base/assertionConcern";
-import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-import { ValorTotal } from "@domain/valueObjects/valorTotal";
-import { ResourceNotFoundError } from "@domain/errors/resourceNotFoundError";
-import { PedidoMapper } from "@mappers/pedidoMapper";
 import { IPedidoUseCase } from "./pedido.interface";
 import { PedidoDTO } from "./dto";
+import { PedidoGateway } from "@interfaces/gateways/pedidoGateway.interface";
+import { ProdutoGateway } from "@interfaces/gateways/produtoGateway.interface";
+import { StatusPedidoEnum } from "@entities/pedido";
+import { ValorTotal } from "@valueObjects/valorTotal";
+import { AssertionConcern } from "base/assertionConcern";
+import { PedidoMapper } from "core/application/mappers";
+import { ResourceNotFoundError } from "core/domain/errors/resourceNotFoundError";
 
 export class PedidoUseCase implements IPedidoUseCase {
     constructor(
-        private readonly pedidoRepository: PedidoRepository,
-        private readonly produtoRepository: ProdutoRepository,
+        private readonly pedidoGateway: PedidoGateway,
+        private readonly produtoGateway: ProdutoGateway,
     ) {}
 
     public async getAll(): Promise<PedidoDTO[]> {
-        const results = await this.pedidoRepository.getAll();
+        const results = await this.pedidoGateway.getAll();
 
         return results.map((result) => PedidoMapper.toDTO(result));
     }
 
     public async getById(id: string): Promise<PedidoDTO> {
-        const result = await this.pedidoRepository.getById(id);
+        const result = await this.pedidoGateway.getById(id);
 
         if (!result) throw new ResourceNotFoundError("Pedido não encontrado");
 
@@ -38,7 +38,7 @@ export class PedidoUseCase implements IPedidoUseCase {
 
         const ids = pedido.itens.map((item) => item.produtoId);
 
-        const itensPedido = await this.produtoRepository.getByIds(ids);
+        const itensPedido = await this.produtoGateway.getByIds(ids);
 
         const itensComPreco = pedido.itens.map((item) => ({
             ...item,
@@ -54,7 +54,7 @@ export class PedidoUseCase implements IPedidoUseCase {
             itens: itensComPreco,
         };
 
-        const result = await this.pedidoRepository.create(newPedido);
+        const result = await this.pedidoGateway.create(newPedido);
         return PedidoMapper.toDTO(result);
     }
 
@@ -64,18 +64,18 @@ export class PedidoUseCase implements IPedidoUseCase {
     ): Promise<PedidoDTO> {
         AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
-        const doesPedidoExists = await this.pedidoRepository.getById(id);
+        const doesPedidoExists = await this.pedidoGateway.getById(id);
 
         if (!doesPedidoExists) {
             throw new ResourceNotFoundError("Pedido não encontrado");
         }
 
-        const result = await this.pedidoRepository.update(id, pedido);
+        const result = await this.pedidoGateway.update(id, pedido);
         return PedidoMapper.toDTO(result);
     }
 
     public async updatePaymentStatus(id: string): Promise<PedidoDTO> {
-        const pedidoToUpdateStatus = await this.pedidoRepository.getById(id);
+        const pedidoToUpdateStatus = await this.pedidoGateway.getById(id);
 
         if (!pedidoToUpdateStatus) {
             throw new ResourceNotFoundError("Pedido não encontrado");
@@ -86,7 +86,7 @@ export class PedidoUseCase implements IPedidoUseCase {
             throw new Error("Pedido já foi pago");
         }
 
-        const result = await this.pedidoRepository.update(id, {
+        const result = await this.pedidoGateway.update(id, {
             status: StatusPedidoEnum.Recebido,
         });
         return PedidoMapper.toDTO(result);
