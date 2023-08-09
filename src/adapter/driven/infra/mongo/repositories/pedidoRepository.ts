@@ -2,8 +2,8 @@ import { PedidoRepository } from "@domain/repositories/pedidoRepository.interfac
 import { Pedido } from "@domain/entities/pedido";
 import { PedidoMapper } from "@mappers/pedidoMapper";
 import { PedidoModel } from "../models/Pedido";
-import { PedidoDTO } from "@useCases/pedido/dto";
-import { ClienteDTO } from "@useCases/cliente/dto";
+import { PedidoDTO } from "useCases/pedido/dto";
+import { ClienteDTO } from "useCases/cliente/dto";
 
 export class PedidoMongoRepository implements PedidoRepository {
     constructor(private readonly pedidoModel: typeof PedidoModel) {}

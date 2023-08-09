@@ -3,7 +3,7 @@ import {
     PedidoMongoRepository,
     ProdutoMongoRepository,
 } from "@infra/mongo/repositories";
-import { PedidoUseCase } from "@useCases/pedido";
+import { PedidoUseCase } from "useCases/pedido";
 import { PedidoController } from "./controller";
 
 export class PedidoControllerFactory {

@@ -1,8 +1,8 @@
-import { Cliente } from "@domain/entities/cliente";
+import { Cliente } from "entities/cliente";
 import { Pedido } from "@domain/entities/pedido";
 import { Cpf, Email } from "@domain/valueObjects";
-import { ClienteDTO } from "@useCases/cliente/dto";
-import { PedidoDTO } from "@useCases/pedido/dto";
+import { ClienteDTO } from "useCases/cliente/dto";
+import { PedidoDTO } from "useCases/pedido/dto";
 
 export class PedidoMapper {
     public static toDomain(dto: PedidoDTO, cliente?: ClienteDTO): Pedido {

@@ -1,5 +1,5 @@
 import { AssertionConcern } from "@domain/base/assertionConcern";
-import { ValueObject } from "../base/valueObject";
+import { ValueObject } from "@domain/base/valueObject";
 
 interface CpfProperties {
     document: string;

@@ -1,5 +1,5 @@
 import { Produto } from "@domain/entities/produto";
-import { ProdutoDTO } from "@useCases/produto/dto";
+import { ProdutoDTO } from "useCases/produto/dto";
 
 export class ProdutoMapper {
     public static toDomain(dto: ProdutoDTO): Produto {

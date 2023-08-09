@@ -1,5 +1,5 @@
 import { Pedido } from "@domain/entities/pedido";
-import { PedidoDTO } from "@useCases/pedido/dto";
+import { PedidoDTO } from "useCases/pedido/dto";
 
 export interface PedidoRepository {
     getAll(filters?: Partial<Pedido>): Promise<Pedido[]>;

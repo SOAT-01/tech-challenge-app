@@ -1,6 +1,6 @@
-import { AssertionConcern } from "../base/assertionConcern";
-import { Entity } from "../base/entity.interface";
-import { Cpf, Email } from "../valueObjects";
+import { Email, Cpf } from "valueObjects";
+import { AssertionConcern } from "../core/domain/base/assertionConcern";
+import { Entity } from "../core/domain/base/entity.interface";
 
 interface ClienteProperties
     extends Omit<

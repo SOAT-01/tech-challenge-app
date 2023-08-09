@@ -1,6 +1,6 @@
 import { ClienteModel } from "@infra/mongo/models";
 import { ClienteMongoRepository } from "@infra/mongo/repositories";
-import { ClienteUseCase } from "@useCases/cliente";
+import { ClienteUseCase } from "useCases/cliente";
 import { ClienteController } from "./controller";
 
 export class ClienteControllerFactory {

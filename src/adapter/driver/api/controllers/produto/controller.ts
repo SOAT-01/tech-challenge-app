@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CategoriaEnum } from "@domain/entities/produto";
-import { ProdutoUseCase } from "@useCases/produto";
+import { ProdutoUseCase } from "useCases/produto";
 import { StatusCode } from "@utils/statusCode";
 
 export class ProdutoController {

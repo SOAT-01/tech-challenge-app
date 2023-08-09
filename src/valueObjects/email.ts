@@ -1,5 +1,5 @@
-import { AssertionConcern } from "../base/assertionConcern";
-import { ValueObject } from "../base/valueObject";
+import { AssertionConcern } from "@domain/base/assertionConcern";
+import { ValueObject } from "@domain/base/valueObject";
 
 interface EmailProperties {
     address: string;

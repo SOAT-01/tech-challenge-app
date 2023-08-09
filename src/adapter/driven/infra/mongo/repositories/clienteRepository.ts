@@ -1,4 +1,4 @@
-import { Cliente } from "@domain/entities/cliente";
+import { Cliente } from "entities/cliente";
 import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
 import { ClienteMapper } from "@mappers/clienteMapper";
 import { ClienteModel } from "../models";

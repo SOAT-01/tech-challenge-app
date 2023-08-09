@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { PedidoUseCase } from "@useCases/pedido";
+import { PedidoUseCase } from "useCases/pedido";
 import { StatusCode } from "@utils/statusCode";
 
 export class PedidoController {

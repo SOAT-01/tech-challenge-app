@@ -1,4 +1,4 @@
-import { Cliente } from "@domain/entities/cliente";
+import { Cliente } from "entities/cliente";
 
 export interface ClienteRepository {
     create(produto: Cliente): Promise<Cliente>;
