@@ -1,7 +1,6 @@
-// import { AssertionConcern } from "../base/assertionConcern";
-import { Item } from "@domain/entities/pedido";
-import { ValueObject } from "../base/valueObject";
-import { AssertionConcern } from "@domain/base/assertionConcern";
+import { Item } from "@entities/pedido";
+import { ValueObject } from "@interfaces/valueObject";
+import { AssertionConcern } from "base/assertionConcern";
 
 interface ValorTotalProperties {
     value: number;
