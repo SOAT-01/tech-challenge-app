@@ -19,12 +19,17 @@ export class PedidoMongoGateway implements PedidoGateway {
         const results = await this.pedidoModel
             .aggregate([
                 {
+                    $match: {
+                        status: { $ne: "finalizado" },
+                    },
+                },
+                {
                     $addFields: {
                         statusOrder: {
                             $switch: {
                                 branches: [
                                     {
-                                        case: { $eq: ["$status", "recebido"] },
+                                        case: { $eq: ["$status", "pronto"] },
                                         then: 0,
                                     },
                                     {
@@ -34,14 +39,8 @@ export class PedidoMongoGateway implements PedidoGateway {
                                         then: 1,
                                     },
                                     {
-                                        case: { $eq: ["$status", "pronto"] },
+                                        case: { $eq: ["$status", "recebido"] },
                                         then: 2,
-                                    },
-                                    {
-                                        case: {
-                                            $eq: ["$status", "finalizado"],
-                                        },
-                                        then: 3,
                                     },
                                 ],
                                 default: 4,
