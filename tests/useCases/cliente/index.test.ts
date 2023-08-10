@@ -4,7 +4,7 @@ import { ClienteUseCase } from "useCases/cliente";
 import { Email, Cpf } from "valueObjects";
 
 describe("Given ClienteUseCases", () => {
-    let repositoryStub: ClienteGateway;
+    let gatewayStub: ClienteGateway;
     let sut: ClienteUseCase;
 
     const mockEmail = "jdoe1@email.com";
@@ -25,7 +25,7 @@ describe("Given ClienteUseCases", () => {
         cpf: Cpf.create(mockDTO.cpf),
     });
 
-    class ClienteRepositoryStub implements ClienteGateway {
+    class ClienteGatewayStub implements ClienteGateway {
         create(cliente: Cliente): Promise<Cliente> {
             return new Promise((resolve) => resolve(mockCliente));
         }
@@ -47,8 +47,8 @@ describe("Given ClienteUseCases", () => {
     }
 
     beforeAll(() => {
-        repositoryStub = new ClienteRepositoryStub();
-        sut = new ClienteUseCase(repositoryStub);
+        gatewayStub = new ClienteGatewayStub();
+        sut = new ClienteUseCase(gatewayStub);
     });
 
     afterAll(() => {
@@ -56,8 +56,8 @@ describe("Given ClienteUseCases", () => {
     });
 
     describe("When create is called", () => {
-        it("should call create on the repository and return the created cliente", async () => {
-            const create = jest.spyOn(repositoryStub, "create");
+        it("should call create on the gateway and return the created cliente", async () => {
+            const create = jest.spyOn(gatewayStub, "create");
 
             const cliente = await sut.create(mockDTO);
 
@@ -66,7 +66,7 @@ describe("Given ClienteUseCases", () => {
             expect(create).toHaveBeenCalledWith(mockCliente);
         });
 
-        it("should create on the repository and throw an error for duplicate cliente", async () => {
+        it("should create on the gateway and throw an error for duplicate cliente", async () => {
             await expect(
                 sut.create({
                     nome: "John Doe",
@@ -78,8 +78,8 @@ describe("Given ClienteUseCases", () => {
     });
 
     describe("When getByCpf is called", () => {
-        it("should call getByCpf on the repository and return cliente for a correct cpf", async () => {
-            const getByCpf = jest.spyOn(repositoryStub, "getByCpf");
+        it("should call getByCpf on the gateway and return cliente for a correct cpf", async () => {
+            const getByCpf = jest.spyOn(gatewayStub, "getByCpf");
 
             const cliente = await sut.getByCpf(mockCpf);
             expect(getByCpf).toHaveBeenCalledWith(mockCpf);
@@ -88,8 +88,8 @@ describe("Given ClienteUseCases", () => {
     });
 
     describe("When getByEmail is called", () => {
-        it("should call getByEmail on the repository and return cliente for a correct email", async () => {
-            const getByEmail = jest.spyOn(repositoryStub, "getByEmail");
+        it("should call getByEmail on the gateway and return cliente for a correct email", async () => {
+            const getByEmail = jest.spyOn(gatewayStub, "getByEmail");
 
             const cliente = await sut.getByEmail(mockEmail);
             expect(getByEmail).toHaveBeenCalledWith(mockEmail);

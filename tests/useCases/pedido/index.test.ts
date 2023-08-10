@@ -83,8 +83,8 @@ const mockPedidoDTO3 = {
 };
 
 describe("Given PedidoUseCases", () => {
-    let repositoryStub: PedidoGateway;
-    let produtoRepositoryStub: Partial<ProdutoGateway>;
+    let gatewayStub: PedidoGateway;
+    let produtoGatewayStub: Partial<ProdutoGateway>;
     let sut: PedidoUseCase;
 
     const mockPedidos = [
@@ -103,7 +103,7 @@ describe("Given PedidoUseCases", () => {
         }),
     ];
 
-    class PedidoRepositoryStub implements PedidoGateway {
+    class PedidoGatewayStub implements PedidoGateway {
         getById(id: string): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[0]));
         }
@@ -118,18 +118,18 @@ describe("Given PedidoUseCases", () => {
         }
     }
 
-    class ProdutoRepositoryStub implements Partial<ProdutoGateway> {
+    class ProdutoGatewayStub implements Partial<ProdutoGateway> {
         getByIds(ids: string[]): Promise<Produto[]> {
             return new Promise((resolve) => resolve([LANCHE, SOBREMESA]));
         }
     }
 
     beforeAll(() => {
-        repositoryStub = new PedidoRepositoryStub();
-        produtoRepositoryStub = new ProdutoRepositoryStub();
+        gatewayStub = new PedidoGatewayStub();
+        produtoGatewayStub = new ProdutoGatewayStub();
         sut = new PedidoUseCase(
-            repositoryStub,
-            produtoRepositoryStub as ProdutoGateway,
+            gatewayStub,
+            produtoGatewayStub as ProdutoGateway,
         );
     });
 
@@ -138,8 +138,8 @@ describe("Given PedidoUseCases", () => {
     });
 
     describe("When getAll is called", () => {
-        it("should call getAll on the repository and return the pedidos", async () => {
-            const getAll = jest.spyOn(repositoryStub, "getAll");
+        it("should call getAll on the gateway and return the pedidos", async () => {
+            const getAll = jest.spyOn(gatewayStub, "getAll");
 
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
@@ -148,8 +148,8 @@ describe("Given PedidoUseCases", () => {
     });
 
     describe("When create is called", () => {
-        it("should call create on the repository and return the created pedido", async () => {
-            const create = jest.spyOn(repositoryStub, "create");
+        it("should call create on the gateway and return the created pedido", async () => {
+            const create = jest.spyOn(gatewayStub, "create");
 
             const pedido = await sut.create({
                 // valorTotal: 29.9,
@@ -170,8 +170,8 @@ describe("Given PedidoUseCases", () => {
     });
 
     describe("When update is called", () => {
-        it("should call update on the repository and return the updated pedido", async () => {
-            const updateSpy = jest.spyOn(repositoryStub, "update");
+        it("should call update on the gateway and return the updated pedido", async () => {
+            const updateSpy = jest.spyOn(gatewayStub, "update");
             const pedido = await sut.update("any-another-id", {
                 status: StatusPedidoEnum.Em_preparacao,
             });
@@ -183,7 +183,7 @@ describe("Given PedidoUseCases", () => {
 
         it("should throw an error if the pedido does not exist", async () => {
             const getByIdSpy = jest
-                .spyOn(repositoryStub, "getById")
+                .spyOn(gatewayStub, "getById")
                 .mockResolvedValueOnce(null);
 
             const pedido = sut.update("nonexistent-id", {
@@ -197,9 +197,9 @@ describe("Given PedidoUseCases", () => {
         });
     });
     describe("When updatePaymentStatus is called", () => {
-        it("should call update on the repository and return the pedido with the updated status to Recebido", async () => {
+        it("should call update on the gateway and return the pedido with the updated status to Recebido", async () => {
             const updateSpy = jest
-                .spyOn(repositoryStub, "update")
+                .spyOn(gatewayStub, "update")
                 .mockResolvedValueOnce(new Pedido(mockPedidoDTO3));
             const pedido = await sut.updatePaymentStatus("any-another-id");
             expect(updateSpy).toHaveBeenCalledWith("any-another-id", {
@@ -210,7 +210,7 @@ describe("Given PedidoUseCases", () => {
 
         it("should throw an error if the pedido does not exist", async () => {
             const getByIdSpy = jest
-                .spyOn(repositoryStub, "getById")
+                .spyOn(gatewayStub, "getById")
                 .mockResolvedValueOnce(null);
 
             const pedido = sut.updatePaymentStatus("nonexistent-id");
@@ -223,7 +223,7 @@ describe("Given PedidoUseCases", () => {
 
         it("should throw an error if the pedido is already paid", async () => {
             const getByIdSpy = jest
-                .spyOn(repositoryStub, "getById")
+                .spyOn(gatewayStub, "getById")
                 .mockResolvedValueOnce(new Pedido(mockPedidoDTO2));
 
             const pedido = sut.updatePaymentStatus("already-paid-id");

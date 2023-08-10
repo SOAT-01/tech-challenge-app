@@ -3,7 +3,7 @@ import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
 import { ProdutoUseCase } from "useCases/produto";
 
 describe("Given ProdutoUseCases", () => {
-    let repositoryStub: ProdutoGateway;
+    let gatewayStub: ProdutoGateway;
     let sut: ProdutoUseCase;
 
     const mockProduto = new Produto({
@@ -13,7 +13,7 @@ describe("Given ProdutoUseCases", () => {
         descricao: "Sobremesa de chocolate com morango'",
         imagem: "www.any-image.com",
     });
-    class ProdutoRepositoryStub implements ProdutoGateway {
+    class ProdutoGatewayStub implements ProdutoGateway {
         create(produto: Produto): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }
@@ -35,8 +35,8 @@ describe("Given ProdutoUseCases", () => {
     }
 
     beforeAll(() => {
-        repositoryStub = new ProdutoRepositoryStub();
-        sut = new ProdutoUseCase(repositoryStub);
+        gatewayStub = new ProdutoGatewayStub();
+        sut = new ProdutoUseCase(gatewayStub);
     });
 
     afterAll(() => {
@@ -44,8 +44,8 @@ describe("Given ProdutoUseCases", () => {
     });
 
     describe("When createProduto is called", () => {
-        it("should call createProduto on the repository and return the created produto", async () => {
-            const createSpy = jest.spyOn(repositoryStub, "create");
+        it("should call createProduto on the gateway and return the created produto", async () => {
+            const createSpy = jest.spyOn(gatewayStub, "create");
 
             const produto = await sut.create(mockProduto);
             expect(produto.nome).toEqual(mockProduto.nome);
@@ -53,11 +53,8 @@ describe("Given ProdutoUseCases", () => {
         });
     });
     describe("When getProdutoByCategoria is called", () => {
-        it("should call getProdutoByCategoria on the repository and return the produtos", async () => {
-            const getByCategoriaSpy = jest.spyOn(
-                repositoryStub,
-                "getByCategoria",
-            );
+        it("should call getProdutoByCategoria on the gateway and return the produtos", async () => {
+            const getByCategoriaSpy = jest.spyOn(gatewayStub, "getByCategoria");
 
             const produto = await sut.getByCategoria(CategoriaEnum.Sobremesa);
             expect(getByCategoriaSpy).toHaveBeenCalledWith(
@@ -68,8 +65,8 @@ describe("Given ProdutoUseCases", () => {
     });
 
     describe("When updateProduto is called", () => {
-        it("should call updateProduto on the repository and return the updated produto", async () => {
-            const updateSpy = jest.spyOn(repositoryStub, "update");
+        it("should call updateProduto on the gateway and return the updated produto", async () => {
+            const updateSpy = jest.spyOn(gatewayStub, "update");
             const produto = await sut.update("any-id", {
                 nome: "Sobremesa surpresa",
             });
@@ -81,7 +78,7 @@ describe("Given ProdutoUseCases", () => {
 
         it("should throw an error if the produto does not exist", async () => {
             const getByIdSpy = jest
-                .spyOn(repositoryStub, "getById")
+                .spyOn(gatewayStub, "getById")
                 .mockResolvedValueOnce(null);
             const produto = sut.update("nonexistent-id", {
                 nome: "Sobremesa surpresa",
@@ -95,17 +92,17 @@ describe("Given ProdutoUseCases", () => {
 
     describe("When deleteProduto is called", () => {
         it("should call deleteProduto to delete the produto", async () => {
-            const deleteSpy = jest.spyOn(repositoryStub, "delete");
+            const deleteSpy = jest.spyOn(gatewayStub, "delete");
 
             await sut.delete("any-id");
             expect(deleteSpy).toHaveBeenCalledWith("any-id");
         });
 
         it("should throw an error if the produto does not exist", async () => {
-            const repositoryStub = new ProdutoRepositoryStub();
-            const sut = new ProdutoUseCase(repositoryStub);
+            const gatewayStub = new ProdutoGatewayStub();
+            const sut = new ProdutoUseCase(gatewayStub);
             const getByIdSpy = jest
-                .spyOn(repositoryStub, "getById")
+                .spyOn(gatewayStub, "getById")
                 .mockResolvedValueOnce(null);
             const produto = sut.delete("nonexistent-id");
             await expect(produto).rejects.toThrowError(
