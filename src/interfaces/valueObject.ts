@@ -1,4 +1,4 @@
-import { AssertionConcern } from "./assertionConcern";
+import { AssertionConcern } from "@utils/assertionConcern";
 
 interface ValueObjectProps {
     [index: string]: any;

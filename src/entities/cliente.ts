@@ -1,6 +1,7 @@
 import { Email, Cpf } from "valueObjects";
-import { AssertionConcern } from "../base/assertionConcern";
+
 import { Entity } from "../interfaces/entity.interface";
+import { AssertionConcern } from "@utils/assertionConcern";
 
 interface ClienteProperties
     extends Omit<

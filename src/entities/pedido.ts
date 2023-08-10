@@ -1,5 +1,5 @@
-import { Entity } from "@domain/base/entity.interface";
-import { AssertionConcern } from "@domain/base/assertionConcern";
+import { Entity } from "@interfaces/entity.interface";
+import { AssertionConcern } from "@utils/assertionConcern";
 import { Cliente } from "./cliente";
 
 export enum StatusPedidoEnum {

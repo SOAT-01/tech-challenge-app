@@ -4,7 +4,7 @@ import { PedidoGateway } from "@interfaces/gateways/pedidoGateway.interface";
 import { ProdutoGateway } from "@interfaces/gateways/produtoGateway.interface";
 import { StatusPedidoEnum } from "@entities/pedido";
 import { ValorTotal } from "@valueObjects/valorTotal";
-import { AssertionConcern } from "base/assertionConcern";
+import { AssertionConcern } from "@utils/assertionConcern";
 import { PedidoMapper } from "core/application/mappers";
 import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
 

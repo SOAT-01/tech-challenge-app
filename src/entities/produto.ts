@@ -1,5 +1,5 @@
-import { AssertionConcern } from "@domain/base/assertionConcern";
-import { Entity } from "@domain/base/entity.interface";
+import { Entity } from "@interfaces/entity.interface";
+import { AssertionConcern } from "@utils/assertionConcern";
 
 export enum CategoriaEnum {
     Lanche = "lanche",
