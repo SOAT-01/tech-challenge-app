@@ -4,7 +4,7 @@ import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
 import { Pedido } from "entities/pedido";
 import { PedidoModel } from "@external/mongo/models";
-import { PedidoMapper } from "core/application/mappers";
+import { PedidoMapper } from "adapters/mappers";
 
 export class PedidoMongoGateway implements PedidoGateway {
     constructor(private readonly pedidoModel: typeof PedidoModel) {}

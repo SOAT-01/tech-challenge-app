@@ -1,6 +1,7 @@
-import { Cliente } from "entities/cliente";
-import { Cpf, Email } from "@domain/valueObjects";
-import { ClienteDTO } from "useCases/cliente/dto";
+import { Cliente } from "@entities/cliente";
+import { ClienteDTO } from "@useCases/cliente/dto";
+import { Cpf } from "@valueObjects/cpf";
+import { Email } from "@valueObjects/email";
 
 export class ClienteMapper {
     public static toDomain(dto: ClienteDTO): Cliente {

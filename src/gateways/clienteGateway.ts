@@ -2,7 +2,7 @@ import { Cliente } from "entities/cliente";
 
 import { ClienteModel } from "../external/mongo/models";
 import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
-import { ClienteMapper } from "core/application/mappers";
+import { ClienteMapper } from "adapters/mappers";
 
 export class ClienteMongoGateway implements ClienteGateway {
     constructor(private readonly clienteModel: typeof ClienteModel) {}

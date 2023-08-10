@@ -1,6 +1,8 @@
+import { Pedido } from "@entities/pedido";
+import { Cpf } from "@valueObjects/cpf";
+import { Email } from "@valueObjects/email";
 import { Cliente } from "entities/cliente";
-import { Pedido } from "@domain/entities/pedido";
-import { Cpf, Email } from "@domain/valueObjects";
+
 import { ClienteDTO } from "useCases/cliente/dto";
 import { PedidoDTO } from "useCases/pedido/dto";
 

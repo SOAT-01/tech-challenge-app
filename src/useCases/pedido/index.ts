@@ -5,7 +5,7 @@ import { ProdutoGateway } from "@interfaces/gateways/produtoGateway.interface";
 import { StatusPedidoEnum } from "@entities/pedido";
 import { ValorTotal } from "@valueObjects/valorTotal";
 import { AssertionConcern } from "@utils/assertionConcern";
-import { PedidoMapper } from "core/application/mappers";
+import { PedidoMapper } from "adapters/mappers";
 import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
 
 export class PedidoUseCase implements IPedidoUseCase {
