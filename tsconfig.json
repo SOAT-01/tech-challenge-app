@@ -26,7 +26,7 @@
             "@entities/*": ["entities/*"],
             "@controllers/*": ["controllers/*"],
             "@api/*": ["api/*"],
-            "@utils/*": ["adapter/driver/api/utils/*"],
+            "@utils/*": ["utils/*"],
             "@types/*": ["types/*"]
         }
     },

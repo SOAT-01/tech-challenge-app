@@ -1,9 +1,10 @@
+import { createMongoConnection } from "@external/mongo/helpers/createMongoConnection";
+
 import express from "express";
 import { serve, setup } from "swagger-ui-express";
-import { createMongoConnection } from "@infra/mongo/helpers/createMongoConnection";
-import { requestLogger } from "@utils/requestLogger";
-import { errorHandler } from "./middlewares/errorHandler";
+import { errorHandler } from "./middlewares";
 import { makeServerRouter } from "./routes";
+import { requestLogger } from "../utils/requestLogger";
 import { SwaggerConfig } from "./docs";
 
 require("dotenv").config();

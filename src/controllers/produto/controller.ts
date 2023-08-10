@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { CategoriaEnum } from "@domain/entities/produto";
+
 import { ProdutoUseCase } from "useCases/produto";
 import { StatusCode } from "@utils/statusCode";
+import { CategoriaEnum } from "@entities/produto";
 
 export class ProdutoController {
     constructor(private readonly produtoUseCase: ProdutoUseCase) {}

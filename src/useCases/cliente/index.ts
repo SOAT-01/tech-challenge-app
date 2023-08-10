@@ -1,7 +1,7 @@
 import { Cpf } from "@valueObjects/cpf";
 import { Email } from "@valueObjects/email";
 import { ClienteMapper } from "core/application/mappers";
-import { ResourceNotFoundError } from "core/domain/errors/resourceNotFoundError";
+import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
 import { IClienteUseCase } from "./cliente.interface";
 import { ClienteDTO } from "./dto";
 import { ClienteGateway } from "@interfaces/gateways/clienteGateway.interface";

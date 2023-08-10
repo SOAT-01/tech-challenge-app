@@ -1,4 +1,4 @@
-import { healthController } from "../controllers";
+import { healthController } from "@controllers/index";
 import { Router } from "express";
 
 export function makeHealthRouter(): Router {

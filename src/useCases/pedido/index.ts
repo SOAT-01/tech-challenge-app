@@ -6,7 +6,7 @@ import { StatusPedidoEnum } from "@entities/pedido";
 import { ValorTotal } from "@valueObjects/valorTotal";
 import { AssertionConcern } from "base/assertionConcern";
 import { PedidoMapper } from "core/application/mappers";
-import { ResourceNotFoundError } from "core/domain/errors/resourceNotFoundError";
+import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
 
 export class PedidoUseCase implements IPedidoUseCase {
     constructor(

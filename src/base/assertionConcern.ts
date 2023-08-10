@@ -1,5 +1,5 @@
-import { Item } from "@domain/entities/pedido";
-import { ValidationError } from "@domain/errors/validationError";
+import { Item } from "@entities/pedido";
+import { ValidationError } from "@utils/errors/validationError";
 
 export class AssertionConcern {
     public static assertArgumentNotEmpty<T>(arg: T, message: string): void {

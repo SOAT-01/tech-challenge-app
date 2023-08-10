@@ -1,5 +1,5 @@
+import { testMongoConnection } from "@external/mongo/helpers/testMongoConnection";
 import { NextFunction, Request, Response } from "express";
-import { testMongoConnection } from "@infra/mongo/helpers/testMongoConnection";
 
 export class HealthController {
     public async get(

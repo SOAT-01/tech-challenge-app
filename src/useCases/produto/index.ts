@@ -3,7 +3,7 @@ import { ProdutoDTO } from "./dto";
 import { Produto, CategoriaEnum } from "@entities/produto";
 import { ProdutoGateway } from "@interfaces/gateways/produtoGateway.interface";
 import { AssertionConcern } from "base/assertionConcern";
-import { ResourceNotFoundError } from "core/domain/errors/resourceNotFoundError";
+import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
 
 export class ProdutoUseCase implements IProdutoUseCase {
     constructor(private readonly produtoGateway: ProdutoGateway) {}
