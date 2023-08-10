@@ -1,4 +1,4 @@
-import { StatusPedido, Item } from "@entities/pedido";
+import { StatusPedido, Item } from "entities/pedido";
 
 export interface PedidoDTO {
     id?: string;

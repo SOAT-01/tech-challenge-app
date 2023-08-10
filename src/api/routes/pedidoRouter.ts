@@ -1,4 +1,4 @@
-import { pedidoController } from "@controllers/index";
+import { pedidoController } from "controllers";
 import { Router } from "express";
 
 export function makePedidoRouter(): Router {

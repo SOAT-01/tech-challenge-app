@@ -1,4 +1,4 @@
-import { serverConfig } from "@config/index";
+import { serverConfig } from "config/index";
 import mongoose from "mongoose";
 
 const mongodbConnString = serverConfig.mongo.connectionString;

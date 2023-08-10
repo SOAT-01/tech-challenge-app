@@ -1,9 +1,9 @@
 import { IProdutoUseCase } from "./produto.interface";
 import { ProdutoDTO } from "./dto";
-import { Produto, CategoriaEnum } from "@entities/produto";
-import { ProdutoGateway } from "@interfaces/gateways/produtoGateway.interface";
-import { AssertionConcern } from "@utils/assertionConcern";
-import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
+import { Produto, CategoriaEnum } from "entities/produto";
+import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { AssertionConcern } from "utils/assertionConcern";
+import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 
 export class ProdutoUseCase implements IProdutoUseCase {
     constructor(private readonly produtoGateway: ProdutoGateway) {}

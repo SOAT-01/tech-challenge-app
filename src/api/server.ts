@@ -1,4 +1,4 @@
-import { createMongoConnection } from "@external/mongo/helpers/createMongoConnection";
+import { createMongoConnection } from "external/mongo/helpers/createMongoConnection";
 
 import express from "express";
 import { serve, setup } from "swagger-ui-express";

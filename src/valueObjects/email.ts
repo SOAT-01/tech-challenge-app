@@ -1,5 +1,5 @@
-import { ValueObject } from "@interfaces/valueObject";
-import { AssertionConcern } from "@utils/assertionConcern";
+import { ValueObject } from "interfaces/valueObject";
+import { AssertionConcern } from "utils/assertionConcern";
 
 interface EmailProperties {
     address: string;

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { PedidoUseCase } from "useCases/pedido";
-import { StatusCode } from "@utils/statusCode";
+import { StatusCode } from "utils/statusCode";
 
 export class PedidoController {
     constructor(private readonly pedidoUseCase: PedidoUseCase) {}

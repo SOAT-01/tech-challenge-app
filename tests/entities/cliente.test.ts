@@ -1,5 +1,5 @@
-import { Cliente } from "@domain/entities/cliente";
-import { Cpf, Email } from "@domain/valueObjects";
+import { Cliente } from "entities/cliente";
+import { Email, Cpf } from "valueObjects";
 
 describe("Given ClienteEntity", () => {
     describe("when received all params correctly", () => {

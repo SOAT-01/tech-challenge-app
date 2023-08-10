@@ -1,7 +1,7 @@
-import { Cliente } from "@domain/entities/cliente";
-import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
-import { Cpf, Email } from "@domain/valueObjects";
+import { Cliente } from "entities/cliente";
+import { Pedido, StatusPedidoEnum } from "entities/pedido";
+import { Produto, CategoriaEnum } from "entities/produto";
+import { Email, Cpf } from "valueObjects";
 
 const PRODUTO = new Produto({
     nome: "Hamburguer",

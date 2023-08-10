@@ -1,11 +1,10 @@
-import { Cliente } from "@domain/entities/cliente";
-import { ClienteRepository } from "@domain/repositories/clienteRepository.interface";
-import { Cpf, Email } from "@domain/valueObjects";
-
-import { ClienteUseCase } from "@useCases/cliente";
+import { Cliente } from "entities/cliente";
+import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ClienteUseCase } from "useCases/cliente";
+import { Email, Cpf } from "valueObjects";
 
 describe("Given ClienteUseCases", () => {
-    let repositoryStub: ClienteRepository;
+    let repositoryStub: ClienteGateway;
     let sut: ClienteUseCase;
 
     const mockEmail = "jdoe1@email.com";
@@ -26,7 +25,7 @@ describe("Given ClienteUseCases", () => {
         cpf: Cpf.create(mockDTO.cpf),
     });
 
-    class ClienteRepositoryStub implements ClienteRepository {
+    class ClienteRepositoryStub implements ClienteGateway {
         create(cliente: Cliente): Promise<Cliente> {
             return new Promise((resolve) => resolve(mockCliente));
         }

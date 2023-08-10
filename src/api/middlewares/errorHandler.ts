@@ -1,9 +1,9 @@
 import "express-async-errors";
 import { NextFunction, Request, Response } from "express";
 
-import { StatusCode } from "../../utils/statusCode";
-import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
-import { ValidationError } from "@utils/errors/validationError";
+import { StatusCode } from "utils/statusCode";
+import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
+import { ValidationError } from "utils/errors/validationError";
 
 // ? "_next" parameter is not used but is needed for "express-async-errors" package
 // ? Since whe are returning the response there is no use for it

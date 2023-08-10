@@ -1,4 +1,4 @@
-import { testMongoConnection } from "@external/mongo/helpers/testMongoConnection";
+import { testMongoConnection } from "external/mongo/helpers/testMongoConnection";
 import { NextFunction, Request, Response } from "express";
 
 export class HealthController {

@@ -1,4 +1,4 @@
-import { CategoriaEnum, Produto } from "@domain/entities/produto";
+import { CategoriaEnum, Produto } from "entities/produto";
 
 describe("Given ProdutoEntity", () => {
     describe("when received all params correctly", () => {

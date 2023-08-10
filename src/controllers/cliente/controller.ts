@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ClienteUseCase } from "useCases/cliente";
-import { StatusCode } from "@utils/statusCode";
+import { StatusCode } from "utils/statusCode";
 import { ClienteDTO } from "useCases/cliente/dto";
 
 export class ClienteController {

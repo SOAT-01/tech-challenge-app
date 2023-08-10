@@ -1,10 +1,10 @@
-import { Cliente } from "@domain/entities/cliente";
-import { Pedido, StatusPedidoEnum } from "@domain/entities/pedido";
-import { Produto, CategoriaEnum } from "@domain/entities/produto";
-import { PedidoRepository } from "@domain/repositories/pedidoRepository.interface";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-import { Cpf, Email } from "@domain/valueObjects";
-import { PedidoUseCase } from "@useCases/pedido";
+import { Cliente } from "entities/cliente";
+import { StatusPedidoEnum, Pedido } from "entities/pedido";
+import { Produto, CategoriaEnum } from "entities/produto";
+import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
+import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { PedidoUseCase } from "useCases/pedido";
+import { Email, Cpf } from "valueObjects";
 
 const mockClienteDTO = {
     id: "000",
@@ -83,8 +83,8 @@ const mockPedidoDTO3 = {
 };
 
 describe("Given PedidoUseCases", () => {
-    let repositoryStub: PedidoRepository;
-    let produtoRepositoryStub: Partial<ProdutoRepository>;
+    let repositoryStub: PedidoGateway;
+    let produtoRepositoryStub: Partial<ProdutoGateway>;
     let sut: PedidoUseCase;
 
     const mockPedidos = [
@@ -103,7 +103,7 @@ describe("Given PedidoUseCases", () => {
         }),
     ];
 
-    class PedidoRepositoryStub implements PedidoRepository {
+    class PedidoRepositoryStub implements PedidoGateway {
         getById(id: string): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[0]));
         }
@@ -118,7 +118,7 @@ describe("Given PedidoUseCases", () => {
         }
     }
 
-    class ProdutoRepositoryStub implements Partial<ProdutoRepository> {
+    class ProdutoRepositoryStub implements Partial<ProdutoGateway> {
         getByIds(ids: string[]): Promise<Produto[]> {
             return new Promise((resolve) => resolve([LANCHE, SOBREMESA]));
         }
@@ -129,7 +129,7 @@ describe("Given PedidoUseCases", () => {
         produtoRepositoryStub = new ProdutoRepositoryStub();
         sut = new PedidoUseCase(
             repositoryStub,
-            produtoRepositoryStub as ProdutoRepository,
+            produtoRepositoryStub as ProdutoGateway,
         );
     });
 

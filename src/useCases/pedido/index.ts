@@ -1,12 +1,12 @@
-import { IPedidoUseCase } from "./pedido.interface";
-import { PedidoDTO } from "./dto";
-import { PedidoGateway } from "@interfaces/gateways/pedidoGateway.interface";
-import { ProdutoGateway } from "@interfaces/gateways/produtoGateway.interface";
-import { StatusPedidoEnum } from "@entities/pedido";
-import { ValorTotal } from "@valueObjects/valorTotal";
-import { AssertionConcern } from "@utils/assertionConcern";
 import { PedidoMapper } from "adapters/mappers";
-import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
+import { StatusPedidoEnum } from "entities/pedido";
+import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
+import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { AssertionConcern } from "utils/assertionConcern";
+import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
+import { ValorTotal } from "valueObjects";
+import { PedidoDTO } from "./dto";
+import { IPedidoUseCase } from "./pedido.interface";
 
 export class PedidoUseCase implements IPedidoUseCase {
     constructor(

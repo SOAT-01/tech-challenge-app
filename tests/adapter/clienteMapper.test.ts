@@ -1,6 +1,6 @@
-import { Cliente } from "@domain/entities/cliente";
-import { Cpf, Email } from "@domain/valueObjects";
-import { ClienteMapper } from "@mappers/clienteMapper";
+import { Cliente } from "entities/cliente";
+import { Cpf, Email } from "valueObjects";
+import { ClienteMapper } from "adapters/mappers";
 
 describe("Given ClienteMapper", () => {
     const mockNome = "John Doe";

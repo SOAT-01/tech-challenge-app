@@ -16,19 +16,7 @@
         "allowSyntheticDefaultImports": true,
         "rootDirs": ["src"],
         "baseUrl": "src",
-        "paths": {
-            "@gateways/*": ["gateways/*"],
-            "@interfaces/*": ["interfaces/*"],
-            "@valueObjects/*": ["valueObjects/*"],
-            "@useCases/*": ["useCases/*"],
-            "@external/*": ["external/*"],
-            "@config/*": ["config/*"],
-            "@entities/*": ["entities/*"],
-            "@controllers/*": ["controllers/*"],
-            "@api/*": ["api/*"],
-            "@utils/*": ["utils/*"],
-            "@types/*": ["types/*"]
-        }
+        "paths": {}
     },
     "include": ["src/**/*", "tests/**/*"],
     "exclude": ["node_modules/**/*"]

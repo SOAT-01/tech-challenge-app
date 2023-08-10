@@ -1,10 +1,9 @@
-import { Cpf } from "@valueObjects/cpf";
-import { Email } from "@valueObjects/email";
 import { ClienteMapper } from "adapters/mappers";
-import { ResourceNotFoundError } from "@utils/errors/resourceNotFoundError";
+import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
+import { Cpf, Email } from "valueObjects";
 import { IClienteUseCase } from "./cliente.interface";
 import { ClienteDTO } from "./dto";
-import { ClienteGateway } from "@interfaces/gateways/clienteGateway.interface";
 
 export class ClienteUseCase implements IClienteUseCase {
     constructor(private readonly clienteGateway: ClienteGateway) {}

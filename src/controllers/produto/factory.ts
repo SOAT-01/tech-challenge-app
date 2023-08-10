@@ -1,7 +1,7 @@
 import { ProdutoUseCase } from "useCases/produto";
 import { ProdutoController } from "./controller";
-import { ProdutoModel } from "@external/mongo/models";
-import { ProdutoMongoGateway } from "@gateways/produtoGateway";
+import { ProdutoModel } from "external/mongo/models";
+import { ProdutoMongoGateway } from "gateways/produtoGateway";
 
 export class ProdutoControllerFactory {
     public static create(): ProdutoController {

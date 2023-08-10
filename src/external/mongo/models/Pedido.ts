@@ -1,4 +1,4 @@
-import { Item, StatusPedidoEnum } from "@entities/pedido";
+import { Item, StatusPedidoEnum } from "entities/pedido";
 import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema<Item>({

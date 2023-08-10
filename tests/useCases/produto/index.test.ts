@@ -1,9 +1,9 @@
-import { Produto, Categoria, CategoriaEnum } from "@domain/entities/produto";
-import { ProdutoRepository } from "@domain/repositories/produtoRepository.interface";
-import { ProdutoUseCase } from "@useCases/produto";
+import { Produto, Categoria, CategoriaEnum } from "entities/produto";
+import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { ProdutoUseCase } from "useCases/produto";
 
 describe("Given ProdutoUseCases", () => {
-    let repositoryStub: ProdutoRepository;
+    let repositoryStub: ProdutoGateway;
     let sut: ProdutoUseCase;
 
     const mockProduto = new Produto({
@@ -13,7 +13,7 @@ describe("Given ProdutoUseCases", () => {
         descricao: "Sobremesa de chocolate com morango'",
         imagem: "www.any-image.com",
     });
-    class ProdutoRepositoryStub implements ProdutoRepository {
+    class ProdutoRepositoryStub implements ProdutoGateway {
         create(produto: Produto): Promise<Produto> {
             return new Promise((resolve) => resolve(mockProduto));
         }

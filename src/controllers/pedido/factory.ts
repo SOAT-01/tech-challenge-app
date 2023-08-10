@@ -1,8 +1,8 @@
 import { PedidoUseCase } from "useCases/pedido";
 import { PedidoController } from "./controller";
-import { PedidoModel, ProdutoModel } from "@external/mongo/models";
-import { PedidoMongoGateway } from "@gateways/pedidoGateway";
-import { ProdutoMongoGateway } from "@gateways/produtoGateway";
+import { PedidoModel, ProdutoModel } from "external/mongo/models";
+import { PedidoMongoGateway } from "gateways/pedidoGateway";
+import { ProdutoMongoGateway } from "gateways/produtoGateway";
 
 export class PedidoControllerFactory {
     public static create(): PedidoController {

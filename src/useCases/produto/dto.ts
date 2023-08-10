@@ -1,4 +1,4 @@
-import { Categoria } from "@entities/produto";
+import { Categoria } from "entities/produto";
 
 export interface ProdutoDTO {
     id?: string;

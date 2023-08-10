@@ -1,4 +1,4 @@
-import { serverConfig } from "@config/index";
+import { serverConfig } from "config";
 import { server } from "./server";
 
 server.listen(serverConfig.port, () =>

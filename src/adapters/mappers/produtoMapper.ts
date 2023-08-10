@@ -1,4 +1,4 @@
-import { Produto } from "@entities/produto";
+import { Produto } from "entities/produto";
 import { ProdutoDTO } from "useCases/produto/dto";
 
 export class ProdutoMapper {
