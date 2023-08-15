@@ -20,6 +20,12 @@ export class PedidoUseCase implements IPedidoUseCase {
         return results.map((result) => PedidoMapper.toDTO(result));
     }
 
+    public async getAllOrderedByStatus(): Promise<PedidoDTO[]> {
+        const results = await this.pedidoGateway.getAllOrderedByStatus();
+
+        return results.map((result) => PedidoMapper.toDTO(result));
+    }
+
     public async getById(id: string): Promise<PedidoDTO> {
         const result = await this.pedidoGateway.getById(id);
 
