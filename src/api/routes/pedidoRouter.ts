@@ -8,6 +8,10 @@ export function makePedidoRouter(): Router {
         pedidoController.get(req, res, next);
     });
 
+    pedidoRouter.get("/ordered-by-status", async (req, res, next) => {
+        pedidoController.getAllOrderedByStatus(req, res, next);
+    });
+
     pedidoRouter.post("/", async (req, res, next) =>
         pedidoController.post(req, res, next),
     );

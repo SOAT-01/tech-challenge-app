@@ -18,6 +18,19 @@ export class PedidoController {
         }
     }
 
+    public async getAllOrderedByStatus(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<Response> {
+        try {
+            const result = await this.pedidoUseCase.getAllOrderedByStatus();
+            return res.status(StatusCode.ok).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     public async post(
         req: Request,
         res: Response,

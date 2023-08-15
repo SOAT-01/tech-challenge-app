@@ -116,6 +116,37 @@ export const PedidoPaths = {
             },
         },
     },
+    "/pedido/ordered-by-status": {
+        get: {
+            tags: ["pedido"],
+            summary:
+                "Rota para listar todos os pedidos ordenados por status e sem o status finalizado",
+            responses: {
+                200: {
+                    description: "pedidos encontrados",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        id: {
+                                            type: "string",
+                                        },
+                                        ...PedidoFields,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                500: {
+                    ...serverError,
+                },
+            },
+        },
+    },
     "/pedido/{id}": {
         patch: {
             tags: ["pedido"],
