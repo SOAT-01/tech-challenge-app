@@ -107,6 +107,9 @@ describe("Given PedidoUseCases", () => {
         getById(id: string): Promise<Pedido> {
             return new Promise((resolve) => resolve(mockPedidos[0]));
         }
+        getAllOrderedByStatus(): Promise<Pedido[]> {
+            return new Promise((resolve) => resolve(mockPedidos));
+        }
         getAll(): Promise<Pedido[]> {
             return new Promise((resolve) => resolve(mockPedidos));
         }
@@ -143,6 +146,19 @@ describe("Given PedidoUseCases", () => {
 
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
+            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2]);
+        });
+    });
+
+    describe("When getAllOrderedByStatus is called", () => {
+        it("should call getAllOrderedByStatus on the gateway and return the pedidos ordered by status", async () => {
+            const getAllOrderedByStatus = jest.spyOn(
+                gatewayStub,
+                "getAllOrderedByStatus",
+            );
+
+            const pedidos = await sut.getAllOrderedByStatus();
+            expect(getAllOrderedByStatus).toHaveBeenCalled();
             expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2]);
         });
     });
