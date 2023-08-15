@@ -19,8 +19,45 @@ export class PedidoMongoGateway implements PedidoGateway {
         const results = await this.pedidoModel
             .aggregate([
                 {
+                    $lookup: {
+                        from: "clientes",
+                        localField: "cliente",
+                        foreignField: "_id",
+                        as: "relatedCliente",
+                    },
+                },
+                { $match: filterQuery },
+            ])
+            .sort({ createdAt: 1 });
+
+        return results.map((result) => {
+            const [cliente] = result.relatedCliente;
+
+            return PedidoMapper.toDomain(
+                {
+                    id: result._id,
+                    status: result.status,
+                    valorTotal: result.valorTotal,
+                    itens: result.itens,
+                    observacoes: result.observacoes,
+                },
+                {
+                    id: cliente?._id,
+                    nome: cliente?.nome,
+                    email: cliente?.email,
+                    cpf: cliente?.cpf,
+                },
+            );
+        });
+    }
+
+    async getAllOrderedByStatus(): Promise<Pedido[]> {
+        const results = await this.pedidoModel
+            .aggregate([
+                {
                     $match: {
                         status: { $ne: "finalizado" },
+                        deleted: { $ne: true },
                     },
                 },
                 {
@@ -56,7 +93,6 @@ export class PedidoMongoGateway implements PedidoGateway {
                         as: "relatedCliente",
                     },
                 },
-                { $match: filterQuery },
             ])
             .sort({ statusOrder: 1, createdAt: 1 });
 
