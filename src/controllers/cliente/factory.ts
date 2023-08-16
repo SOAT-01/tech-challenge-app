@@ -1,4 +1,4 @@
-import { ClienteUseCase } from "useCases/cliente";
+import { ClienteUseCase } from "useCases";
 import { ClienteController } from "./controller";
 import { ClienteMongoGateway } from "gateways/clienteGateway";
 import { ClienteModel } from "external/mongo/models";

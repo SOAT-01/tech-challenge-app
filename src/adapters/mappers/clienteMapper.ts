@@ -1,5 +1,6 @@
 import { Cliente } from "entities/cliente";
-import { ClienteDTO } from "useCases/cliente/dto";
+import { ClienteDTO } from "useCases";
+
 import { Email, Cpf } from "valueObjects";
 
 export class ClienteMapper {

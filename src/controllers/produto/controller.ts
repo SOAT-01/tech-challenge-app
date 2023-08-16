@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-import { ProdutoUseCase } from "useCases/produto";
+import { ProdutoUseCase } from "useCases";
 import { StatusCode } from "utils/statusCode";
 import { CategoriaEnum } from "entities/produto";
 

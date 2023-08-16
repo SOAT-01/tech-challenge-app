@@ -1,5 +1,5 @@
 import { Pedido } from "entities/pedido";
-import { PedidoDTO } from "useCases/pedido/dto";
+import { PedidoDTO } from "useCases";
 
 export interface PedidoGateway {
     getAll(filters?: Partial<Pedido>): Promise<Pedido[]>;

@@ -1,5 +1,4 @@
-import { PedidoDTO } from "useCases/pedido/dto";
-import { ClienteDTO } from "useCases/cliente/dto";
+import { PedidoDTO, ClienteDTO } from "useCases";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
 import { Pedido } from "entities/pedido";

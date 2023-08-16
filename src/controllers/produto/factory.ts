@@ -1,4 +1,4 @@
-import { ProdutoUseCase } from "useCases/produto";
+import { ProdutoUseCase } from "useCases";
 import { ProdutoController } from "./controller";
 import { ProdutoModel } from "external/mongo/models";
 import { ProdutoMongoGateway } from "gateways/produtoGateway";

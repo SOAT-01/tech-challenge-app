@@ -1,4 +1,4 @@
-import { PedidoUseCase } from "useCases/pedido";
+import { PedidoUseCase } from "useCases";
 import { PedidoController } from "./controller";
 import { PedidoModel, ProdutoModel } from "external/mongo/models";
 import { PedidoMongoGateway } from "gateways/pedidoGateway";

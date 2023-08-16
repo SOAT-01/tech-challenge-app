@@ -1,6 +1,6 @@
 import { Cliente } from "entities/cliente";
 import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
-import { ClienteUseCase } from "useCases/cliente";
+import { ClienteUseCase } from "useCases";
 import { Email, Cpf } from "valueObjects";
 
 describe("Given ClienteUseCases", () => {

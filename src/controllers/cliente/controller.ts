@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { ClienteUseCase } from "useCases/cliente";
+import { ClienteDTO, ClienteUseCase } from "useCases";
 import { StatusCode } from "utils/statusCode";
-import { ClienteDTO } from "useCases/cliente/dto";
 
 export class ClienteController {
     constructor(private readonly clienteUseCase: ClienteUseCase) {}

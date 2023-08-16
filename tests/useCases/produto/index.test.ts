@@ -1,6 +1,6 @@
 import { Produto, Categoria, CategoriaEnum } from "entities/produto";
 import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
-import { ProdutoUseCase } from "useCases/produto";
+import { ProdutoUseCase } from "useCases";
 
 describe("Given ProdutoUseCases", () => {
     let gatewayStub: ProdutoGateway;
