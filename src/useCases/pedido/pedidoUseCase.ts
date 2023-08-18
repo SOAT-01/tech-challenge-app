@@ -1,5 +1,5 @@
 import { PedidoMapper } from "adapters/mappers";
-import { StatusPedidoEnum } from "entities/pedido";
+import { StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
 import { AssertionConcern } from "utils/assertionConcern";
@@ -34,12 +34,19 @@ export class PedidoUseCase implements IPedidoUseCase {
         return PedidoMapper.toDTO(result);
     }
 
-    public async create(pedido: PedidoDTO): Promise<PedidoDTO> {
+    public async checkout(pedido: PedidoDTO): Promise<PedidoDTO> {
         if (
             pedido.status &&
-            pedido.status !== StatusPedidoEnum.Pagamento_pendente
+            pedido.status !== StatusPedidoEnum.Recebido
         ) {
             throw new Error("Não é necessário informar o status");
+        }
+
+        if (
+            pedido.pagamento &&
+            pedido.pagamento !== StatusPagamentoEnum.Pagamento_pendente
+        ) {
+            throw new Error("Não é necessário informar o status de pagamento");
         }
 
         const ids = pedido.itens.map((item) => item.produtoId);
@@ -60,7 +67,7 @@ export class PedidoUseCase implements IPedidoUseCase {
             itens: itensComPreco,
         };
 
-        const result = await this.pedidoGateway.create(newPedido);
+        const result = await this.pedidoGateway.checkout(newPedido);
         return PedidoMapper.toDTO(result);
     }
 
@@ -80,6 +87,37 @@ export class PedidoUseCase implements IPedidoUseCase {
         return PedidoMapper.toDTO(result);
     }
 
+    public async updateStatus(id: string, status: StatusPedidoEnum): Promise<PedidoDTO> {
+        const pedidoToUpdateStatus = await this.pedidoGateway.getById(id);
+        const statusOrder = Object.values(StatusPedidoEnum);
+        const expectedStatus = statusOrder.indexOf(status);
+
+        AssertionConcern.assertArgumentNotEmpty(status, "É necessário informar o status");
+        AssertionConcern.assertArgumentIsValid(status, statusOrder, "É necessário informar um status válido");
+
+        if (!pedidoToUpdateStatus) {
+            throw new ResourceNotFoundError("Pedido não encontrado");
+        }
+
+        if (pedidoToUpdateStatus.pagamento !== StatusPagamentoEnum.Pagamento_aprovado) {
+            throw new ResourceNotFoundError("Não é possível alterar o status pois o pagamento ainda não foi aprovado!");
+        }
+
+        const currentStatus = statusOrder.indexOf(pedidoToUpdateStatus.status as StatusPedidoEnum);
+
+        console.log(currentStatus);
+        console.log(expectedStatus);
+
+        if (
+            expectedStatus - 1 !== currentStatus
+        ) {
+            throw new Error(`Status inválido, o próximo status válido para esse pedido é: ${statusOrder[currentStatus + 1]}`);
+        }
+
+        const result = await this.pedidoGateway.updateStatus(id, status);
+        return PedidoMapper.toDTO(result);
+    }
+
     public async updatePaymentStatus(id: string): Promise<PedidoDTO> {
         const pedidoToUpdateStatus = await this.pedidoGateway.getById(id);
 
@@ -87,7 +125,7 @@ export class PedidoUseCase implements IPedidoUseCase {
             throw new ResourceNotFoundError("Pedido não encontrado");
         }
         if (
-            pedidoToUpdateStatus.status !== StatusPedidoEnum.Pagamento_pendente
+            pedidoToUpdateStatus.pagamento !== StatusPagamentoEnum.Pagamento_pendente
         ) {
             throw new Error("Pedido já foi pago");
         }
