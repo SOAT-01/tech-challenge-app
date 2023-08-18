@@ -144,7 +144,6 @@ export class PedidoMongoGateway implements PedidoGateway {
                 },
             );
         }
-
     }
 
     async checkout(pedido: PedidoDTO): Promise<Pedido> {
@@ -193,14 +192,15 @@ export class PedidoMongoGateway implements PedidoGateway {
         );
     }
 
-    async updateStatus(
-        id: string,
-        status: StatusPedidoEnum,
-    ): Promise<Pedido> {
+    async updateStatus(id: string, status: StatusPedidoEnum): Promise<Pedido> {
         const result = await this.pedidoModel
-            .findOneAndUpdate({ _id: id }, { status }, {
-                new: true,
-            })
+            .findOneAndUpdate(
+                { _id: id },
+                { status },
+                {
+                    new: true,
+                },
+            )
             .populate<{ cliente: ClienteDTO }>("cliente");
 
         return PedidoMapper.toDomain(
