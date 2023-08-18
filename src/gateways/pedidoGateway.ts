@@ -1,7 +1,7 @@
 import { PedidoDTO, ClienteDTO } from "useCases";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
-import { Pedido } from "entities/pedido";
+import { Pedido, StatusPedidoEnum } from "entities/pedido";
 import { PedidoModel } from "external/mongo/models";
 import { PedidoMapper } from "adapters/mappers";
 
@@ -36,6 +36,7 @@ export class PedidoMongoGateway implements PedidoGateway {
                 {
                     id: result._id,
                     status: result.status,
+                    pagamento: result.pagamento,
                     valorTotal: result.valorTotal,
                     itens: result.itens,
                     observacoes: result.observacoes,
@@ -102,6 +103,7 @@ export class PedidoMongoGateway implements PedidoGateway {
                 {
                     id: result._id,
                     status: result.status,
+                    pagamento: result.pagamento,
                     valorTotal: result.valorTotal,
                     itens: result.itens,
                     observacoes: result.observacoes,
@@ -128,6 +130,7 @@ export class PedidoMongoGateway implements PedidoGateway {
             {
                 id: result.id,
                 status: result.status,
+                pagamento: result.pagamento,
                 valorTotal: result.valorTotal,
                 itens: result.itens,
                 observacoes: result.observacoes,
@@ -141,7 +144,7 @@ export class PedidoMongoGateway implements PedidoGateway {
         );
     }
 
-    async create(pedido: PedidoDTO): Promise<Pedido> {
+    async checkout(pedido: PedidoDTO): Promise<Pedido> {
         const result = await this.pedidoModel.create({
             valorTotal: pedido.valorTotal,
             itens: pedido.itens,
@@ -152,6 +155,7 @@ export class PedidoMongoGateway implements PedidoGateway {
         return PedidoMapper.toDomain({
             id: result.id,
             status: result.status,
+            pagamento: result.pagamento,
             valorTotal: result.valorTotal,
             itens: result.itens,
             observacoes: result.observacoes,
@@ -172,6 +176,35 @@ export class PedidoMongoGateway implements PedidoGateway {
             {
                 id: result.id,
                 status: result.status,
+                pagamento: result.pagamento,
+                valorTotal: result.valorTotal,
+                itens: result.itens,
+                observacoes: result.observacoes,
+            },
+            {
+                id: result?.cliente?.id,
+                nome: result?.cliente?.nome,
+                email: result?.cliente?.email,
+                cpf: result?.cliente?.cpf,
+            },
+        );
+    }
+
+    async updateStatus(
+        id: string,
+        status: StatusPedidoEnum,
+    ): Promise<Pedido> {
+        const result = await this.pedidoModel
+            .findOneAndUpdate({ _id: id }, { status }, {
+                new: true,
+            })
+            .populate<{ cliente: ClienteDTO }>("cliente");
+
+        return PedidoMapper.toDomain(
+            {
+                id: result.id,
+                status: result.status,
+                pagamento: result.pagamento,
                 valorTotal: result.valorTotal,
                 itens: result.itens,
                 observacoes: result.observacoes,
