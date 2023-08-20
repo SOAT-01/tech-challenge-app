@@ -29,10 +29,7 @@ export class PedidoUseCase implements IPedidoUseCase {
     }
 
     public async create(pedido: PedidoDTO): Promise<PedidoDTO> {
-        if (
-            pedido.status &&
-            pedido.status !== StatusPedidoEnum.Pagamento_pendente
-        ) {
+        if (pedido.status && pedido.status !== StatusPedidoEnum.Recebido) {
             throw new Error("Não é necessário informar o status");
         }
 
@@ -80,9 +77,7 @@ export class PedidoUseCase implements IPedidoUseCase {
         if (!pedidoToUpdateStatus) {
             throw new ResourceNotFoundError("Pedido não encontrado");
         }
-        if (
-            pedidoToUpdateStatus.status !== StatusPedidoEnum.Pagamento_pendente
-        ) {
+        if (pedidoToUpdateStatus.status !== StatusPedidoEnum.Recebido) {
             throw new Error("Pedido já foi pago");
         }
 

@@ -42,7 +42,7 @@ const mockPedidoDTO1 = {
     id: "any_id",
     valorTotal: 10,
     cliente: mockClienteDTO,
-    status: StatusPedidoEnum.Pagamento_pendente,
+    status: StatusPedidoEnum.Recebido,
     itens: [
         {
             produtoId: LANCHE.id,

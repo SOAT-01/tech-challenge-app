@@ -15,7 +15,7 @@ const PedidoSchema = new mongoose.Schema(
         status: {
             type: String,
             enum: Object.values(StatusPedidoEnum),
-            default: StatusPedidoEnum.Pagamento_pendente,
+            default: StatusPedidoEnum.Recebido,
             required: true,
         },
         valorTotal: {
