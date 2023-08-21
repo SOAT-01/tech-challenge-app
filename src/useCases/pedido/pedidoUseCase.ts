@@ -105,9 +105,6 @@ export class PedidoUseCase implements IPedidoUseCase {
 
         const currentStatus = statusOrder.indexOf(pedidoToUpdateStatus.status as StatusPedidoEnum);
 
-        console.log(currentStatus);
-        console.log(expectedStatus);
-
         if (
             expectedStatus - 1 !== currentStatus
         ) {
