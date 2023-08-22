@@ -197,10 +197,10 @@ describe("Given PedidoUseCases", () => {
         it("should call update on the gateway and return the updated pedido", async () => {
             const updateSpy = jest.spyOn(gatewayStub, "update");
             const pedido = await sut.update("any_another_id", {
-                status: StatusPedidoEnum.Em_preparacao,
+                valorTotal: 10,
             });
             expect(updateSpy).toHaveBeenCalledWith("any_another_id", {
-                status: StatusPedidoEnum.Em_preparacao,
+                valorTotal: 10,
             });
             expect(pedido).toEqual(mockPedidoDTO2);
         });
@@ -211,13 +211,33 @@ describe("Given PedidoUseCases", () => {
                 .mockResolvedValueOnce(null);
 
             const pedido = sut.update("nonexistent-id", {
-                status: StatusPedidoEnum.Em_preparacao,
+                valorTotal: 10,
             });
 
             await expect(pedido).rejects.toThrowError(
                 new Error("Pedido não encontrado"),
             );
             expect(getByIdSpy).toHaveBeenCalledWith("nonexistent-id");
+        });
+
+        it("should throw an error if has attempt to update status", async () => {
+            const pedido = sut.update("any_another_id", {
+                status: StatusPedidoEnum.Em_preparacao,
+            });
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Não é possível alterar o status por essa rota"),
+            );
+        });
+
+        it("should throw an error if has attempt to update payment status", async () => {
+            const pedido = sut.update("any_another_id", {
+                pagamento: StatusPagamentoEnum.Pagamento_aprovado,
+            });
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Não é possível alterar o status de pagamento por essa rota"),
+            );
         });
     });
 
@@ -254,7 +274,7 @@ describe("Given PedidoUseCases", () => {
             const pedido = sut.updateStatus("any_another_id", "invalid_status" as any);
 
             await expect(pedido).rejects.toThrowError(
-                new Error("É necessário informar o status"),
+                new Error("É necessário informar um status válido"),
             );
         });
 
