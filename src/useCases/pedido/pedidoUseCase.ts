@@ -77,6 +77,14 @@ export class PedidoUseCase implements IPedidoUseCase {
     ): Promise<PedidoDTO> {
         AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
+        if (pedido.status) {
+            throw new Error("Não é possível alterar o status por essa rota");
+        }
+
+        if (pedido.pagamento) {
+            throw new Error("Não é possível alterar o status de pagamento por essa rota");
+        }
+
         const doesPedidoExists = await this.pedidoGateway.getById(id);
 
         if (!doesPedidoExists) {
