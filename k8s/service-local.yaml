@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app-svc
+  name: app-svc
+spec:
+  ports:
+  - port: 6001
+    protocol: TCP
+    targetPort: 6001
+    nodePort: 32001
+  selector:
+    app: app-deployment
+  type: NodePort

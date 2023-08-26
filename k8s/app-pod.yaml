@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-pod
+  labels:
+    app: app-pod
+spec:
+  containers:
+    - name: app
+      image: deiro1/app_f1:latest
+      command: ["sh", "-c", "npm run start"]
+      ports:
+        - containerPort: 6001
+      env:
+        - name: MONGODB_CONN_STRING
+          valueFrom:
+            secretKeyRef:
+              name: secret-tech
+              key: MONGODB_CONN_STRING
+        - name: NODE_ENV
+          valueFrom:
+            secretKeyRef:
+              name: secret-tech
+              key: NODE_ENV
