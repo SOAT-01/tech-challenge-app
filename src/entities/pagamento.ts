@@ -1,5 +1,5 @@
 import { Entity } from "interfaces/entity.interface";
-// import { AssertionConcern } from "utils/assertionConcern";
+import { AssertionConcern } from "utils/assertionConcern";
 
 export enum StatusPagamentoEnum {
     Aprovado = "aprovado",
@@ -21,10 +21,14 @@ export class Pagamento implements Entity {
     }
 
     public validateEntity(): void {
-        // AssertionConcern.assertArgumentIsValid(
-        //     this.status,
-        //     Object.values(StatusPagamentoEnum),
-        //     `Status must be one of ${Object.values(StatusPagamentoEnum)}`,
-        // );
+        AssertionConcern.assertArgumentNotEmpty(
+            this.status,
+            "É necessário informar um status",
+        );
+        AssertionConcern.assertArgumentIsValid(
+            this.status,
+            Object.values(StatusPagamentoEnum),
+            `Status must be one of ${Object.values(StatusPagamentoEnum)}`,
+        );
     }
 }

@@ -31,7 +31,7 @@ export class PagamentoMongoGateway implements PagamentoGateway {
     ): Promise<Pagamento> {
         const result = await this.pagamentoModel.findOneAndUpdate(
             { _id: id },
-            status,
+            { status: status },
             {
                 new: true,
             },

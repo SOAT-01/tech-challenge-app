@@ -4,6 +4,7 @@ import { PagamentoMapper } from "adapters/mappers";
 import { IPagamentoUseCase } from "./pagamento.interface";
 import { PagamentoDTO } from "./dto";
 import { AssertionConcern } from "utils/assertionConcern";
+import { StatusPagamentoEnum } from "entities/pagamento";
 
 export class PagamentoUseCase implements IPagamentoUseCase {
     constructor(private readonly pagamentoGateway: PagamentoGateway) {}
@@ -35,6 +36,11 @@ export class PagamentoUseCase implements IPagamentoUseCase {
         AssertionConcern.assertArgumentNotEmpty(
             status,
             "É necessário informar um status",
+        );
+        AssertionConcern.assertArgumentIsValid(
+            String(status),
+            Object.values(StatusPagamentoEnum),
+            `Status must be one of ${Object.values(StatusPagamentoEnum)}`,
         );
 
         const doesPagamentoExists = await this.pagamentoGateway.getById(id);

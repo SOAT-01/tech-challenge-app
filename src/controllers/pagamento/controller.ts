@@ -52,7 +52,11 @@ export class PagamentoController {
         const { id } = req.params;
 
         try {
-            const result = await this.pagamentoUseCase.update(id, req.body);
+            const result = await this.pagamentoUseCase.update(
+                id,
+                req.body.status,
+            );
+
             return res.status(StatusCode.ok).json(result);
         } catch (error) {
             next(error);
