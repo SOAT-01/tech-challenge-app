@@ -69,10 +69,10 @@ const mockPedidoDTO2 = {
     ],
 };
 const mockPedidoDTO3 = {
-    id: "any_another_created_id",
+    id: "any_onemore_id",
     valorTotal: 29.9,
-    status: StatusPedidoEnum.Recebido,
-    pagamento: StatusPagamentoEnum.Pagamento_pendente,
+    status: StatusPedidoEnum.Finalizado,
+    pagamento: StatusPagamentoEnum.Pagamento_aprovado,
     itens: [
         {
             produtoId: LANCHE.id,
@@ -105,6 +105,13 @@ describe("Given PedidoUseCases", () => {
             status: mockPedidoDTO2.status,
             pagamento: mockPedidoDTO2.pagamento,
             itens: mockPedidoDTO2.itens,
+        }),
+        new Pedido({
+            id: mockPedidoDTO3.id,
+            valorTotal: mockPedidoDTO3.valorTotal,
+            status: mockPedidoDTO3.status,
+            pagamento: mockPedidoDTO3.pagamento,
+            itens: mockPedidoDTO3.itens,
         }),
     ];
 
@@ -154,7 +161,7 @@ describe("Given PedidoUseCases", () => {
 
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
-            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2]);
+            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2, mockPedidoDTO3]);
         });
     });
 
@@ -167,7 +174,7 @@ describe("Given PedidoUseCases", () => {
 
             const pedidos = await sut.getAllOrderedByStatus();
             expect(getAllOrderedByStatus).toHaveBeenCalled();
-            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2]);
+            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2, mockPedidoDTO3]);
         });
     });
 
@@ -267,6 +274,14 @@ describe("Given PedidoUseCases", () => {
 
             await expect(pedido).rejects.toThrowError(
                 new Error("É necessário informar o status"),
+            );
+        });
+
+        it("should throw an error if the order is already 'finalizado'", async () => {
+            const pedido = sut.updateStatus("any_onemore_id", StatusPedidoEnum.Finalizado);
+
+            await expect(pedido).rejects.toThrowError(
+                new Error("Não é possível alterar o status pois o pedido já está finalizado!"),
             );
         });
     

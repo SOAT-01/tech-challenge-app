@@ -126,22 +126,25 @@ export class PedidoMongoGateway implements PedidoGateway {
             })
             .populate<{ cliente: ClienteDTO }>("cliente");
 
-        return PedidoMapper.toDomain(
-            {
-                id: result.id,
-                status: result.status,
-                pagamento: result.pagamento,
-                valorTotal: result.valorTotal,
-                itens: result.itens,
-                observacoes: result.observacoes,
-            },
-            {
-                id: result?.cliente?.id,
-                nome: result?.cliente?.nome,
-                email: result?.cliente?.email,
-                cpf: result?.cliente?.cpf,
-            },
-        );
+        if (result) {
+            return PedidoMapper.toDomain(
+                {
+                    id: result.id,
+                    status: result.status,
+                    pagamento: result.pagamento,
+                    valorTotal: result.valorTotal,
+                    itens: result.itens,
+                    observacoes: result.observacoes,
+                },
+                {
+                    id: result?.cliente?.id,
+                    nome: result?.cliente?.nome,
+                    email: result?.cliente?.email,
+                    cpf: result?.cliente?.cpf,
+                },
+            );
+        }
+
     }
 
     async checkout(pedido: PedidoDTO): Promise<Pedido> {

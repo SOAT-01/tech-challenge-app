@@ -7,6 +7,7 @@ import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 import { ValorTotal } from "valueObjects";
 import { PedidoDTO } from "./dto";
 import { IPedidoUseCase } from "./pedido.interface";
+import { BadError } from "utils/errors/badError";
 
 export class PedidoUseCase implements IPedidoUseCase {
     constructor(
@@ -78,11 +79,11 @@ export class PedidoUseCase implements IPedidoUseCase {
         AssertionConcern.assertArgumentNotEmpty(pedido, "Pedido is required");
 
         if (pedido.status) {
-            throw new Error("Não é possível alterar o status por essa rota");
+            throw new BadError("Não é possível alterar o status por essa rota");
         }
 
         if (pedido.pagamento) {
-            throw new Error("Não é possível alterar o status de pagamento por essa rota");
+            throw new BadError("Não é possível alterar o status de pagamento por essa rota");
         }
 
         const doesPedidoExists = await this.pedidoGateway.getById(id);
@@ -107,8 +108,12 @@ export class PedidoUseCase implements IPedidoUseCase {
             throw new ResourceNotFoundError("Pedido não encontrado");
         }
 
+        if (pedidoToUpdateStatus.status === StatusPedidoEnum.Finalizado) {
+            throw new BadError("Não é possível alterar o status pois o pedido já está finalizado!");
+        }
+
         if (pedidoToUpdateStatus.pagamento !== StatusPagamentoEnum.Pagamento_aprovado) {
-            throw new ResourceNotFoundError("Não é possível alterar o status pois o pagamento ainda não foi aprovado!");
+            throw new BadError("Não é possível alterar o status pois o pagamento ainda não foi aprovado!");
         }
 
         const currentStatus = statusOrder.indexOf(pedidoToUpdateStatus.status as StatusPedidoEnum);
@@ -116,7 +121,7 @@ export class PedidoUseCase implements IPedidoUseCase {
         if (
             expectedStatus - 1 !== currentStatus
         ) {
-            throw new Error(`Status inválido, o próximo status válido para esse pedido é: ${statusOrder[currentStatus + 1]}`);
+            throw new BadError(`Status inválido, o próximo status válido para esse pedido é: ${statusOrder[currentStatus + 1]}`);
         }
 
         const result = await this.pedidoGateway.updateStatus(id, status);
