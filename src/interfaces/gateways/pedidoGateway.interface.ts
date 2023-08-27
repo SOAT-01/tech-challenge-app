@@ -1,4 +1,4 @@
-import { Pedido, StatusPedidoEnum } from "entities/pedido";
+import { Pedido, StatusPagamento, StatusPedidoEnum } from "entities/pedido";
 import { PedidoDTO } from "useCases";
 
 export interface PedidoGateway {
@@ -10,8 +10,6 @@ export interface PedidoGateway {
         id: string,
         pedido: Omit<Partial<Pedido>, "id" | "cliente">,
     ): Promise<Pedido>;
-    updateStatus(
-        id: string,
-        status: StatusPedidoEnum,
-    ): Promise<Pedido>;
+    updateStatus(id: string, status: StatusPedidoEnum): Promise<Pedido>;
+    updateStatusPagamento(id: string, status: StatusPagamento): Promise<Pedido>;
 }
