@@ -1,7 +1,7 @@
 import { PedidoDTO, ClienteDTO } from "useCases";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
-import { Pedido, StatusPedidoEnum } from "entities/pedido";
+import { Pedido, StatusPagamento, StatusPedidoEnum } from "entities/pedido";
 import { PedidoModel } from "external/mongo/models";
 import { PedidoMapper } from "adapters/mappers";
 
@@ -197,6 +197,38 @@ export class PedidoMongoGateway implements PedidoGateway {
             .findOneAndUpdate(
                 { _id: id },
                 { status },
+                {
+                    new: true,
+                },
+            )
+            .populate<{ cliente: ClienteDTO }>("cliente");
+
+        return PedidoMapper.toDomain(
+            {
+                id: result.id,
+                status: result.status,
+                pagamento: result.pagamento,
+                valorTotal: result.valorTotal,
+                itens: result.itens,
+                observacoes: result.observacoes,
+            },
+            {
+                id: result?.cliente?.id,
+                nome: result?.cliente?.nome,
+                email: result?.cliente?.email,
+                cpf: result?.cliente?.cpf,
+            },
+        );
+    }
+
+    async updateStatusPagamento(
+        id: string,
+        pagamento: StatusPagamento,
+    ): Promise<Pedido> {
+        const result = await this.pedidoModel
+            .findOneAndUpdate(
+                { _id: id },
+                { pagamento },
                 {
                     new: true,
                 },
