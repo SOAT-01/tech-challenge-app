@@ -8,6 +8,7 @@ module.exports = {
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
         prefix: "<rootDir>/src",
     }),
+    modulePaths: ["<rootDir>/src", "<rootDir>/tests"],
     testRegex: "tests/.*\\.(test|spec)\\.ts$",
     moduleFileExtensions: ["ts", "js", "json", "node"],
     testEnvironment: "node",
