@@ -3,6 +3,7 @@ import { serverError } from "../defaults";
 const WebhookFields = {
     pedidoId: {
         type: "string",
+        default: "UUID do pedido",
     },
     tipo: {
         type: "string",
@@ -19,6 +20,8 @@ export const WebhookPaths = {
             tags: ["webhook"],
             summary:
                 "Rota que recebe um webhook de atualização do status de pagamento",
+            description:
+                "Recebe um evento mock para fins de teste, o objeto deve conter o `pedidoId` e `tipo` <br><br> Tipos possíveis: [ `aprovado`, `recusado` ]",
             requestBody: {
                 required: true,
                 content: {
