@@ -109,10 +109,9 @@ export class AssertionConcern {
         }
     }
 
-    public static assertArgumentIsUUID(id: string, message: string): void {
-        const UUIDRegex =
-            /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
-        if (!UUIDRegex.test(id)) {
+    public static assertArgumentIsObjectId(id: string, message: string): void {
+        const ObjectIdRegex = /^[a-f\d]{24}$/i;
+        if (!ObjectIdRegex.test(id)) {
             throw new ValidationError(message);
         }
     }

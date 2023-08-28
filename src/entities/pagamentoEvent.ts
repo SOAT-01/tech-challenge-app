@@ -26,9 +26,9 @@ export class PagamentoEvent {
             this.pedidoId,
             "pedidoId is required",
         );
-        AssertionConcern.assertArgumentIsUUID(
+        AssertionConcern.assertArgumentIsObjectId(
             this.pedidoId,
-            "pedidoId must be a UUID",
+            "pedidoId must be a valid ObjectId",
         );
         AssertionConcern.assertArgumentNotEmpty(
             this.pedidoId,
