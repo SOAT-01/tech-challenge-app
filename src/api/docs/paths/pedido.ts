@@ -227,10 +227,11 @@ export const PedidoPaths = {
                     "application/json": {
                         schema: {
                             type: "object",
-                            enum: StatusEnum,
                             properties: {
                                 status: {
                                     type: "string",
+                                    enum: StatusEnum,
+                                    default: "em_preparacao"
                                 }
                             },
                             required: "status",
