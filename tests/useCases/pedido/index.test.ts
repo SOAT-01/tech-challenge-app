@@ -116,8 +116,19 @@ describe("Given PedidoUseCases", () => {
     ];
 
     class PedidoGatewayStub implements PedidoGateway {
+        updateStatusPagamento(
+            id: string,
+            status:
+                | "pagamento_pendente"
+                | "pagamento_aprovado"
+                | "pagamento_nao_autorizado",
+        ): Promise<Pedido> {
+            throw new Error("Method not implemented.");
+        }
         getById(id: string): Promise<Pedido> {
-            return new Promise((resolve) => resolve(mockPedidos.find(p => p.id === id)));
+            return new Promise((resolve) =>
+                resolve(mockPedidos.find((p) => p.id === id)),
+            );
         }
         getAllOrderedByStatus(): Promise<Pedido[]> {
             return new Promise((resolve) => resolve(mockPedidos));
@@ -161,7 +172,11 @@ describe("Given PedidoUseCases", () => {
 
             const pedidos = await sut.getAll();
             expect(getAll).toHaveBeenCalled();
-            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2, mockPedidoDTO3]);
+            expect(pedidos).toEqual([
+                mockPedidoDTO1,
+                mockPedidoDTO2,
+                mockPedidoDTO3,
+            ]);
         });
     });
 
@@ -174,7 +189,11 @@ describe("Given PedidoUseCases", () => {
 
             const pedidos = await sut.getAllOrderedByStatus();
             expect(getAllOrderedByStatus).toHaveBeenCalled();
-            expect(pedidos).toEqual([mockPedidoDTO1, mockPedidoDTO2, mockPedidoDTO3]);
+            expect(pedidos).toEqual([
+                mockPedidoDTO1,
+                mockPedidoDTO2,
+                mockPedidoDTO3,
+            ]);
         });
     });
 
@@ -243,7 +262,9 @@ describe("Given PedidoUseCases", () => {
             });
 
             await expect(pedido).rejects.toThrowError(
-                new Error("Não é possível alterar o status de pagamento por essa rota"),
+                new Error(
+                    "Não é possível alterar o status de pagamento por essa rota",
+                ),
             );
         });
     });
@@ -251,8 +272,14 @@ describe("Given PedidoUseCases", () => {
     describe("When updateStatus is called", () => {
         it("should call updateStatus on the gateway and return the updated pedido", async () => {
             const updateStatusSpy = jest.spyOn(gatewayStub, "updateStatus");
-            const pedido = await sut.updateStatus("any_another_id", StatusPedidoEnum.Pronto);
-            expect(updateStatusSpy).toHaveBeenCalledWith("any_another_id", StatusPedidoEnum.Pronto);
+            const pedido = await sut.updateStatus(
+                "any_another_id",
+                StatusPedidoEnum.Pronto,
+            );
+            expect(updateStatusSpy).toHaveBeenCalledWith(
+                "any_another_id",
+                StatusPedidoEnum.Pronto,
+            );
             expect(pedido).toEqual(mockPedidoDTO2);
         });
 
@@ -261,7 +288,10 @@ describe("Given PedidoUseCases", () => {
                 .spyOn(gatewayStub, "getById")
                 .mockResolvedValueOnce(null);
 
-            const pedido = sut.updateStatus("nonexistent-id", StatusPedidoEnum.Em_preparacao);
+            const pedido = sut.updateStatus(
+                "nonexistent-id",
+                StatusPedidoEnum.Em_preparacao,
+            );
 
             await expect(pedido).rejects.toThrowError(
                 new Error("Pedido não encontrado"),
@@ -278,15 +308,23 @@ describe("Given PedidoUseCases", () => {
         });
 
         it("should throw an error if the order is already 'finalizado'", async () => {
-            const pedido = sut.updateStatus("any_onemore_id", StatusPedidoEnum.Finalizado);
+            const pedido = sut.updateStatus(
+                "any_onemore_id",
+                StatusPedidoEnum.Finalizado,
+            );
 
             await expect(pedido).rejects.toThrowError(
-                new Error("Não é possível alterar o status pois o pedido já está finalizado!"),
+                new Error(
+                    "Não é possível alterar o status pois o pedido já está finalizado!",
+                ),
             );
         });
-    
+
         it("should throw an error if the request body does not contain a valid status", async () => {
-            const pedido = sut.updateStatus("any_another_id", "invalid_status" as any);
+            const pedido = sut.updateStatus(
+                "any_another_id",
+                "invalid_status" as any,
+            );
 
             await expect(pedido).rejects.toThrowError(
                 new Error("É necessário informar um status válido"),
@@ -294,26 +332,41 @@ describe("Given PedidoUseCases", () => {
         });
 
         it("should throw an error if the order's payment is not authorized yet", async () => {
-            const pedido = sut.updateStatus("any_id", StatusPedidoEnum.Em_preparacao);
+            const pedido = sut.updateStatus(
+                "any_id",
+                StatusPedidoEnum.Em_preparacao,
+            );
 
             await expect(pedido).rejects.toThrowError(
-                new Error("Não é possível alterar o status pois o pagamento ainda não foi aprovado!"),
+                new Error(
+                    "Não é possível alterar o status pois o pagamento ainda não foi aprovado!",
+                ),
             );
         });
 
         it("should throw an error if the status is before current status", async () => {
-            const pedido = sut.updateStatus("any_another_id", StatusPedidoEnum.Recebido);
+            const pedido = sut.updateStatus(
+                "any_another_id",
+                StatusPedidoEnum.Recebido,
+            );
 
             await expect(pedido).rejects.toThrowError(
-                new Error("Status inválido, o próximo status válido para esse pedido é: pronto"),
+                new Error(
+                    "Status inválido, o próximo status válido para esse pedido é: pronto",
+                ),
             );
         });
 
         it("should throw an error if the status is after expected status", async () => {
-            const pedido = sut.updateStatus("any_another_id", StatusPedidoEnum.Finalizado);
+            const pedido = sut.updateStatus(
+                "any_another_id",
+                StatusPedidoEnum.Finalizado,
+            );
 
             await expect(pedido).rejects.toThrowError(
-                new Error("Status inválido, o próximo status válido para esse pedido é: pronto"),
+                new Error(
+                    "Status inválido, o próximo status válido para esse pedido é: pronto",
+                ),
             );
         });
     });

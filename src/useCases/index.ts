@@ -6,3 +6,6 @@ export * from "./produto/dto";
 
 export * from "./pedido/pedidoUseCase";
 export * from "./pedido/dto";
+
+export * from "./pagamentoEventMock/pagamentoEventMockUseCase";
+export * from "./pagamentoEventMock/dto";
