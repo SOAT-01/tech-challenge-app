@@ -1,4 +1,5 @@
-import { StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
+import { StatusPedidoEnum } from "entities/pedido";
+import { StatusPagamentoEnum } from "entities/pagamento";
 import { serverError, unprocessableEntity } from "../defaults";
 
 const StatusEnum = Object.values(StatusPedidoEnum);
@@ -231,8 +232,8 @@ export const PedidoPaths = {
                                 status: {
                                     type: "string",
                                     enum: StatusEnum,
-                                    default: "em_preparacao"
-                                }
+                                    default: "em_preparacao",
+                                },
                             },
                             required: "status",
                         },

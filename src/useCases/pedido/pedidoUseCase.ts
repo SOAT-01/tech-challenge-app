@@ -1,5 +1,6 @@
 import { PedidoMapper } from "adapters/mappers";
-import { StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
+import { StatusPedidoEnum } from "entities/pedido";
+import { StatusPagamentoEnum } from "entities/pagamento";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
 import { AssertionConcern } from "utils/assertionConcern";

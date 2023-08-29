@@ -6,7 +6,7 @@ const PagamentoSchema = new mongoose.Schema(
         status: {
             type: String,
             enum: Object.values(StatusPagamentoEnum),
-            default: StatusPagamentoEnum.Processando,
+            default: StatusPagamentoEnum.Pagamento_pendente,
             required: true,
         },
     },

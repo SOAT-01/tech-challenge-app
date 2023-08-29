@@ -1,4 +1,5 @@
-import { Pedido, StatusPagamento, StatusPedidoEnum } from "entities/pedido";
+import { Pedido, StatusPedidoEnum } from "entities/pedido";
+import { StatusPagamento } from "entities/pagamento";
 import { PedidoDTO } from "useCases";
 
 export interface PedidoGateway {

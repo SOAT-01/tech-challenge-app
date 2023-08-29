@@ -1,4 +1,5 @@
-import { StatusPedido, Item, StatusPagamento } from "entities/pedido";
+import { StatusPedido, Item } from "entities/pedido";
+import { StatusPagamento } from "entities/pagamento";
 
 export interface PedidoDTO {
     id?: string;

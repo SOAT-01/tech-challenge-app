@@ -1,7 +1,8 @@
 import { PedidoDTO, ClienteDTO } from "useCases";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 
-import { Pedido, StatusPagamento, StatusPedidoEnum } from "entities/pedido";
+import { Pedido, StatusPedidoEnum } from "entities/pedido";
+import { StatusPagamento } from "entities/pagamento";
 import { PedidoModel } from "external/mongo/models";
 import { PedidoMapper } from "adapters/mappers";
 

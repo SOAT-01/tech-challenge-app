@@ -67,7 +67,10 @@ export class PedidoController {
         const { id } = req.params;
 
         try {
-            const result = await this.pedidoUseCase.updateStatus(id, req.body?.status ?? undefined);
+            const result = await this.pedidoUseCase.updateStatus(
+                id,
+                req.body?.status ?? undefined,
+            );
             return res.status(StatusCode.ok).json(result);
         } catch (error) {
             next(error);

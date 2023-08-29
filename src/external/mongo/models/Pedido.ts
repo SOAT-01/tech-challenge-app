@@ -1,4 +1,5 @@
-import { Item, StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
+import { Item, StatusPedidoEnum } from "entities/pedido";
+import { StatusPagamentoEnum } from "entities/pagamento";
 import mongoose from "mongoose";
 
 const ItemSchema = new mongoose.Schema<Item>({
@@ -24,6 +25,13 @@ const PedidoSchema = new mongoose.Schema(
             default: StatusPagamentoEnum.Pagamento_pendente,
             required: true,
         },
+        // pagamento: {
+        //     type: mongoose.Types.ObjectId,
+        //     ref: "Pagamentos",
+        //     enum: Object.values(StatusPagamentoEnum),
+        //     default: StatusPagamentoEnum.Pagamento_pendente,
+        //     required: true,
+        // },
         valorTotal: {
             type: Number,
             required: false,

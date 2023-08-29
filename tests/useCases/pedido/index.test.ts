@@ -1,5 +1,6 @@
 import { Cliente } from "entities/cliente";
-import { StatusPedidoEnum, Pedido, StatusPagamentoEnum } from "entities/pedido";
+import { StatusPedidoEnum, Pedido } from "entities/pedido";
+import { StatusPagamentoEnum } from "entities/pagamento";
 import { Produto, CategoriaEnum } from "entities/produto";
 import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
 import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";

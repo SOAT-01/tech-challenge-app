@@ -1,6 +1,7 @@
 import { Entity } from "interfaces/entity.interface";
 import { AssertionConcern } from "utils/assertionConcern";
 import { Cliente } from "./cliente";
+import { StatusPagamento, StatusPagamentoEnum } from "./pagamento";
 
 export enum StatusPedidoEnum {
     Recebido = "recebido",
@@ -10,14 +11,14 @@ export enum StatusPedidoEnum {
     Cancelado = "cancelado",
 }
 
-export enum StatusPagamentoEnum {
-    Pagamento_pendente = "pagamento_pendente",
-    Pagamento_aprovado = "pagamento_aprovado",
-    Pagamento_nao_autorizado = "pagamento_nao_autorizado"
-}
+// export enum StatusPagamentoEnum {
+//     Pagamento_pendente = "pagamento_pendente",
+//     Pagamento_aprovado = "pagamento_aprovado",
+//     Pagamento_nao_autorizado = "pagamento_nao_autorizado",
+// }
 
 export type StatusPedido = `${StatusPedidoEnum}`;
-export type StatusPagamento = `${StatusPagamentoEnum}`;
+// export type StatusPagamento = `${StatusPagamentoEnum}`;
 
 export interface Item {
     produtoId: string;
