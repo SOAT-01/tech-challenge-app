@@ -21,3 +21,10 @@ spec:
             secretKeyRef:
               name: secret-tech
               key: MONGO_INITDB_ROOT_PASSWORD
+      volumeMounts:
+        - name: shared
+          mountPath: /data/db
+  volumes:
+    - name: shared
+      persistentVolumeClaim:
+        claimName: pvc-mongo

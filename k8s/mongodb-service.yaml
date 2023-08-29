@@ -3,10 +3,10 @@ kind: Service
 metadata:
   labels:
     app: mongo
-  name: mongo-nodeport-svc
+  name: mongo-svc
 spec:
   ports:
-  - port: 27017
+  - port: 80
     protocol: TCP
     targetPort: 27017
     nodePort: 32000
