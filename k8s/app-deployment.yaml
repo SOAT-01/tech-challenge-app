@@ -5,7 +5,7 @@ metadata:
   labels:
     app: app-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: app-deployment
@@ -23,6 +23,8 @@ spec:
           resources:
             requests:
               cpu: 333m
+            limits:
+              cpu: 999m
           env:
             - name: MONGODB_CONN_STRING
               valueFrom:
