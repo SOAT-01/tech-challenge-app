@@ -10,6 +10,7 @@ export class PedidoMapper {
         return new Pedido({
             id: dto.id,
             status: dto.status,
+            pagamento: dto.pagamento,
             valorTotal: dto.valorTotal,
             observacoes: dto.observacoes,
             itens: dto.itens,
@@ -30,6 +31,7 @@ export class PedidoMapper {
         return {
             id: pedido.id,
             status: pedido.status,
+            pagamento: pedido.pagamento,
             valorTotal: pedido.valorTotal,
             itens: pedido.itens,
             observacoes: pedido.observacoes,

@@ -26,6 +26,10 @@ export const SwaggerConfig = {
             name: "pedido",
             description: "Rotas relacionadas a pedido",
         },
+        {
+            name: "webhook",
+            description: "Rotas relacionadas a webhooks",
+        },
     ],
     paths: ApiPaths,
 };

@@ -4,6 +4,7 @@ import { makeProdutoRouter } from "./produtoRouter";
 import { makePedidoRouter } from "./pedidoRouter";
 import { makeHealthRouter } from "./healthRouter";
 import { makePagamentoRouter } from "./pagamentoRouter";
+import { makeWebhookRouter } from "./webhookRouter";
 
 export function makeServerRouter(): Router {
     const serverRouter = Router();
@@ -13,6 +14,7 @@ export function makeServerRouter(): Router {
     serverRouter.use("/pedido", makePedidoRouter());
     serverRouter.use("/health", makeHealthRouter());
     serverRouter.use("/pagamento", makePagamentoRouter());
+    serverRouter.use("/webhook", makeWebhookRouter());
 
     return serverRouter;
 }

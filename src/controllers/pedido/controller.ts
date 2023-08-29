@@ -37,8 +37,8 @@ export class PedidoController {
         next: NextFunction,
     ): Promise<Response> {
         try {
-            const result = await this.pedidoUseCase.create(req.body);
-            return res.status(StatusCode.created).json(result);
+            const result = await this.pedidoUseCase.checkout(req.body);
+            return res.status(StatusCode.created).json(result.id);
         } catch (error) {
             next(error);
         }
@@ -53,6 +53,21 @@ export class PedidoController {
 
         try {
             const result = await this.pedidoUseCase.update(id, req.body);
+            return res.status(StatusCode.ok).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public async patchStatus(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<Response> {
+        const { id } = req.params;
+
+        try {
+            const result = await this.pedidoUseCase.updateStatus(id, req.body?.status ?? undefined);
             return res.status(StatusCode.ok).json(result);
         } catch (error) {
             next(error);

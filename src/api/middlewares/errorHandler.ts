@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCode } from "utils/statusCode";
 import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 import { ValidationError } from "utils/errors/validationError";
+import { BadError } from "utils/errors/badError";
 
 // ? "_next" parameter is not used but is needed for "express-async-errors" package
 // ? Since whe are returning the response there is no use for it
@@ -27,6 +28,14 @@ export function errorHandler(
     if (error instanceof ResourceNotFoundError) {
         return res.status(StatusCode.notFound).json({
             code: StatusCode.notFound,
+            name: error?.name,
+            message: error?.message,
+        });
+    }
+
+    if (error instanceof BadError) {
+        return res.status(StatusCode.badRequest).json({
+            code: StatusCode.badRequest,
             name: error?.name,
             message: error?.message,
         });

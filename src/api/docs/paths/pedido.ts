@@ -1,8 +1,17 @@
+import { StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
 import { serverError, unprocessableEntity } from "../defaults";
+
+const StatusEnum = Object.values(StatusPedidoEnum);
+const PagamentoEnum = Object.values(StatusPagamentoEnum);
 
 const PedidoFields = {
     status: {
         type: "string",
+        enum: StatusEnum,
+    },
+    pagamento: {
+        type: "string",
+        enum: PagamentoEnum,
     },
     valorTotal: {
         type: "number",
@@ -60,7 +69,7 @@ export const PedidoPaths = {
         },
         post: {
             tags: ["pedido"],
-            summary: "Rota para cadastrar um pedido",
+            summary: "Rota para fazer o checkout (criar) de um pedido",
             requestBody: {
                 required: true,
                 content: {
@@ -93,16 +102,10 @@ export const PedidoPaths = {
                 201: {
                     description: "Pedido cadastrado",
                     content: {
-                        "application/json": {
+                        "text/plain": {
                             schema: {
-                                type: "object",
-                                properties: {
-                                    id: {
-                                        type: "string",
-                                    },
-                                    ...PedidoFields,
-                                },
-                                required: RequiredFields,
+                                type: "string",
+                                example: "64deb912c3d31615c0af2863 (id)",
                             },
                         },
                     },
@@ -179,6 +182,66 @@ export const PedidoPaths = {
             responses: {
                 201: {
                     description: "Pedido atualizado",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "object",
+                                properties: {
+                                    id: {
+                                        type: "string",
+                                    },
+                                    ...PedidoFields,
+                                },
+                                required: RequiredFields,
+                            },
+                        },
+                    },
+                },
+                422: {
+                    ...unprocessableEntity,
+                },
+                500: {
+                    ...serverError,
+                },
+            },
+        },
+    },
+    "/pedido/{id}/update-status": {
+        patch: {
+            tags: ["pedido"],
+            summary: "Rota para atualizar o status de um pedido",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "id do pedido a ser atualizado",
+                    required: true,
+                    schema: {
+                        type: "string",
+                    },
+                },
+            ],
+            requestBody: {
+                required: true,
+                content: {
+                    "application/json": {
+                        schema: {
+                            type: "object",
+                            properties: {
+                                status: {
+                                    type: "string",
+                                    enum: StatusEnum,
+                                    default: "em_preparacao"
+                                }
+                            },
+                            required: "status",
+                        },
+                    },
+                },
+            },
+            responses: {
+                201: {
+                    description: "Status do pedido atualizado",
                     content: {
                         "application/json": {
                             schema: {
