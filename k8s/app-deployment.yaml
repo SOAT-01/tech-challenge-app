@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: deiro1/app_f1:latest
+          image: deiro1/app-fast-food:latest
           command: ["sh", "-c", "npm run start"]
           ports:
             - containerPort: 6001
