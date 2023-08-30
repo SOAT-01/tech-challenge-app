@@ -231,8 +231,8 @@ export const PedidoPaths = {
                                 status: {
                                     type: "string",
                                     enum: StatusEnum,
-                                    default: "em_preparacao"
-                                }
+                                    default: "em_preparacao",
+                                },
                             },
                             required: "status",
                         },
@@ -295,6 +295,42 @@ export const PedidoPaths = {
                                     ...PedidoFields,
                                 },
                                 required: RequiredFields,
+                            },
+                        },
+                    },
+                },
+                422: {
+                    ...unprocessableEntity,
+                },
+                500: {
+                    ...serverError,
+                },
+            },
+        },
+    },
+    "/pedido/{id}/payment-status": {
+        get: {
+            tags: ["pedido"],
+            summary: "Rota para obter o status de pagamento de um pedido",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "id do pedido a ser encontrado",
+                    required: true,
+                    schema: {
+                        type: "string",
+                    },
+                },
+            ],
+            responses: {
+                201: {
+                    description: "Pagamento encontrado",
+                    content: {
+                        "text/plain": {
+                            schema: {
+                                type: "string",
+                                example: "pagamento_pendente",
                             },
                         },
                     },
