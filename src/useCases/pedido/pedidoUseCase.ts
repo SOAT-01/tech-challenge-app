@@ -35,6 +35,14 @@ export class PedidoUseCase implements IPedidoUseCase {
         return PedidoMapper.toDTO(result);
     }
 
+    public async getPaymentStatus(id: string): Promise<PedidoDTO> {
+        const result = await this.pedidoGateway.getById(id);
+
+        if (!result) throw new ResourceNotFoundError("Pedido não encontrado");
+
+        return PedidoMapper.toDTO(result);
+    }
+
     public async checkout(pedido: PedidoDTO): Promise<PedidoDTO> {
         if (pedido.status && pedido.status !== StatusPedidoEnum.Recebido) {
             throw new Error("Não é necessário informar o status");

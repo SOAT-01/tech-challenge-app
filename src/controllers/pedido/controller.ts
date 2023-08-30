@@ -31,6 +31,21 @@ export class PedidoController {
         }
     }
 
+    public async getPaymentStatus(
+        req: Request,
+        res: Response,
+        next: NextFunction,
+    ): Promise<Response> {
+        const { id } = req.params;
+
+        try {
+            const result = await this.pedidoUseCase.getPaymentStatus(id);
+            return res.status(StatusCode.ok).json(result.pagamento);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     public async post(
         req: Request,
         res: Response,
@@ -67,7 +82,10 @@ export class PedidoController {
         const { id } = req.params;
 
         try {
-            const result = await this.pedidoUseCase.updateStatus(id, req.body?.status ?? undefined);
+            const result = await this.pedidoUseCase.updateStatus(
+                id,
+                req.body?.status ?? undefined,
+            );
             return res.status(StatusCode.ok).json(result);
         } catch (error) {
             next(error);

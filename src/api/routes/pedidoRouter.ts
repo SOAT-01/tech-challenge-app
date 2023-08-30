@@ -12,6 +12,10 @@ export function makePedidoRouter(): Router {
         pedidoController.getAllOrderedByStatus(req, res, next);
     });
 
+    pedidoRouter.get("/:id/payment-status", async (req, res, next) => {
+        pedidoController.getPaymentStatus(req, res, next);
+    });
+
     pedidoRouter.post("/", async (req, res, next) =>
         pedidoController.post(req, res, next),
     );
