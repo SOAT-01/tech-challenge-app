@@ -38,6 +38,73 @@ const PedidoFields = {
 const RequiredFields = ["status", "valorTotal", "itens"];
 
 export const PedidoPaths = {
+    "/pedido/ordered-by-status": {
+        get: {
+            tags: ["pedido"],
+            summary:
+                "Rota para listar todos os pedidos ordenados por status e sem o status finalizado",
+            responses: {
+                200: {
+                    description: "pedidos encontrados",
+                    content: {
+                        "application/json": {
+                            schema: {
+                                type: "array",
+                                items: {
+                                    type: "object",
+                                    properties: {
+                                        id: {
+                                            type: "string",
+                                        },
+                                        ...PedidoFields,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                500: {
+                    ...serverError,
+                },
+            },
+        },
+    },
+    "/pedido/{id}/payment-status": {
+        get: {
+            tags: ["pedido"],
+            summary: "Rota para obter o status de pagamento de um pedido",
+            parameters: [
+                {
+                    in: "path",
+                    name: "id",
+                    description: "id do pedido a ser encontrado",
+                    required: true,
+                    schema: {
+                        type: "string",
+                    },
+                },
+            ],
+            responses: {
+                201: {
+                    description: "Pagamento encontrado",
+                    content: {
+                        "text/plain": {
+                            schema: {
+                                type: "string",
+                                example: "pagamento_pendente",
+                            },
+                        },
+                    },
+                },
+                422: {
+                    ...unprocessableEntity,
+                },
+                500: {
+                    ...serverError,
+                },
+            },
+        },
+    },
     "/pedido": {
         get: {
             tags: ["pedido"],
@@ -112,37 +179,6 @@ export const PedidoPaths = {
                 },
                 422: {
                     ...unprocessableEntity,
-                },
-                500: {
-                    ...serverError,
-                },
-            },
-        },
-    },
-    "/pedido/ordered-by-status": {
-        get: {
-            tags: ["pedido"],
-            summary:
-                "Rota para listar todos os pedidos ordenados por status e sem o status finalizado",
-            responses: {
-                200: {
-                    description: "pedidos encontrados",
-                    content: {
-                        "application/json": {
-                            schema: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    properties: {
-                                        id: {
-                                            type: "string",
-                                        },
-                                        ...PedidoFields,
-                                    },
-                                },
-                            },
-                        },
-                    },
                 },
                 500: {
                     ...serverError,
@@ -231,8 +267,8 @@ export const PedidoPaths = {
                                 status: {
                                     type: "string",
                                     enum: StatusEnum,
-                                    default: "em_preparacao"
-                                }
+                                    default: "em_preparacao",
+                                },
                             },
                             required: "status",
                         },
