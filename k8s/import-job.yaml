@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongodb-import-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: mongodb-import-container
+        image: deiro1/mongo-import:latest
+        command: [ "/scripts/import_script.sh" ]
+        env:
+        - name: MONGODB_CONNECTION_STRING
+          valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: MONGODB_CONN_STRING
+      restartPolicy: Never
+  backoffLimit: 1
