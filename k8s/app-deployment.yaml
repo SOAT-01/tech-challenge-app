@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-deployment
+  template:
+    metadata:
+      labels:
+        app: app-deployment
+    spec:
+      containers:
+        - name: app
+          image: deiro1/app-fast-food:latest
+          command: ["sh", "-c", "npm run start"]
+          ports:
+            - containerPort: 6001
+          resources:
+            requests:
+              cpu: 333m
+            limits:
+              cpu: 999m
+          env:
+            - name: MONGODB_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: MONGODB_CONN_STRING
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: secret-tech
+                  key: NODE_ENV

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: app-load-balancer
+  name: app-load-balancer
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 6001
+  selector:
+    app: app-deployment
+  type: LoadBalancer

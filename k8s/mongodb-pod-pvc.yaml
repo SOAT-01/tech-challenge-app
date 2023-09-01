@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mongodb-pod
+  labels:
+        app: mongodb-pod
+spec:
+  containers:
+    - name: mongodb
+      image: mongo:latest
+      ports:
+        - containerPort: 27017
+      env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: secret-tech
+              key: MONGO_INITDB_ROOT_USERNAME
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-tech
+              key: MONGO_INITDB_ROOT_PASSWORD
+      volumeMounts:
+        - name: shared
+          mountPath: /data/db
+  volumes:
+    - name: shared
+      persistentVolumeClaim:
+        claimName: pvc-mongo

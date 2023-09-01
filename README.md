@@ -2,13 +2,19 @@
 
 Projeto do curso da pós tech Fiap Arquitetura de Software
 
+## Update Fase 2 - Kubernetes
+
+Para executar os Pods da Fase 2, consultar a wiki:
+
+https://github.com/karineriquena/fiap-soat1-tech-challenge/wiki/Fase-2
+
 ## Documentação DDD
 
 Pode acessar a wiki deste projeto:
 
 https://github.com/karineriquena/fiap-soat1-tech-challenge/wiki/Fase-1
 
-## Como rodar o projeto
+## Como rodar o projeto (Fase 1 - Docker)
 
 Fazer o clone e ir na pasta do projeto (por exemplo: fiap-soat1-tech-challenge)
 
