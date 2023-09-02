@@ -88,7 +88,7 @@ export const PedidoPaths = {
                 200: {
                     description: "Pagamento encontrado",
                     content: {
-                        "text/plain": {
+                        "application/json": {
                             schema: {
                                 type: "string",
                                 example: "pagamento_pendente",
@@ -169,7 +169,7 @@ export const PedidoPaths = {
                 201: {
                     description: "Pedido cadastrado",
                     content: {
-                        "text/plain": {
+                        "application/json": {
                             schema: {
                                 type: "string",
                                 example: "64deb912c3d31615c0af2863 (id)",
