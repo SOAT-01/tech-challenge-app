@@ -91,7 +91,7 @@ export const PedidoPaths = {
                         "application/json": {
                             schema: {
                                 type: "string",
-                                example: "pagamento_pendente",
+                                example: { pagamento: "pagamento_pendente" },
                             },
                         },
                     },
@@ -172,7 +172,7 @@ export const PedidoPaths = {
                         "application/json": {
                             schema: {
                                 type: "string",
-                                example: "64deb912c3d31615c0af2863 (id)",
+                                example: { id: "64deb912c3d31615c0af2863" },
                             },
                         },
                     },
