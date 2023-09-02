@@ -85,7 +85,7 @@ export const PedidoPaths = {
                 },
             ],
             responses: {
-                201: {
+                200: {
                     description: "Pagamento encontrado",
                     content: {
                         "text/plain": {
