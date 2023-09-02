@@ -40,7 +40,9 @@ export class PedidoController {
 
         try {
             const result = await this.pedidoUseCase.getPaymentStatus(id);
-            return res.status(StatusCode.ok).json(result.pagamento);
+            return res
+                .status(StatusCode.ok)
+                .json({ pagamento: result.pagamento });
         } catch (error) {
             next(error);
         }
@@ -53,7 +55,7 @@ export class PedidoController {
     ): Promise<Response> {
         try {
             const result = await this.pedidoUseCase.checkout(req.body);
-            return res.status(StatusCode.created).json(result.id);
+            return res.status(StatusCode.created).json({ id: result.id });
         } catch (error) {
             next(error);
         }
