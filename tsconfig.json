@@ -16,7 +16,8 @@
         "allowSyntheticDefaultImports": true,
         "rootDirs": ["src"],
         "baseUrl": "src",
-        "paths": {}
+        "paths": {},
+        "skipLibCheck": true // ref: https://github.com/drizzle-team/drizzle-orm/issues/1207
     },
     "include": ["src/**/*", "tests/**/*"],
     "exclude": ["node_modules/**/*"]
