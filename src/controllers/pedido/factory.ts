@@ -1,13 +1,18 @@
 import { PedidoUseCase } from "useCases";
-import { PedidoController } from "./controller";
-import { PedidoModel, ProdutoModel } from "external/mongo/models";
 import { PedidoMongoGateway } from "gateways/pedidoGateway";
-import { ProdutoMongoGateway } from "gateways/produtoGateway";
+import { ProdutoPostgresGateway } from "gateways/produtoGateway";
+import { PedidoModel } from "external/mongo/models";
+import { PostgresDB } from "external/postgres";
+import { ProdutoSchema } from "external/postgres/schemas";
+import { PedidoController } from "./controller";
 
 export class PedidoControllerFactory {
     public static create(): PedidoController {
         const pedidoGateway = new PedidoMongoGateway(PedidoModel);
-        const produtoGateway = new ProdutoMongoGateway(ProdutoModel);
+        const produtoGateway = new ProdutoPostgresGateway(
+            PostgresDB,
+            ProdutoSchema,
+        );
 
         const pedidoUseCase = new PedidoUseCase(pedidoGateway, produtoGateway);
 
