@@ -14,7 +14,7 @@ Pode acessar a wiki deste projeto:
 
 https://github.com/karineriquena/fiap-soat1-tech-challenge/wiki/Fase-1
 
-## Como rodar o projeto (Fase 1 - Docker)
+## Como rodar o projeto (Docker)
 
 Fazer o clone e ir na pasta do projeto (por exemplo: fiap-soat1-tech-challenge)
 
@@ -34,6 +34,38 @@ Verificar se subiram os containeres fastFoodMongodb e fastFoodApi:
 docker ps
 ```
 
+## Como rodar o projeto para desenvolvimento local (Local + Containers) 
+Fazer o clone e ir na pasta do projeto (por exemplo: fiap-soat1-tech-challenge)
+
+```shell
+cd fiap-soat1-tech-challenge
+```
+Subir os contâineres do MongoDB e PostgreSQL:
+
+```shell
+# Container MongoDB
+docker run -d -p 27017:27017 mongo
+```
+
+```shell
+# Container PostgreSQL
+docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -e POSTGRES_DB=fast_food postgres
+```
+
+Executar script para gerar migrations do PostgreSQL
+```shell
+npm run generate
+```
+
+Executar script para executar migrations do PostgreSQL
+```shell
+npm run migrate
+```
+
+Executar o projeto em modo desenvolvimento
+```shell
+npm run dev
+```
 ## Documentação das API's
 
 Em qualquer navegador acessar a url:
