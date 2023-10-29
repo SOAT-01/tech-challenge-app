@@ -52,12 +52,14 @@ docker run -d -p 27017:27017 mongo
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=root -e POSTGRES_USER=root -e POSTGRES_DB=fast_food postgres
 ```
 
-Executar script para gerar migrations do PostgreSQL
+Executar script para gerar migrations do PostgreSQL 
+- Necessário apenas em mudanças de schema
 ```shell
 npm run generate
 ```
 
-Executar script para executar migrations do PostgreSQL
+Executar script para executar migrations do PostgreSQL 
+- Necessário apenas em mudanças de schema
 ```shell
 npm run migrate
 ```
