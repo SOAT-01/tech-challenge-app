@@ -1,5 +1,5 @@
 import { ClienteMapper } from "adapters/mappers";
-import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ClienteGateway } from "interfaces/gateways";
 import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 import { Cpf, Email } from "valueObjects";
 import { IClienteUseCase } from "./cliente.interface";

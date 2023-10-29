@@ -1,5 +1,5 @@
 import { Cliente } from "entities/cliente";
-import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ClienteGateway } from "interfaces/gateways";
 import { ClienteUseCase } from "useCases";
 import { Email, Cpf } from "valueObjects";
 

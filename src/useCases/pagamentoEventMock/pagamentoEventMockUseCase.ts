@@ -1,4 +1,4 @@
-import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
+import { PedidoGateway } from "interfaces/gateways";
 import { PagamentoEvent } from "entities/pagamentoEvent";
 import { Pedido } from "entities/pedido";
 import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";

@@ -1,7 +1,6 @@
 import { PedidoMapper } from "adapters/mappers";
 import { StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
-import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
-import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { PedidoGateway, ProdutoGateway } from "interfaces/gateways";
 import { AssertionConcern } from "utils/assertionConcern";
 import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 import { ValorTotal } from "valueObjects";
