@@ -12,6 +12,15 @@ export const serverConfig = {
             "mongodb://localhost:27017",
         ),
     },
+    postgres: {
+        database: parseEnvStr("POSTGRES_DB", "fast_food"),
+        host: parseEnvStr("POSTGRES_DB_HOST", "127.0.0.1"),
+        port: parseEnvInt("POSTGRES_DB_PORT", 5432),
+        user: parseEnvStr("POSTGRES_DB_USER", "root"),
+        password: parseEnvStr("POSTGRES_DB_PASSWORD", "root"),
+        schemaFolder: "./src/external/postgres/schemas/*",
+        migrationFolder: "./src/external/postgres/migrations",
+    },
     mercadoPago: {
         apiUrl: "https://api.mercadopago.com",
         userId: parseEnvStr("MERCADO_PAGO_USER_ID", "379061219"),
