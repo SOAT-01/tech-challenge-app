@@ -1,6 +1,10 @@
 import { PedidoMapper } from "adapters/mappers";
 import { StatusPagamentoEnum, StatusPedidoEnum } from "entities/pedido";
-import { PedidoGateway, ProdutoGateway } from "interfaces/gateways";
+import {
+    ClienteGateway,
+    PedidoGateway,
+    ProdutoGateway,
+} from "interfaces/gateways";
 import { AssertionConcern } from "utils/assertionConcern";
 import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 import { ValorTotal } from "valueObjects";
@@ -12,6 +16,7 @@ export class PedidoUseCase implements IPedidoUseCase {
     constructor(
         private readonly pedidoGateway: PedidoGateway,
         private readonly produtoGateway: ProdutoGateway,
+        private readonly clienteGateway: ClienteGateway,
     ) {}
 
     public async getAll(): Promise<PedidoDTO[]> {
@@ -64,12 +69,17 @@ export class PedidoUseCase implements IPedidoUseCase {
                 .preco,
         }));
 
+        const cliente = await this.clienteGateway.getById(pedido.clienteId);
+
         const valorTotal = ValorTotal.create(itensComPreco);
 
         const newPedido = {
             ...pedido,
             valorTotal: valorTotal.value,
             itens: itensComPreco,
+            clienteNome: cliente?.nome,
+            clienteEmail: cliente?.email?.value,
+            clienteCpf: cliente?.cpf?.value,
         };
 
         const result = await this.pedidoGateway.checkout(newPedido);

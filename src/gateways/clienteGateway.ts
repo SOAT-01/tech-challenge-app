@@ -24,6 +24,22 @@ export class ClientePostgresGateway implements ClienteGateway {
         return ClienteMapper.toDomain(result);
     }
 
+    public async getById(id: string): Promise<Cliente | undefined> {
+        const [result] = await this.postgresDB
+            .selectDistinct()
+            .from(this.clienteSchema)
+            .where(
+                and(
+                    eq(this.clienteSchema.id, id),
+                    eq(this.clienteSchema.deleted, false),
+                ),
+            );
+
+        if (!result) return undefined;
+
+        return ClienteMapper.toDomain(result);
+    }
+
     public async getByCpf(cpf: string): Promise<Cliente | undefined> {
         const [result] = await this.postgresDB
             .selectDistinct()

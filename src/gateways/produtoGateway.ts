@@ -24,6 +24,7 @@ export class ProdutoPostgresGateway implements ProdutoGateway {
 
         return produtosByCategoriaResult.map((result) =>
             ProdutoMapper.toDomain({
+                id: result.id,
                 nome: result.nome,
                 preco: Number(result.preco),
                 categoria: result.categoria as Produto["categoria"],
@@ -45,6 +46,7 @@ export class ProdutoPostgresGateway implements ProdutoGateway {
             );
 
         return ProdutoMapper.toDomain({
+            id: result.id,
             nome: result.nome,
             preco: Number(result.preco),
             categoria: result.categoria as Produto["categoria"],
@@ -66,6 +68,7 @@ export class ProdutoPostgresGateway implements ProdutoGateway {
 
         return produtosById.map((result) =>
             ProdutoMapper.toDomain({
+                id: result.id,
                 nome: result.nome,
                 preco: Number(result.preco),
                 categoria: result.categoria as Produto["categoria"],
@@ -88,6 +91,7 @@ export class ProdutoPostgresGateway implements ProdutoGateway {
             .returning();
 
         return ProdutoMapper.toDomain({
+            id: result.id,
             nome: result.nome,
             preco: Number(result.preco),
             categoria: result.categoria as Produto["categoria"],
@@ -112,6 +116,7 @@ export class ProdutoPostgresGateway implements ProdutoGateway {
         if (!result) return undefined;
 
         return ProdutoMapper.toDomain({
+            id: result.id,
             nome: result.nome,
             preco: Number(result.preco),
             categoria: result.categoria as Produto["categoria"],
