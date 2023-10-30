@@ -29,6 +29,9 @@ describe("Given ClienteUseCases", () => {
         create(cliente: Cliente): Promise<Cliente> {
             return new Promise((resolve) => resolve(mockCliente));
         }
+        getById(id: string): Promise<Cliente> {
+            return new Promise((resolve) => resolve(mockCliente));
+        }
         getByCpf(cpf: string): Promise<Cliente> {
             return new Promise((resolve) => resolve(mockCliente));
         }

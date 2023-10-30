@@ -1,7 +1,11 @@
 import { Cliente } from "entities/cliente";
 import { StatusPedidoEnum, Pedido, StatusPagamentoEnum } from "entities/pedido";
 import { Produto, CategoriaEnum } from "entities/produto";
-import { PedidoGateway, ProdutoGateway } from "interfaces/gateways";
+import {
+    ClienteGateway,
+    PedidoGateway,
+    ProdutoGateway,
+} from "interfaces/gateways";
 import { PedidoUseCase } from "useCases";
 import { Email, Cpf } from "valueObjects";
 
@@ -87,6 +91,7 @@ const mockPedidoDTO3 = {
 describe("Given PedidoUseCases", () => {
     let gatewayStub: PedidoGateway;
     let produtoGatewayStub: Partial<ProdutoGateway>;
+    let clienteGatewayStub: Partial<ClienteGateway>;
     let sut: PedidoUseCase;
 
     const mockPedidos = [
@@ -152,12 +157,20 @@ describe("Given PedidoUseCases", () => {
         }
     }
 
+    class ClienteGatewayStub implements Partial<ClienteGateway> {
+        getById(id: string): Promise<Cliente> {
+            return new Promise((resolve) => resolve(mockCliente));
+        }
+    }
+
     beforeAll(() => {
         gatewayStub = new PedidoGatewayStub();
         produtoGatewayStub = new ProdutoGatewayStub();
+        clienteGatewayStub = new ClienteGatewayStub();
         sut = new PedidoUseCase(
             gatewayStub,
             produtoGatewayStub as ProdutoGateway,
+            clienteGatewayStub as ClienteGateway,
         );
     });
 
