@@ -13,7 +13,7 @@ export class ClientePostgresGateway implements ClienteGateway {
 
     public async create(cliente: Cliente): Promise<Cliente> {
         const [result] = await this.postgresDB
-            .insert(ClienteSchema)
+            .insert(this.clienteSchema)
             .values({
                 nome: cliente.nome,
                 email: cliente.email.value,
