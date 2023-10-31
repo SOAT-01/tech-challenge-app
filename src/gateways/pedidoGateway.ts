@@ -18,8 +18,6 @@ export class PedidoMongoGateway implements PedidoGateway {
             .aggregate([{ $match: filterQuery }])
             .sort({ createdAt: 1 });
 
-        console.log(results);
-
         return results.map((result) =>
             PedidoMapper.toDomain(
                 {
@@ -124,16 +122,22 @@ export class PedidoMongoGateway implements PedidoGateway {
     }
 
     async checkout(pedido: PedidoDTO): Promise<Pedido> {
-        const result = await this.pedidoModel.create({
-            valorTotal: pedido.valorTotal,
-            itens: pedido.itens,
-            observacoes: pedido.observacoes,
-            cliente: {
+        let cliente = null;
+
+        if (pedido.clienteId) {
+            cliente = {
                 id: pedido.clienteId,
                 nome: pedido?.clienteNome,
                 email: pedido?.clienteEmail,
                 cpf: pedido?.clienteCpf,
-            },
+            };
+        }
+
+        const result = await this.pedidoModel.create({
+            valorTotal: pedido.valorTotal,
+            itens: pedido.itens,
+            observacoes: pedido.observacoes,
+            cliente,
         });
 
         return PedidoMapper.toDomain({
