@@ -45,7 +45,10 @@ const PedidoSchema = new mongoose.Schema(
             type: Number,
             required: false,
         },
-        cliente: ClienteSchema,
+        cliente: {
+            type: ClienteSchema,
+            required: false,
+        },
         itens: [ItemSchema],
         observacoes: {
             type: String,
