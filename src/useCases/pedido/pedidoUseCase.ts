@@ -11,6 +11,7 @@ import { ValorTotal } from "valueObjects";
 import { PedidoDTO } from "./dto";
 import { IPedidoUseCase } from "./pedido.interface";
 import { BadError } from "utils/errors/badError";
+import { Cliente } from "entities/cliente";
 
 export class PedidoUseCase implements IPedidoUseCase {
     constructor(
@@ -69,20 +70,27 @@ export class PedidoUseCase implements IPedidoUseCase {
                 .preco,
         }));
 
-        const cliente = await this.clienteGateway.getById(pedido.clienteId);
+        let cliente: Cliente;
+
+        if (AssertionConcern.isUUID(pedido?.clienteId)) {
+            cliente = await this.clienteGateway.getById(pedido.clienteId);
+        }
 
         const valorTotal = ValorTotal.create(itensComPreco);
 
-        const newPedido = {
-            ...pedido,
+        const novoPedido = {
             valorTotal: valorTotal.value,
             itens: itensComPreco,
-            clienteNome: cliente?.nome,
-            clienteEmail: cliente?.email?.value,
-            clienteCpf: cliente?.cpf?.value,
+            observacoes: pedido.observacoes,
+            ...(cliente && {
+                clienteId: cliente?.id,
+                clienteNome: cliente?.nome,
+                clienteEmail: cliente?.email?.value,
+                clienteCpf: cliente?.cpf?.value,
+            }),
         };
 
-        const result = await this.pedidoGateway.checkout(newPedido);
+        const result = await this.pedidoGateway.checkout(novoPedido);
         return PedidoMapper.toDTO(result);
     }
 
