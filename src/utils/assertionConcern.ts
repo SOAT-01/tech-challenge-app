@@ -115,4 +115,10 @@ export class AssertionConcern {
             throw new ValidationError(message);
         }
     }
+
+    public static isUUID(value = ""): boolean {
+        const UUIDRegex =
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+        return UUIDRegex.test(value);
+    }
 }
