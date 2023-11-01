@@ -1,6 +1,5 @@
-import { PedidoDTO, ClienteDTO } from "useCases";
-import { PedidoGateway } from "interfaces/gateways/pedidoGateway.interface";
-
+import { PedidoDTO } from "useCases";
+import { PedidoGateway } from "interfaces/gateways";
 import { Pedido, StatusPagamento, StatusPedidoEnum } from "entities/pedido";
 import { PedidoModel } from "external/mongo/models";
 import { PedidoMapper } from "adapters/mappers";
@@ -16,23 +15,11 @@ export class PedidoMongoGateway implements PedidoGateway {
         }
 
         const results = await this.pedidoModel
-            .aggregate([
-                {
-                    $lookup: {
-                        from: "clientes",
-                        localField: "cliente",
-                        foreignField: "_id",
-                        as: "relatedCliente",
-                    },
-                },
-                { $match: filterQuery },
-            ])
+            .aggregate([{ $match: filterQuery }])
             .sort({ createdAt: 1 });
 
-        return results.map((result) => {
-            const [cliente] = result.relatedCliente;
-
-            return PedidoMapper.toDomain(
+        return results.map((result) =>
+            PedidoMapper.toDomain(
                 {
                     id: result._id,
                     status: result.status,
@@ -42,13 +29,13 @@ export class PedidoMongoGateway implements PedidoGateway {
                     observacoes: result.observacoes,
                 },
                 {
-                    id: cliente?._id,
-                    nome: cliente?.nome,
-                    email: cliente?.email,
-                    cpf: cliente?.cpf,
+                    id: result?.cliente?.id,
+                    nome: result?.cliente?.nome,
+                    email: result?.cliente?.email,
+                    cpf: result?.cliente?.cpf,
                 },
-            );
-        });
+            ),
+        );
     }
 
     async getAllOrderedByStatus(): Promise<Pedido[]> {
@@ -85,21 +72,11 @@ export class PedidoMongoGateway implements PedidoGateway {
                         },
                     },
                 },
-                {
-                    $lookup: {
-                        from: "clientes",
-                        localField: "cliente",
-                        foreignField: "_id",
-                        as: "relatedCliente",
-                    },
-                },
             ])
             .sort({ statusOrder: 1, createdAt: 1 });
 
-        return results.map((result) => {
-            const [cliente] = result.relatedCliente;
-
-            return PedidoMapper.toDomain(
+        return results.map((result) =>
+            PedidoMapper.toDomain(
                 {
                     id: result._id,
                     status: result.status,
@@ -109,22 +86,20 @@ export class PedidoMongoGateway implements PedidoGateway {
                     observacoes: result.observacoes,
                 },
                 {
-                    id: cliente?._id,
-                    nome: cliente?.nome,
-                    email: cliente?.email,
-                    cpf: cliente?.cpf,
+                    id: result?.cliente?.id,
+                    nome: result?.cliente?.nome,
+                    email: result?.cliente?.email,
+                    cpf: result?.cliente?.cpf,
                 },
-            );
-        });
+            ),
+        );
     }
 
     async getById(id: string): Promise<Pedido> {
-        const result = await this.pedidoModel
-            .findOne({
-                _id: id,
-                deleted: { $ne: true },
-            })
-            .populate<{ cliente: ClienteDTO }>("cliente");
+        const result = await this.pedidoModel.findOne({
+            _id: id,
+            deleted: { $ne: true },
+        });
 
         if (result) {
             return PedidoMapper.toDomain(
@@ -147,11 +122,22 @@ export class PedidoMongoGateway implements PedidoGateway {
     }
 
     async checkout(pedido: PedidoDTO): Promise<Pedido> {
+        let cliente = null;
+
+        if (pedido.clienteId) {
+            cliente = {
+                id: pedido.clienteId,
+                nome: pedido?.clienteNome,
+                email: pedido?.clienteEmail,
+                cpf: pedido?.clienteCpf,
+            };
+        }
+
         const result = await this.pedidoModel.create({
             valorTotal: pedido.valorTotal,
             itens: pedido.itens,
             observacoes: pedido.observacoes,
-            cliente: pedido.clienteId,
+            cliente,
         });
 
         return PedidoMapper.toDomain({
@@ -168,11 +154,13 @@ export class PedidoMongoGateway implements PedidoGateway {
         id: string,
         pedido: Omit<Partial<Pedido>, "id" | "cliente">,
     ): Promise<Pedido> {
-        const result = await this.pedidoModel
-            .findOneAndUpdate({ _id: id }, pedido, {
+        const result = await this.pedidoModel.findOneAndUpdate(
+            { _id: id },
+            pedido,
+            {
                 new: true,
-            })
-            .populate<{ cliente: ClienteDTO }>("cliente");
+            },
+        );
 
         return PedidoMapper.toDomain(
             {
@@ -193,15 +181,13 @@ export class PedidoMongoGateway implements PedidoGateway {
     }
 
     async updateStatus(id: string, status: StatusPedidoEnum): Promise<Pedido> {
-        const result = await this.pedidoModel
-            .findOneAndUpdate(
-                { _id: id },
-                { status },
-                {
-                    new: true,
-                },
-            )
-            .populate<{ cliente: ClienteDTO }>("cliente");
+        const result = await this.pedidoModel.findOneAndUpdate(
+            { _id: id },
+            { status },
+            {
+                new: true,
+            },
+        );
 
         return PedidoMapper.toDomain(
             {
@@ -225,15 +211,13 @@ export class PedidoMongoGateway implements PedidoGateway {
         id: string,
         pagamento: StatusPagamento,
     ): Promise<Pedido> {
-        const result = await this.pedidoModel
-            .findOneAndUpdate(
-                { _id: id },
-                { pagamento },
-                {
-                    new: true,
-                },
-            )
-            .populate<{ cliente: ClienteDTO }>("cliente");
+        const result = await this.pedidoModel.findOneAndUpdate(
+            { _id: id },
+            { pagamento },
+            {
+                new: true,
+            },
+        );
 
         return PedidoMapper.toDomain(
             {

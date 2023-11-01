@@ -3,7 +3,7 @@ import { PagamentoEventMapper } from "adapters/mappers";
 import { PagamentoEvent } from "entities/pagamentoEvent";
 import { Pedido } from "entities/pedido";
 import { MercadoPagoApi, MercadoPagoMerchantOrder } from "external/mercadoPago";
-import { PagamentoGateway } from "interfaces/gateways/pagamentoGateway.interface";
+import { PagamentoGateway } from "interfaces/gateways";
 
 // ! WORK IN PROGRESS
 export class MercadoPagoGateway implements PagamentoGateway {

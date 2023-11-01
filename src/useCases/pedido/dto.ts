@@ -8,4 +8,7 @@ export interface PedidoDTO {
     observacoes?: string;
     itens: Item[];
     clienteId?: string;
+    clienteNome?: string;
+    clienteEmail?: string;
+    clienteCpf?: string;
 }

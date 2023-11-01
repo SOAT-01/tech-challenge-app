@@ -1,11 +1,15 @@
 import { ProdutoUseCase } from "useCases";
 import { ProdutoController } from "./controller";
-import { ProdutoModel } from "external/mongo/models";
-import { ProdutoMongoGateway } from "gateways/produtoGateway";
+import { ProdutoPostgresGateway } from "gateways/produtoGateway";
+import { PostgresDB } from "external/postgres";
+import { ProdutoSchema } from "external/postgres/schemas";
 
 export class ProdutoControllerFactory {
     public static create(): ProdutoController {
-        const produtoGateway = new ProdutoMongoGateway(ProdutoModel);
+        const produtoGateway = new ProdutoPostgresGateway(
+            PostgresDB,
+            ProdutoSchema,
+        );
         const produtoUseCase = new ProdutoUseCase(produtoGateway);
 
         return new ProdutoController(produtoUseCase);

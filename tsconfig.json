@@ -16,7 +16,8 @@
         "allowSyntheticDefaultImports": true,
         "rootDirs": ["src"],
         "baseUrl": "src",
-        "paths": {}
+        "paths": {},
+        "skipLibCheck": true
     },
     "include": ["src/**/*", "tests/**/*"],
     "exclude": ["node_modules/**/*"]

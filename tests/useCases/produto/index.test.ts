@@ -1,5 +1,5 @@
 import { Produto, Categoria, CategoriaEnum } from "entities/produto";
-import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { ProdutoGateway } from "interfaces/gateways";
 import { ProdutoUseCase } from "useCases";
 
 describe("Given ProdutoUseCases", () => {

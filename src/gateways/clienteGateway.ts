@@ -1,27 +1,55 @@
+import { and, eq, or, sql } from "drizzle-orm";
+import { PostgresDB } from "external/postgres";
 import { Cliente } from "entities/cliente";
-
-import { ClienteModel } from "../external/mongo/models";
-import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ClienteGateway } from "interfaces/gateways";
 import { ClienteMapper } from "adapters/mappers";
+import { ClienteSchema } from "external/postgres/schemas";
 
-export class ClienteMongoGateway implements ClienteGateway {
-    constructor(private readonly clienteModel: typeof ClienteModel) {}
+export class ClientePostgresGateway implements ClienteGateway {
+    constructor(
+        private readonly postgresDB: typeof PostgresDB,
+        private readonly clienteSchema: typeof ClienteSchema,
+    ) {}
 
     public async create(cliente: Cliente): Promise<Cliente> {
-        const result = await this.clienteModel.create({
-            nome: cliente.nome,
-            email: cliente.email.value,
-            cpf: cliente.cpf.value,
-        });
+        const [result] = await this.postgresDB
+            .insert(this.clienteSchema)
+            .values({
+                nome: cliente.nome,
+                email: cliente.email.value,
+                cpf: cliente.cpf.value,
+            })
+            .returning();
+
+        return ClienteMapper.toDomain(result);
+    }
+
+    public async getById(id: string): Promise<Cliente | undefined> {
+        const [result] = await this.postgresDB
+            .selectDistinct()
+            .from(this.clienteSchema)
+            .where(
+                and(
+                    eq(this.clienteSchema.id, id),
+                    eq(this.clienteSchema.deleted, false),
+                ),
+            );
+
+        if (!result) return undefined;
 
         return ClienteMapper.toDomain(result);
     }
 
     public async getByCpf(cpf: string): Promise<Cliente | undefined> {
-        const result = await this.clienteModel.findOne({
-            cpf: cpf,
-            deleted: { $ne: true },
-        });
+        const [result] = await this.postgresDB
+            .selectDistinct()
+            .from(this.clienteSchema)
+            .where(
+                and(
+                    eq(this.clienteSchema.cpf, cpf),
+                    eq(this.clienteSchema.deleted, false),
+                ),
+            );
 
         if (!result) return undefined;
 
@@ -29,10 +57,15 @@ export class ClienteMongoGateway implements ClienteGateway {
     }
 
     public async getByEmail(email: string): Promise<Cliente | undefined> {
-        const result = await this.clienteModel.findOne({
-            email: email,
-            deleted: { $ne: true },
-        });
+        const [result] = await this.postgresDB
+            .selectDistinct()
+            .from(this.clienteSchema)
+            .where(
+                and(
+                    eq(this.clienteSchema.email, email),
+                    eq(this.clienteSchema.deleted, false),
+                ),
+            );
 
         if (!result) return undefined;
 
@@ -43,10 +76,16 @@ export class ClienteMongoGateway implements ClienteGateway {
         email: string;
         cpf?: string;
     }): Promise<boolean> {
-        const result = await this.clienteModel.count({
-            $or: [{ cpf: args.cpf, email: args.email }],
-        });
+        const [result] = await this.postgresDB
+            .select({ count: sql<number>`count(*)` })
+            .from(this.clienteSchema)
+            .where(
+                or(
+                    eq(this.clienteSchema.email, args.email),
+                    eq(this.clienteSchema.cpf, args.cpf),
+                ),
+            );
 
-        return result > 0;
+        return result.count > 0;
     }
 }

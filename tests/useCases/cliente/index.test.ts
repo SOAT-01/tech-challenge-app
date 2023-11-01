@@ -1,5 +1,5 @@
 import { Cliente } from "entities/cliente";
-import { ClienteGateway } from "interfaces/gateways/clienteGateway.interface";
+import { ClienteGateway } from "interfaces/gateways";
 import { ClienteUseCase } from "useCases";
 import { Email, Cpf } from "valueObjects";
 
@@ -27,6 +27,9 @@ describe("Given ClienteUseCases", () => {
 
     class ClienteGatewayStub implements ClienteGateway {
         create(cliente: Cliente): Promise<Cliente> {
+            return new Promise((resolve) => resolve(mockCliente));
+        }
+        getById(id: string): Promise<Cliente> {
             return new Promise((resolve) => resolve(mockCliente));
         }
         getByCpf(cpf: string): Promise<Cliente> {

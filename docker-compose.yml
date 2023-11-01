@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-    db:
+    mongo:
         container_name: fastFoodMongodb
         image: mongo:latest
         ports:
@@ -10,38 +10,48 @@ services:
             - ./data/db:/data/db
         networks:
             - fastFoodNetwork
+    postgres:
+        container_name: fastFoodPostgresdb
+        image: postgres:latest
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: fast_food
+            POSTGRES_USER: fast_food
+            POSTGRES_PASSWORD: fast_food
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+            interval: 10s
+            timeout: 5s
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - fastFoodNetwork
     api:
         container_name: fastFoodApi
         build: "."
         working_dir: /fastFood
         environment:
             NODE_ENV: development
-            MONGODB_CONN_STRING: mongodb://db:27017
-        command: sh -c "npm run start"
+            MONGODB_CONN_STRING: mongodb://mongo:27017
+            POSTGRES_DB: fast_food
+            POSTGRES_DB_HOST: postgres
+            POSTGRES_DB_PORT: 5432
+            POSTGRES_DB_USER: fast_food
+            POSTGRES_DB_PASSWORD: fast_food
+        command: sh -c "npm run generate && npm run migrate && npm run start"
         depends_on:
-            - db
-        links:
-            - db
+            postgres:
+                condition: service_healthy
+            mongo:
+                condition: service_started
         ports:
             - "6001:6001"
         networks:
             - fastFoodNetwork
-    db-import:
-        container_name: fastFoodImport
-        image: mongo:latest
-        depends_on:
-            - db
-        links:
-            - db
-        volumes:
-            - ./data-import:/data-import
-        networks:
-            - fastFoodNetwork
-        restart: "no"
-        command: >
-            sh -c "mongoimport --host=db --db=fast_food --collection clientes --type json --file /data-import/clientes.json --jsonArray 
-            && mongoimport --host=db --db=fast_food --collection produtos --type json --file /data-import/produtos.json --jsonArray"
-
 networks:
     fastFoodNetwork:
         driver: bridge
+
+volumes:
+    pgdata:

@@ -1,7 +1,7 @@
 import { IProdutoUseCase } from "./produto.interface";
 import { ProdutoDTO } from "./dto";
 import { Produto, CategoriaEnum } from "entities/produto";
-import { ProdutoGateway } from "interfaces/gateways/produtoGateway.interface";
+import { ProdutoGateway } from "interfaces/gateways";
 import { AssertionConcern } from "utils/assertionConcern";
 import { ResourceNotFoundError } from "utils/errors/resourceNotFoundError";
 
