@@ -2,6 +2,12 @@
 
 Projeto do curso da pós tech Fiap Arquitetura de Software
 
+## Update Fase 3
+
+Consultar a wiki:
+
+[https://github.com/karineriquena/fiap-soat1-tech-challenge/wiki/Fase-2](https://github.com/SOAT-01/tech-challenge-app/wiki/Fase-3)
+
 ## Update Fase 2 - Kubernetes
 
 Para executar os Pods da Fase 2, consultar a wiki:
